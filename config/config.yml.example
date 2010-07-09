@@ -1,3 +1,5 @@
 :database:
   :host: localhost
   :database: staffers
+  
+:sunlight_api_key: # fill in

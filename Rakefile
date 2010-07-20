@@ -30,6 +30,12 @@ namespace :staffers do
       titles[row[0]] = row[1]
     end
     
+    titles.keys.each do |title|
+      Title.create! :name => title
+    end
+    
+    quarters = []
+    
     i = 0
     FasterCSV.foreach("data/staffers.csv") do |row|
       i += 1
@@ -147,6 +153,7 @@ namespace :staffers do
       
       # quarter scoping this office role
       quarter = row[8]
+      quarters << quarter
       
       
       staffer = Staffer.first :name_original => name_original
@@ -167,6 +174,10 @@ namespace :staffers do
       }
       
       staffer.save!
+    end
+    
+    quarters.uniq.each do |quarter|
+      Quarter.create! :name => quarter
     end
     
     puts "\nLoaded in #{Staffer.count} staffers in #{Office.count} offices."

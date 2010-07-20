@@ -1,0 +1,14 @@
+<table class="search">
+  <% staffers.each do |staffer| %>
+    <tr>
+      <td>
+        <a href="/staffer/<%= staffer._id %>"><%= display_name staffer %></a>
+      </td>
+      <td>
+        <%= staffer.quarters[quarter].map do |position| 
+          position['office']['name']
+        end.join(", ") %>
+      </td>
+    </tr>
+  <% end %>
+</table>

@@ -4,32 +4,25 @@ require 'rubygems'
 require 'sinatra'
 require 'config/environment'
 
+require 'models'
+require 'helpers'
+
 get '/' do
-  erb :index, :locals => {:staffer => Staffer.first}
+  erb :index
 end
 
-
-class Staffer
-  include MongoMapper::Document
+post '/staffers' do
+  staffers = []
   
-  # original unstandardized name, used as unique key
-  key :name_original, String, :index => true
-  
-  # basic info
-  key :firstname, String, :index => true
-  key :lastname, String, :index => true
-  
-  def display_name
-    "#{first_name} #{last_name}".strip
+  if params[:state]
+    staffers = Staffer.all "quarters.#{params[:quarter]}.office.legislator.state" => params[:state]
   end
+  
+  erb :search, :locals => {:staffers => staffers, :quarter => params[:quarter]}
 end
 
-class Office
-  include MongoMapper::Document
+get '/staffer/:id' do
+  staffer = Staffer.first :_id => params[:id]
   
-  key :bioguide_id, String, :index => true
-  key :committee_id, String, :index => true
-  key :name, String, :index => true
-  key :type, String, :index => true
-  
+  erb :staffer, :locals => {:staffer => staffer}
 end

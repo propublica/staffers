@@ -1,1 +1,11 @@
-Example staffer: <%= staffer.display_name %>
+<form action="/staffers" method="post">
+  Quarter: <%= quarter_select %>
+  
+  <br/><br/>
+  
+  Search by state: <%= state_select %>
+
+  <br/><br/>
+
+  <input type="submit" value="Search" />
+</form>

@@ -1,123 +1,123 @@
 --- 
 - quarters: 
     2009Q3: 
-    - title_original: DEPUTY CHIEF OF STAFF
-      title: DEPUTY CHIEF OF STAFF
+    - title: SCHEDULER
+      title_original: SCHEDULER
       office: 
-        name: Rep. John Boccieri
-        bioguide_id: 
+        name: Rep. Eric Massa
         type: member
+        bioguide_id: 
         committee: 
         committee_id: 
         legislator: 
-          in_office: true
           title: Rep
-          district: "16"
+          in_office: false
           nickname: ""
-          lastname: Boccieri
-          bioguide_id: B001263
-          firstname: John
-          phone: 202-225-3876
+          district: "29"
+          lastname: Massa
+          bioguide_id: M001173
           name_suffix: ""
-          office: 1516 Longworth House Office Building
-          state: OH
+          phone: 202-225-3161
+          firstname: Eric
+          office: 1208 Longworth House Office Building
+          state: NY
     2009Q4: 
-    - title: DEPUTY CHIEF OF STAFF
-      title_original: DEPUTY CHIEF OF STAFF
+    - title_original: SCHEDULER
+      title: SCHEDULER
       office: 
-        name: Rep. John Boccieri
-        type: member
+        name: Rep. Eric Massa
         bioguide_id: 
+        type: member
         committee: 
         committee_id: 
         legislator: 
+          in_office: false
           title: Rep
-          in_office: true
+          district: "29"
           nickname: ""
-          district: "16"
-          lastname: Boccieri
-          bioguide_id: B001263
+          lastname: Massa
+          bioguide_id: M001173
+          firstname: Eric
+          phone: 202-225-3161
           name_suffix: ""
-          phone: 202-225-3876
-          firstname: John
-          office: 1516 Longworth House Office Building
-          state: OH
-  lastname: WALTON,IAN
-  firstname: 
-  name_original: WALTON,IAN
+          office: 1208 Longworth House Office Building
+          state: NY
+  lastname: Muller
+  firstname: Simon P
+  name_original: MULLER,SIMON P
 - quarters: 
     2009Q3: 
-    - title: COMMUNICATIONS DIRECTOR
-      title_original: COMMUNICATIONS DIRECTOR
+    - title: STAFF ASSISTANT
+      title_original: STAFF ASSISTANT
       office: 
-        name: Rep. Mike Honda
+        name: Rep. Eric Massa
         type: member
         bioguide_id: 
         committee: 
         committee_id: 
         legislator: 
           title: Rep
-          in_office: true
-          nickname: Mike
-          district: "15"
-          lastname: Honda
-          bioguide_id: H001034
+          in_office: false
+          nickname: ""
+          district: "29"
+          lastname: Massa
+          bioguide_id: M001173
           name_suffix: ""
-          phone: 202-225-2631
-          firstname: Michael
-          office: 1713 Longworth House Office Building
-          state: CA
+          phone: 202-225-3161
+          firstname: Eric
+          office: 1208 Longworth House Office Building
+          state: NY
     2009Q4: 
-    - title_original: COMMUNICATIONS DIRECTOR
-      title: COMMUNICATIONS DIRECTOR
+    - title_original: STAFF ASSISTANT
+      title: STAFF ASSISTANT
       office: 
-        name: Rep. Mike Honda
+        name: Rep. Eric Massa
         bioguide_id: 
         type: member
         committee: 
         committee_id: 
         legislator: 
-          in_office: true
+          in_office: false
           title: Rep
-          district: "15"
-          nickname: Mike
-          lastname: Honda
-          bioguide_id: H001034
-          firstname: Michael
-          phone: 202-225-2631
+          district: "29"
+          nickname: ""
+          lastname: Massa
+          bioguide_id: M001173
+          firstname: Eric
+          phone: 202-225-3161
           name_suffix: ""
-          office: 1713 Longworth House Office Building
-          state: CA
-  lastname: SHANK,MICHAEL
-  firstname: 
-  name_original: SHANK,MICHAEL
+          office: 1208 Longworth House Office Building
+          state: NY
+  lastname: Konig
+  firstname: Karsten A
+  name_original: KONIG,KARSTEN A
 - quarters: 
     2009Q3: 
-    - title: LEGISLATIVE ASSISTANT
-      title_original: LEGISLATIVE ASSISTANT
+    - title: CHIEF OF STAFF
+      title_original: CHIEF OF STAFF
       office: 
-        name: Rep. Mike Honda
+        name: Rep. Jim Matheson
         type: member
         bioguide_id: 
         committee: 
         committee_id: 
         legislator: 
-          title: Rep
           in_office: true
-          nickname: Mike
-          district: "15"
-          lastname: Honda
-          bioguide_id: H001034
+          title: Rep
+          district: "2"
+          nickname: ""
+          lastname: Matheson
+          bioguide_id: M001142
+          firstname: Jim
+          phone: 202-225-3011
           name_suffix: ""
-          phone: 202-225-2631
-          firstname: Michael
-          office: 1713 Longworth House Office Building
-          state: CA
+          office: 1323 Longworth House Office Building
+          state: UT
     2009Q4: 
-    - title_original: LEGISLATIVE ASSISTANT
-      title: LEGISLATIVE ASSISTANT
+    - title_original: CHIEF OF STAFF
+      title: CHIEF OF STAFF
       office: 
-        name: Rep. Mike Honda
+        name: Rep. Jim Matheson
         bioguide_id: 
         type: member
         committee: 
@@ -125,70 +125,24 @@
         legislator: 
           in_office: true
           title: Rep
-          district: "15"
-          nickname: Mike
-          lastname: Honda
-          bioguide_id: H001034
-          firstname: Michael
-          phone: 202-225-2631
+          district: "2"
+          nickname: ""
+          lastname: Matheson
+          bioguide_id: M001142
+          firstname: Jim
+          phone: 202-225-3011
           name_suffix: ""
-          office: 1713 Longworth House Office Building
-          state: CA
-  lastname: ARELLANO
-  firstname: BERNARDETTE
-  name_original: ARELLANO, BERNARDETTE
+          office: 1323 Longworth House Office Building
+          state: UT
+  lastname: Andryszak
+  firstname: Amy
+  name_original: ANDRYSZAK,AMY
 - quarters: 
     2009Q3: 
-    - title: LEGISLATIVE ASSISTANT
-      title_original: LEGISLATIVE ASSISTANT
+    - title: DISTRICT DIRECTOR
+      title_original: DISTRICT DIRECTOR
       office: 
-        name: Rep. Mike Honda
-        type: member
-        bioguide_id: 
-        committee: 
-        committee_id: 
-        legislator: 
-          title: Rep
-          in_office: true
-          nickname: Mike
-          district: "15"
-          lastname: Honda
-          bioguide_id: H001034
-          name_suffix: ""
-          phone: 202-225-2631
-          firstname: Michael
-          office: 1713 Longworth House Office Building
-          state: CA
-    2009Q4: 
-    - title_original: LEGISLATIVE ASSISTANT
-      title: LEGISLATIVE ASSISTANT
-      office: 
-        name: Rep. Mike Honda
-        bioguide_id: 
-        type: member
-        committee: 
-        committee_id: 
-        legislator: 
-          in_office: true
-          title: Rep
-          district: "15"
-          nickname: Mike
-          lastname: Honda
-          bioguide_id: H001034
-          firstname: Michael
-          phone: 202-225-2631
-          name_suffix: ""
-          office: 1713 Longworth House Office Building
-          state: CA
-  lastname: WERWA
-  firstname: ERIC
-  name_original: WERWA, ERIC
-- quarters: 
-    2009Q3: 
-    - title: LEGISLATIVE ASSISTANT
-      title_original: LEGISLATIVE ASSISTANT
-      office: 
-        name: Rep. Steny Hoyer
+        name: Rep. Jim Matheson
         type: member
         bioguide_id: 
         committee: 
@@ -197,19 +151,19 @@
           title: Rep
           in_office: true
           nickname: ""
-          district: "5"
-          lastname: Hoyer
-          bioguide_id: H000874
+          district: "2"
+          lastname: Matheson
+          bioguide_id: M001142
           name_suffix: ""
-          phone: 202-225-4131
-          firstname: Steny
-          office: 1705 Longworth House Office Building
-          state: MD
+          phone: 202-225-3011
+          firstname: Jim
+          office: 1323 Longworth House Office Building
+          state: UT
     2009Q4: 
-    - title_original: LEGISLATIVE ASSISTANT
-      title: LEGISLATIVE ASSISTANT
+    - title_original: DISTRICT DIRECTOR
+      title: DISTRICT DIRECTOR
       office: 
-        name: Rep. Steny Hoyer
+        name: Rep. Jim Matheson
         bioguide_id: 
         type: member
         committee: 
@@ -217,15 +171,61 @@
         legislator: 
           in_office: true
           title: Rep
-          district: "5"
+          district: "2"
           nickname: ""
-          lastname: Hoyer
-          bioguide_id: H000874
-          firstname: Steny
-          phone: 202-225-4131
+          lastname: Matheson
+          bioguide_id: M001142
+          firstname: Jim
+          phone: 202-225-3011
           name_suffix: ""
-          office: 1705 Longworth House Office Building
-          state: MD
-  lastname: HAM
-  firstname: STEPHEN I.
-  name_original: HAM, STEPHEN I.
+          office: 1323 Longworth House Office Building
+          state: UT
+  lastname: Reberg
+  firstname: Phillip M.
+  name_original: REBERG, PHILLIP M.
+- quarters: 
+    2009Q3: 
+    - title: FIELD DIRECTOR REPRESENTATIVE
+      title_original: FIELD REPRESENTATIVE
+      office: 
+        name: Rep. Jim Matheson
+        type: member
+        bioguide_id: 
+        committee: 
+        committee_id: 
+        legislator: 
+          title: Rep
+          in_office: true
+          nickname: ""
+          district: "2"
+          lastname: Matheson
+          bioguide_id: M001142
+          name_suffix: ""
+          phone: 202-225-3011
+          firstname: Jim
+          office: 1323 Longworth House Office Building
+          state: UT
+    2009Q4: 
+    - title_original: FIELD REPRESENTATIVE
+      title: FIELD DIRECTOR REPRESENTATIVE
+      office: 
+        name: Rep. Jim Matheson
+        bioguide_id: 
+        type: member
+        committee: 
+        committee_id: 
+        legislator: 
+          in_office: true
+          title: Rep
+          district: "2"
+          nickname: ""
+          lastname: Matheson
+          bioguide_id: M001142
+          firstname: Jim
+          phone: 202-225-3011
+          name_suffix: ""
+          office: 1323 Longworth House Office Building
+          state: UT
+  lastname: Empey
+  firstname: Michael D.
+  name_original: EMPEY, MICHAEL D.

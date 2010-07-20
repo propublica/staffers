@@ -136,8 +136,12 @@ namespace :staffers do
       
       # standardize fields
       lastname, firstname = name_original.split /,\s?/
-      lastname = lastname.capitalize
-      firstname = firstname.capitalize
+      if lastname
+        lastname = lastname.split(/\s+/).map {|n| n.capitalize}.join " "
+      end
+      if firstname
+        firstname = firstname.split(/\s+/).map {|n| n.capitalize}.join " "
+      end
       
       title = titles[title_original] || title_original
       

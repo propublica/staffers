@@ -135,7 +135,10 @@ namespace :staffers do
       
       
       # standardize fields
-      lastname, firstname = name_original.split ', '
+      lastname, firstname = name_original.split /,\s?/
+      lastname = lastname.capitalize
+      firstname = firstname.capitalize
+      
       title = titles[title_original] || title_original
       
       # quarter scoping this office role
@@ -176,13 +179,13 @@ namespace :fixtures do
   desc "Load all fixtures, or one model's"
   task :load => :environment do
     fixtures = ENV['model'] ? [ENV['model']] : all_fixtures
-    fixtures.each {|fixture| restore_fixture fixture.singularize.camelize.constantize}
+    fixtures.each {|name| restore_fixture name}
   end
   
   desc "Dump all models into fixtures, or one model"
   task :dump => :environment do
     fixtures = ENV['model'] ? [ENV['model']] : all_fixtures
-    fixtures.each {|fixture| dump_fixture fixture.singularize.camelize.constantize}
+    fixtures.each {|name| dump_fixture name}
   end
   
   def all_fixtures
@@ -191,10 +194,11 @@ namespace :fixtures do
 
 end
 
-def restore_fixture(model)
+def restore_fixture(name)
+  model = name.singularize.camelize.constantize
   model.delete_all
   
-  YAML::load_file("fixtures/#{model.collection_name}.yml").each do |row|
+  YAML::load_file("fixtures/#{collection}.yml").each do |row|
     record = model.new
     row.keys.each do |field|
       record[field] = row[field] if row[field]
@@ -202,26 +206,43 @@ def restore_fixture(model)
     record.save
   end
   
-  puts "Loaded #{model} fixtures"
+  puts "Loaded #{name} collection from fixtures"
 end
 
-def dump_fixture(model)
-  data = model.all.reduce([]) do |records, record|
-    element = {}
-    record.attributes.keys.each do |field|
-      element[field] = record[field] unless field.to_s == "_id"
-    end
-    records << element
+def dump_fixture(name)
+  collection = MongoMapper.database.collection name
+  records = []
+  
+  collection.find({}, {:limit => 5}).each do |record|
+    records << record_to_hash(record)
   end
   
   FileUtils.mkdir_p "fixtures"
-  File.open("fixtures/#{model.collection_name}.yml", "w") do |file|
-    YAML.dump data, file
+  File.open("fixtures/#{name}.yml", "w") do |file|
+    YAML.dump records, file
   end
   
-  puts "Dumped #{model} fixtures"
+  puts "Dumped #{name} collection to fixtures"
 end
 
+def record_to_hash(record)
+  return record unless record.class == BSON::OrderedHash
+  
+  new_record = {}
+  
+  record.delete '_id'
+  record.each do |key, value|
+  
+    if value.class == Array
+      new_record[key] = value.map {|object| record_to_hash object}
+    else
+      new_record[key] = record_to_hash value
+    end
+    
+  end
+  
+  new_record
+end
 
 # format name from Sunlight API
 def titled_name(legislator)

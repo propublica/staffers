@@ -1,3 +1,231 @@
 --- 
-- last_name: Mill
-  first_name: Eric
+- quarters: 
+    2009Q3: 
+    - title_original: DEPUTY CHIEF OF STAFF
+      title: DEPUTY CHIEF OF STAFF
+      office: 
+        name: Rep. John Boccieri
+        bioguide_id: 
+        type: member
+        committee: 
+        committee_id: 
+        legislator: 
+          in_office: true
+          title: Rep
+          district: "16"
+          nickname: ""
+          lastname: Boccieri
+          bioguide_id: B001263
+          firstname: John
+          phone: 202-225-3876
+          name_suffix: ""
+          office: 1516 Longworth House Office Building
+          state: OH
+    2009Q4: 
+    - title: DEPUTY CHIEF OF STAFF
+      title_original: DEPUTY CHIEF OF STAFF
+      office: 
+        name: Rep. John Boccieri
+        type: member
+        bioguide_id: 
+        committee: 
+        committee_id: 
+        legislator: 
+          title: Rep
+          in_office: true
+          nickname: ""
+          district: "16"
+          lastname: Boccieri
+          bioguide_id: B001263
+          name_suffix: ""
+          phone: 202-225-3876
+          firstname: John
+          office: 1516 Longworth House Office Building
+          state: OH
+  lastname: WALTON,IAN
+  firstname: 
+  name_original: WALTON,IAN
+- quarters: 
+    2009Q3: 
+    - title: COMMUNICATIONS DIRECTOR
+      title_original: COMMUNICATIONS DIRECTOR
+      office: 
+        name: Rep. Mike Honda
+        type: member
+        bioguide_id: 
+        committee: 
+        committee_id: 
+        legislator: 
+          title: Rep
+          in_office: true
+          nickname: Mike
+          district: "15"
+          lastname: Honda
+          bioguide_id: H001034
+          name_suffix: ""
+          phone: 202-225-2631
+          firstname: Michael
+          office: 1713 Longworth House Office Building
+          state: CA
+    2009Q4: 
+    - title_original: COMMUNICATIONS DIRECTOR
+      title: COMMUNICATIONS DIRECTOR
+      office: 
+        name: Rep. Mike Honda
+        bioguide_id: 
+        type: member
+        committee: 
+        committee_id: 
+        legislator: 
+          in_office: true
+          title: Rep
+          district: "15"
+          nickname: Mike
+          lastname: Honda
+          bioguide_id: H001034
+          firstname: Michael
+          phone: 202-225-2631
+          name_suffix: ""
+          office: 1713 Longworth House Office Building
+          state: CA
+  lastname: SHANK,MICHAEL
+  firstname: 
+  name_original: SHANK,MICHAEL
+- quarters: 
+    2009Q3: 
+    - title: LEGISLATIVE ASSISTANT
+      title_original: LEGISLATIVE ASSISTANT
+      office: 
+        name: Rep. Mike Honda
+        type: member
+        bioguide_id: 
+        committee: 
+        committee_id: 
+        legislator: 
+          title: Rep
+          in_office: true
+          nickname: Mike
+          district: "15"
+          lastname: Honda
+          bioguide_id: H001034
+          name_suffix: ""
+          phone: 202-225-2631
+          firstname: Michael
+          office: 1713 Longworth House Office Building
+          state: CA
+    2009Q4: 
+    - title_original: LEGISLATIVE ASSISTANT
+      title: LEGISLATIVE ASSISTANT
+      office: 
+        name: Rep. Mike Honda
+        bioguide_id: 
+        type: member
+        committee: 
+        committee_id: 
+        legislator: 
+          in_office: true
+          title: Rep
+          district: "15"
+          nickname: Mike
+          lastname: Honda
+          bioguide_id: H001034
+          firstname: Michael
+          phone: 202-225-2631
+          name_suffix: ""
+          office: 1713 Longworth House Office Building
+          state: CA
+  lastname: ARELLANO
+  firstname: BERNARDETTE
+  name_original: ARELLANO, BERNARDETTE
+- quarters: 
+    2009Q3: 
+    - title: LEGISLATIVE ASSISTANT
+      title_original: LEGISLATIVE ASSISTANT
+      office: 
+        name: Rep. Mike Honda
+        type: member
+        bioguide_id: 
+        committee: 
+        committee_id: 
+        legislator: 
+          title: Rep
+          in_office: true
+          nickname: Mike
+          district: "15"
+          lastname: Honda
+          bioguide_id: H001034
+          name_suffix: ""
+          phone: 202-225-2631
+          firstname: Michael
+          office: 1713 Longworth House Office Building
+          state: CA
+    2009Q4: 
+    - title_original: LEGISLATIVE ASSISTANT
+      title: LEGISLATIVE ASSISTANT
+      office: 
+        name: Rep. Mike Honda
+        bioguide_id: 
+        type: member
+        committee: 
+        committee_id: 
+        legislator: 
+          in_office: true
+          title: Rep
+          district: "15"
+          nickname: Mike
+          lastname: Honda
+          bioguide_id: H001034
+          firstname: Michael
+          phone: 202-225-2631
+          name_suffix: ""
+          office: 1713 Longworth House Office Building
+          state: CA
+  lastname: WERWA
+  firstname: ERIC
+  name_original: WERWA, ERIC
+- quarters: 
+    2009Q3: 
+    - title: LEGISLATIVE ASSISTANT
+      title_original: LEGISLATIVE ASSISTANT
+      office: 
+        name: Rep. Steny Hoyer
+        type: member
+        bioguide_id: 
+        committee: 
+        committee_id: 
+        legislator: 
+          title: Rep
+          in_office: true
+          nickname: ""
+          district: "5"
+          lastname: Hoyer
+          bioguide_id: H000874
+          name_suffix: ""
+          phone: 202-225-4131
+          firstname: Steny
+          office: 1705 Longworth House Office Building
+          state: MD
+    2009Q4: 
+    - title_original: LEGISLATIVE ASSISTANT
+      title: LEGISLATIVE ASSISTANT
+      office: 
+        name: Rep. Steny Hoyer
+        bioguide_id: 
+        type: member
+        committee: 
+        committee_id: 
+        legislator: 
+          in_office: true
+          title: Rep
+          district: "5"
+          nickname: ""
+          lastname: Hoyer
+          bioguide_id: H000874
+          firstname: Steny
+          phone: 202-225-4131
+          name_suffix: ""
+          office: 1705 Longworth House Office Building
+          state: MD
+  lastname: HAM
+  firstname: STEPHEN I.
+  name_original: HAM, STEPHEN I.

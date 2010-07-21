@@ -1,0 +1,28 @@
+<a href="/">Home</a>
+
+<h2><%= office.name %></h2>
+
+<!-- basic office info here -->
+
+<% quarters.keys.sort.reverse.each do |quarter| %>
+  <% staffers = quarters[quarter] %>
+  
+  <h3><%= quarter %></h3>
+  <table class="staffers" id="<%= quarter %>">
+    <% if staffers.any? %>
+      <% staffers.each do |staffer| %>
+        <tr>
+          <td>
+            <a href="/staffer/<%= staffer._id %>"><%= display_name staffer %></a>
+          </td>
+          <td>
+            <%= title_for staffer, office, quarter %>
+          </td>
+        </tr>
+      <% end %>
+    <% else %>
+      No staffers listed for this quarter.
+    <% end %>
+  </table>
+  
+<% end %>

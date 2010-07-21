@@ -209,6 +209,7 @@ namespace :staffers do
       Staffer.ensure_index "quarters.#{quarter}.office.legislator.firstname_search"
       Staffer.ensure_index "quarters.#{quarter}.office.legislator.lastname_search"
       Staffer.ensure_index "quarters.#{quarter}.office.legislator.state"
+      Staffer.ensure_index "quarters.#{quarter}.office._id"
       Staffer.ensure_index "quarters.#{quarter}.title"
     end
     

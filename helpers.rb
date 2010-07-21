@@ -4,11 +4,20 @@ helpers do
     "#{staffer.firstname} #{staffer.lastname}".strip
   end
   
+  # assumes the staffer definitely has info for that quarter, and that the office is definitely in there
+  def title_for(staffer, office, quarter)
+    position = staffer['quarters'][quarter].detect do |position|
+      position['office']['name'] == office.name
+    end
+    
+    position['title']
+  end
+  
   def display_offices_for(staffer, quarter)
     positions = staffer.quarters[quarter]
     if positions
       "<strong>#{quarter}</strong>: " + positions.map do |position| 
-        position['office']['name']
+        "<a href=\"/office/#{position['office']['_id']}\">#{position['office']['name']}</a>"
       end.join(", ")
     else
       ""

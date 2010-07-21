@@ -34,3 +34,14 @@ get '/staffer/:id' do
   
   erb :staffer, :locals => {:staffer => staffer}
 end
+
+get '/office/:id' do
+  office = Office.first :_id => params[:id]
+  
+  quarters = {}
+  Quarter.all.each do |quarter|
+    quarters[quarter.name] = Staffer.all "quarters.#{quarter.name}.office._id" => office._id, :order => "lastname_search ASC, firstname_search ASC"
+  end
+  
+  erb :office, :locals => {:office => office, :quarters => quarters}
+end

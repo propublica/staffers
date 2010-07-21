@@ -1,11 +1,11 @@
 <% if staffers %>
   <h2>
     <% if params[:state].present? and params[:quarter].present? %>
-      Staffers for the state of <%= state_codes[params[:state]] %>:
+      Staffers for the state of <%= state_codes[params[:state]] %> in <%= params[:quarter] %>:
     <% elsif params[:staffer_name].present? %>
       Staffers with the last name "<%= params[:staffer_name] %>":
     <% elsif params[:legislator_name].present? and params[:quarter].present? %>
-      Staffers who work for legislators with the last name "<%= params[:legislator_name] %>":
+      Staffers who work for legislators with the last name "<%= params[:legislator_name] %>" in <%= params[:quarter] %>:
     <% end %>
   </h2>
   
@@ -17,9 +17,7 @@
             <a href="/staffer/<%= staffer._id %>"><%= display_name staffer %></a>
           </td>
           <td>
-            <%= staffer.quarters[quarter].map do |position| 
-              position['office']['name']
-            end.join(", ") %>
+            <%= display_offices_for staffer, params[:quarter] %>
           </td>
         </tr>
       <% end %>

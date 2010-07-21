@@ -13,24 +13,38 @@ namespace :staffers do
     
     Sunlight::Base.api_key = config[:sunlight_api_key]
     
-    # clear out database
-    Office.delete_all
-    Staffer.delete_all
     
+    # cache legislators from Congress API
     legislator_cache = {}
     (Sunlight::Legislator.all_where(:in_office => 1) + Sunlight::Legislator.all_where(:in_office => 0)).each do |legislator|
       legislator_cache[legislator.bioguide_id] = legislator
     end
     
+    
+    # clear out database
+    Office.delete_all
+    Staffer.delete_all
+    Quarter.delete_all
+    Title.delete_all
+    
+    
     # create a hash of titles from titles.csv
     titles = {}
+    i = 0
     FasterCSV.foreach("data/titles.csv") do |row|
+      i += 1
+      
       next if row[0] == "PURPOSE Field" # header row
       
-      titles[row[0]] = row[1]
+      if row[0].blank? or row[1].blank?
+        puts "ERROR: missing title info in row #{i}, skipping title"
+        next
+      else
+        titles[row[0].strip] = row[1].strip
+      end
     end
     
-    titles.keys.each do |title|
+    titles.values.uniq.each do |title|
       Title.create! :name => title
     end
     
@@ -141,6 +155,7 @@ namespace :staffers do
         next
       end
       
+      title_original = title_original.strip
       
       # standardize fields
       lastname, firstname = name_original.split /,\s?/
@@ -190,6 +205,12 @@ namespace :staffers do
     end
     
     # create indexes based on these quarters
+    quarters.each do |quarter|
+      Staffer.ensure_index "quarters.#{quarter}.office.legislator.firstname_search"
+      Staffer.ensure_index "quarters.#{quarter}.office.legislator.lastname_search"
+      Staffer.ensure_index "quarters.#{quarter}.office.legislator.state"
+      Staffer.ensure_index "quarters.#{quarter}.title"
+    end
     
     puts "\nLoaded in #{Staffer.count} staffers in #{Office.count} offices."
     puts "\t#{Office.count :type => "member"} members"

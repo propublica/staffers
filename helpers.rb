@@ -4,6 +4,17 @@ helpers do
     "#{staffer.firstname} #{staffer.lastname}".strip
   end
   
+  def display_offices_for(staffer, quarter)
+    positions = staffer.quarters[quarter]
+    if positions
+      "<strong>#{quarter}</strong>: " + positions.map do |position| 
+        position['office']['name']
+      end.join(", ")
+    else
+      ""
+    end
+  end
+  
   def state_select
     states_by_name = state_codes.invert
     "<select name=\"state\">\n" +
@@ -21,7 +32,14 @@ helpers do
       end.join("\n") +
       "\n</select>"
   end
-       
+  
+  def title_select
+    "<select name=\"title\">\n" +
+      Title.all.map {|t| t.name}.compact.sort.map do |title|
+        "\t<option>#{title}</option>"
+      end.join("\n") +
+      "\n</select>"
+  end
   
   def state_codes
     {

@@ -1,3 +1,11 @@
-<div class="staffer">
-  <%= display_name staffer %>
-</div>
+<h2><%= display_name staffer %></h2>
+
+<% staffer['quarters'].each do |quarter, offices| %>
+  <div class="quarter">
+    <h3><%= quarter %></h3>
+    <% offices.each do |office| %>
+      <h4><%= office['name'] %></h4>
+      
+    <% end %>
+  </div>
+<% end %>

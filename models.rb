@@ -5,8 +5,11 @@ class Staffer
   key :name_original, String, :index => true
   
   # basic info
-  key :firstname, String, :index => true
-  key :lastname, String, :index => true
+  key :firstname_search, String, :index => true
+  key :lastname_search, String, :index => true
+  
+  key :firstname, String
+  key :lastname, String
 end
 
 class Office

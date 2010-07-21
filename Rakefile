@@ -68,6 +68,8 @@ namespace :staffers do
                 :bioguide_id => bioguide_id,
                 :firstname => legislator.firstname,
                 :lastname => legislator.lastname,
+                :firstname_search => legislator.firstname.downcase,
+                :lastname_search => legislator.lastname.downcase,
                 :nickname => legislator.nickname,
                 :name_suffix => legislator.name_suffix,
                 :title => legislator.title,
@@ -142,11 +144,15 @@ namespace :staffers do
       
       # standardize fields
       lastname, firstname = name_original.split /,\s?/
+      lastname_search = nil
+      firstname_search = nil
       if lastname
         lastname = lastname.split(/\s+/).map {|n| n.capitalize}.join " "
+        lastname_search = lastname.downcase
       end
       if firstname
         firstname = firstname.split(/\s+/).map {|n| n.capitalize}.join " "
+        firstname_search = firstname.downcase
       end
       
       title = titles[title_original] || title_original
@@ -162,6 +168,8 @@ namespace :staffers do
         staffer.attributes = {
           :firstname => firstname,
           :lastname => lastname,
+          :firstname_search => firstname_search,
+          :lastname_search => lastname_search,
           :quarters => {}
         }
       end
@@ -176,9 +184,12 @@ namespace :staffers do
       staffer.save!
     end
     
-    quarters.uniq.each do |quarter|
+    quarters = quarters.uniq
+    quarters.each do |quarter|
       Quarter.create! :name => quarter
     end
+    
+    # create indexes based on these quarters
     
     puts "\nLoaded in #{Staffer.count} staffers in #{Office.count} offices."
     puts "\t#{Office.count :type => "member"} members"

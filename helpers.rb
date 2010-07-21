@@ -7,6 +7,7 @@ helpers do
   def state_select
     states_by_name = state_codes.invert
     "<select name=\"state\">\n" +
+      "\t<option value=\"\">----</option>" +
       states_by_name.keys.sort.map do |name|
         "\t<option value=\"#{states_by_name[name]}\">#{name}</option>"
       end.join("\n") +

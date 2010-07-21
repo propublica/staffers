@@ -1,11 +1,21 @@
-<form action="/staffers" method="post">
+<form action="/staffers" method="get">
   Quarter: <%= quarter_select %>
+  <hr/>
   
-  <br/><br/>
+  Search by state:
+  <%= state_select %>
   
-  Search by state: <%= state_select %>
-
-  <br/><br/>
+  <br/>
+  
+  Search by staffer's last name:
+  <input type="text" name="staffer_name" />
+  
+  <br/>
+  
+  Search by legislator's last name:
+  <input type="text" name="legislator_name" />
+  
+  <hr/>
 
   <input type="submit" value="Search" />
 </form>

@@ -1,14 +1,32 @@
-<table class="search">
-  <% staffers.each do |staffer| %>
-    <tr>
-      <td>
-        <a href="/staffer/<%= staffer._id %>"><%= display_name staffer %></a>
-      </td>
-      <td>
-        <%= staffer.quarters[quarter].map do |position| 
-          position['office']['name']
-        end.join(", ") %>
-      </td>
-    </tr>
-  <% end %>
-</table>
+<% if staffers %>
+  <h2>
+    <% if params[:state].present? and params[:quarter].present? %>
+      Staffers for the state of <%= state_codes[params[:state]] %>:
+    <% elsif params[:staffer_name].present? %>
+      Staffers with the last name "<%= params[:staffer_name] %>":
+    <% elsif params[:legislator_name].present? and params[:quarter].present? %>
+      Staffers who work for legislators with the last name "<%= params[:legislator_name] %>":
+    <% end %>
+  </h2>
+  
+  <table class="search">
+    <% if staffers.any? %>
+      <% staffers.each do |staffer| %>
+        <tr>
+          <td>
+            <a href="/staffer/<%= staffer._id %>"><%= display_name staffer %></a>
+          </td>
+          <td>
+            <%= staffer.quarters[quarter].map do |position| 
+              position['office']['name']
+            end.join(", ") %>
+          </td>
+        </tr>
+      <% end %>
+    <% else %>
+      No staffers found for that search.
+    <% end %>
+  </table>
+<% else %>
+  Invalid search parameters.
+<% end %>

@@ -1,0 +1,4 @@
+ENV['RACK_ENV'] = "development"
+require 'staffers'
+
+run Sinatra::Application

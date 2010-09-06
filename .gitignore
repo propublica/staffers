@@ -1,2 +1,3 @@
 /config/config.yml
 /data/*.csv
+/config.ru

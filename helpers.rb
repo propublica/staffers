@@ -128,4 +128,13 @@ helpers do
       "WY" => "Wyoming"
     }
   end
+  
+  def party_names
+    {
+      "R" => "Republican",
+      "D" => "Democrat",
+      "I" => "Independent"
+    }
+  end
+  
 end

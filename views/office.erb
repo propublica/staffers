@@ -1,4 +1,28 @@
-<h2 class="office"><%= office.name %></h2>
+<div class="office_header <%= office.type %>">
+<% if office.type == 'member' %>
+  <% legislator = office['legislator'] %>
+  <img src="http://assets.sunlightfoundation.com/moc/100x125/<%= legislator['bioguide_id'] %>.jpg" />
+  <div class="details">
+    <h2 class="office legislator"><%= office.name %></h2>
+    <span>
+      <%= party_names[legislator['party']] %> from 
+      <%= state_codes[legislator['state']] %>, 
+      <% if legislator['title'] == 'Sen' %>
+        <%= legislator['district'] %>
+      <% else %>
+        <%= legislator['district'].to_i == 0 ? "At-Large" : "District #{legislator['district']}" %>
+      <% end %>
+    </span>
+    <span class="phone"><%= office['phone'] %></span>
+    <span class="room"><%= room_for office['building'], office['room'] %></span>
+  </div>
+<% else %>
+  <div class="details">
+    <h2 class="office"><%= office.name %></h2>
+    <span class="phone"><%= office['phone'] %></span>
+    <span class="room"><%= room_for office['building'], office['room'] %></span>
+  </div>
+<% end %>
 
 <!-- basic office info here -->
 

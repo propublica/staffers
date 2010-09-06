@@ -92,6 +92,7 @@ namespace :staffers do
                 :firstname_search => legislator.firstname.downcase,
                 :lastname_search => legislator.lastname.downcase,
                 :nickname => legislator.nickname,
+                :party => legislator.party,
                 :name_suffix => legislator.name_suffix,
                 :title => legislator.title,
                 :congress_office => legislator.congress_office,

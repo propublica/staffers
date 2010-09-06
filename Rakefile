@@ -74,10 +74,17 @@ namespace :staffers do
           # fetch legislator from Sunlight API, falling back to out of office if first call fails
           legislator = legislator_cache[bioguide_id]
           
+          # override phone, room, and building
+          phone = legislator.phone
+          room, building = split_office legislator.congress_office
+          
           if legislator
             office = Office.new :name => titled_name(legislator)
             office.attributes = {
               :type => "member",
+              :phone => phone,
+              :room => room,
+              :building => building,
               :legislator => {
                 :bioguide_id => bioguide_id,
                 :firstname => legislator.firstname,
@@ -87,7 +94,7 @@ namespace :staffers do
                 :nickname => legislator.nickname,
                 :name_suffix => legislator.name_suffix,
                 :title => legislator.title,
-                :office => legislator.congress_office,
+                :congress_office => legislator.congress_office,
                 :phone => legislator.phone,
                 :state => legislator.state,
                 :district => legislator.district,
@@ -113,6 +120,9 @@ namespace :staffers do
             office = Office.new :name => committee.name
             office.attributes = {
               :type => "committee",
+              :phone => phone,
+              :room => room,
+              :building => building,
               :committee => {
                 :id => committee_id,
                 :name => committee.name,
@@ -138,7 +148,12 @@ namespace :staffers do
         
         if office.nil?
           office = Office.new :name => office_name
-          office.attributes = {:type => "other"}
+          office.attributes = {
+            :type => "other",
+            :phone => phone,
+            :room => room,
+            :building => building
+          }
           
           # puts "New office: #{office.name}"
           office.save!
@@ -295,4 +310,10 @@ end
 # format name from Sunlight API
 def titled_name(legislator)
   "#{legislator.title}. #{legislator.nickname.present? ? legislator.nickname : legislator.firstname} #{legislator.lastname} #{legislator.name_suffix}".strip
+end
+
+# split congress_office out into room and building
+def split_office(congress_office)
+  words = congress_office.split ' '
+  [words[0], words[1]]
 end

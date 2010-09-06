@@ -1,0 +1,74 @@
+/*
+ * YUI Reset CSS version: 2.2.2 
+ * Copyright (c) 2007, Yahoo! Inc. All rights reserved.
+ * Licensed under the BSD License: http://developer.yahoo.net/yui/license.txt
+ */
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,optgroup,button,p,blockquote,th,td{margin:0;padding:0;}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal;}table{border-collapse:collapse;border-spacing:0;}caption,th{text-align:left;}ol,ul{list-style:none;}fieldset,img{border:0;}input,textarea,select,optgroup,option,button{font-family:inherit;font-size:100%;}button,input {width: auto;overflow: visible;}optgroup,address,caption,cite,code,dfn,em,strong,th,var{font-style:normal;font-weight:normal;}q:before,q:after{content:'';}abbr,acronym {border:0;}
+dl li{list-style: none;}
+
+a:link { outline: none; text-decoration: none;}
+a:visited { outline: none; text-decoration: none;}
+a:hover { outline: none; text-decoration: none;}
+a:active { outline: none; text-decoration: none;}
+
+/* End YUI Reset */
+
+
+a:visited, a:hover, a:active, a:link {color: #114488;}
+
+div.header {
+  padding: 10px 30px;
+  border-bottom: 1px solid #888888;
+  background-color: #e5e5e5;
+}
+
+div.header h1 {font-size: 32pt;} 
+div.header h1 a, div.header h1 a:visited {color: #114488;}
+
+div.main {
+  margin-top: 20px;
+  padding: 10px 30px;
+}
+
+div.footer {
+  margin-top: 20px;
+  padding: 10px 30px;
+  border-top: 1px solid #ccc;
+  font-size: 10pt;
+} div.footer a, div.footer a:visited {text-decoration: underline;}
+
+
+/* Staffer and office pages */
+
+h2.staffer, h2.office {
+  font-size: 20pt;
+  color: #114488;
+}
+
+h3.quarter, h3.results {
+  font-size: 14pt;
+  border-bottom: 1px solid #666666;
+  color: #444444;
+  margin-top: 20px;
+  margin-bottom: 5px;
+}
+
+table.quarter {}
+table.quarter td {padding: 4px 10px;}
+table.quarter td a {text-decoration: underline}
+
+
+/* Search results page */
+
+h3.results {margin-top: 0px;}
+
+table.results {}
+table.results td {padding: 4px 10px;}
+table.results td a {text-decoration: underline;}
+
+
+/* Search page */
+
+table.search {}
+table.search td {padding: 4px 10px;}
+input.search {padding: 3px 8px;}

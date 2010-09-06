@@ -1,16 +1,30 @@
 helpers do
   
+  def capitalize(words)
+    first_pass = words.split(' ').map {|word| word.capitalize}.join ' '
+    first_pass.gsub(/\/(\w)/) {" / #{$1.upcase}"}
+  end
+  
   def display_name(staffer)
     "#{staffer.firstname} #{staffer.lastname}".strip
   end
   
+  def list_name(staffer)
+    "#{staffer.lastname}, #{staffer.firstname}".strip
+  end
+  
   # assumes the staffer definitely has info for that quarter, and that the office is definitely in there
   def title_for(staffer, office, quarter)
-    position = staffer['quarters'][quarter].detect do |position|
+    positions = staffer['quarters'][quarter].select do |position|
       position['office']['name'] == office.name
     end
     
-    position['title']
+    positions.map {|position| position['title']}.join(', ')
+  end
+  
+  def format_quarter(quarter)
+    pieces = quarter.match /^(\d+)(Q\d)/
+    "#{pieces[1]} #{pieces[2]}"
   end
   
   def display_offices_for(staffer, quarter)
@@ -21,6 +35,14 @@ helpers do
       end.join(", ")
     else
       ""
+    end
+  end
+  
+  def room_for(building, room)
+    if building and room
+      "#{room} #{building.split(' ').first}"
+    else
+      nil
     end
   end
   

@@ -1,22 +1,21 @@
-<a href="/">Home</a>
-
-<h2><%= office.name %></h2>
+<h2 class="office"><%= office.name %></h2>
 
 <!-- basic office info here -->
 
 <% quarters.keys.sort.reverse.each do |quarter| %>
   <% staffers = quarters[quarter] %>
   
-  <h3><%= quarter %></h3>
-  <table class="staffers" id="<%= quarter %>">
+  <h3 class="quarter"><%= format_quarter quarter %></h3>
+  
+  <table class="quarter" id="<%= quarter %>">
     <% if staffers.any? %>
       <% staffers.each do |staffer| %>
         <tr>
           <td>
-            <a href="/staffer/<%= staffer._id %>"><%= display_name staffer %></a>
+            <a href="/staffer/<%= staffer._id %>"><%= list_name staffer %></a>
           </td>
           <td>
-            <%= title_for staffer, office, quarter %>
+            <%= capitalize title_for(staffer, office, quarter) %>
           </td>
         </tr>
       <% end %>

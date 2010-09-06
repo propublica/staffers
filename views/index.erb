@@ -1,26 +1,32 @@
-<form action="/staffers" method="get">
-  Quarter: <%= quarter_select %>
-  <hr/>
-  
-  Search by state:
-  <%= state_select %>
-  
-  <br/>
-  
-  Search by job title keyword:
-  <input type="text" name="title" />
-  
-  <br/>
-  
-  Search by staffer's full last name:
-  <input type="text" name="staffer_name" />
-  
-  <br/>
-  
-  Search by legislator's full last name:
-  <input type="text" name="legislator_name" />
-  
-  <hr/>
+<div class="search">
+  <form action="/staffers" method="get">
 
-  <input type="submit" value="Search" />
-</form>
+    <table class="search">
+      <tr class="quarter">
+        <td>
+          <label for="quarter">Quarter:</label>
+        </td><td>
+          <%= quarter_select %>
+        </td>
+      </tr><tr>
+        <td>
+          <label for="staffer_name">Last name of a staffer:</label>
+        </td><td>
+          <input type="text" name="staffer_name" id="staffer_name" />
+        </td>
+      </tr><tr>
+        <td colspan='2'>or</td>
+      </tr><tr>
+        <td>
+          <label for="legislator_name">Last name of a legislator:</label>
+        </td><td>
+          <input type="text" name="legislator_name" id="legislator_name" />
+        </td>
+      </tr><tr>
+        <td colspan="2">
+          <input type="submit" value="Search" class="search" />
+        </td>
+      </tr>
+    </table>
+  </form>
+</div>

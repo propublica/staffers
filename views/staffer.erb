@@ -1,22 +1,28 @@
-<a href="/">Home</a>
-
-<h2><%= display_name staffer %></h2>
+<h2 class="staffer"><%= display_name staffer %></h2>
 
 <% staffer['quarters'].keys.sort.reverse.each do |quarter| %>
   <% positions = staffer['quarters'][quarter] %>
   
-  <h3><%= quarter %></h3>
-  <table class="quarter">
+  <h3 class="quarter"><%= format_quarter quarter %></h3>
+  
+  <table class="quarter staffer">
     <% positions.each do |position| %>
       <tr>
-        <td>
-          <strong><%= position['title'] %></strong>
-        </td>
         <td>
           <a href="/office/<%= position['office']['_id'] %>">
             <%= position['office']['name'] %>
           </a>
         </td>
+        <td>
+          <strong><%= capitalize position['title'] %></strong>
+        </td>
+        <td>
+          <%= position['office']['phone'] %>
+        </td>
+        <td>
+          <%= room_for position['office']['building'], position['office']['room'] %>
+        </td>
     <% end %>
   </table>
+  
 <% end %>

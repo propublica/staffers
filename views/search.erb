@@ -1,17 +1,15 @@
-<a href="/">Home</a>
-
 <% if staffers %>
-  <h2>
+  <h3 class="results">
     <% if params[:state].present? and params[:quarter].present? %>
-      Staffers for the state of <%= state_codes[params[:state]] %> in <%= params[:quarter] %>:
+      Staffers for the state of <%= state_codes[params[:state]] %> in <%= format_quarter params[:quarter] %>:
     <% elsif params[:staffer_name].present? %>
       Staffers with the last name "<%= params[:staffer_name] %>":
     <% elsif params[:legislator_name].present? and params[:quarter].present? %>
-      Staffers who work for legislators with the last name "<%= params[:legislator_name] %>" in <%= params[:quarter] %>:
+      Staffers who work for legislators with the last name "<%= params[:legislator_name] %>" in <%= format_quarter params[:quarter] %>
     <% end %>
-  </h2>
+  </h3>
   
-  <table class="search">
+  <table class="results">
     <% if staffers.any? %>
       <% staffers.each do |staffer| %>
         <tr>

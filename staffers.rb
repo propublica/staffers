@@ -17,11 +17,11 @@ get '/staffers' do
   if params[:state].present? and params[:quarter].present?
     staffers = Staffer.all "quarters.#{params[:quarter]}.office.legislator.state" => params[:state]
   elsif params[:staffer_name].present?
-    staffers = Staffer.all :lastname_search => params[:staffer_name].downcase
+    staffers = Staffer.all :lastname_search => /#{params[:staffer_name]}/i
   elsif params[:title].present? and params[:quarter].present?
     staffers = Staffer.all "quarters.#{params[:quarter]}.title" => /#{params[:title]}/i
   elsif params[:legislator_name].present? and params[:quarter].present?
-    staffers = Staffer.all "quarters.#{params[:quarter]}.office.legislator.lastname_search" => params[:legislator_name].downcase
+    staffers = Staffer.all "quarters.#{params[:quarter]}.office.legislator.lastname" => /#{params[:legislator_name]}/i
   else
     staffers = nil
   end

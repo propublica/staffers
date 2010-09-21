@@ -46,7 +46,7 @@ h2.staffer, h2.office {
   color: #114488;
 }
 
-h3.quarter, h3.results {
+h3.quarter, h3.results, div.offices h3 {
   font-size: 14pt;
   border-bottom: 1px solid #666666;
   color: #444444;
@@ -71,6 +71,8 @@ table.results td a {text-decoration: underline;}
 
 table.search td {padding: 4px 10px;}
 input.search {padding: 3px 8px;}
+
+div.offices {margin: 10px;}
 
 
 /* Legislator info piece */

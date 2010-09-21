@@ -1,0 +1,28 @@
+<% header = {'member' => "Members", 'committee' => "Committees"}[type] || 'Offices' %>
+<h3 class="results"><%= header %></h3>
+
+<% if offices %>
+
+  <table class="quarter">
+    <% offices.each do |office| %>
+        <tr>
+          <td>
+            <a href="/office/<%= office._id %>">
+              <%= office['name'] %>
+            </a>
+          </td>
+          <td>
+            <%= office['phone'] %>
+          </td>
+          <td>
+            <%= room_for office['building'], office['room'] %>
+          </td>
+        </tr>
+      <% end %>
+  </table>
+
+<% else %>
+
+  <br/>Invalid search parameters for offices.
+  
+<% end %>

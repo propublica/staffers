@@ -12,19 +12,32 @@ get '/' do
 end
 
 get '/staffers' do
-  staffers = []
+  search = {}
   
-  if params[:state].present? and params[:quarter].present?
-    staffers = Staffer.all "quarters.#{params[:quarter]}.office.legislator.state" => params[:state]
-  elsif params[:staffer_name].present?
-    staffers = Staffer.all :lastname_search => /#{params[:staffer_name]}/i
-  elsif params[:title].present? and params[:quarter].present?
-    staffers = Staffer.all "quarters.#{params[:quarter]}.title" => /#{params[:title]}/i
-  elsif params[:legislator_name].present? and params[:quarter].present?
-    staffers = Staffer.all "quarters.#{params[:quarter]}.office.legislator.lastname" => /#{params[:legislator_name]}/i
-  else
-    staffers = nil
+  # quarter is always present
+  search[:quarter] = params[:quarter]
+  
+  if params[:staffer_name].present?
+    search[:lastname_search] = /#{params[:staffer_name]}/i
   end
+  
+  if params[:title].present?
+    search["quarters.#{params[:quarter]}.title"] = /#{params[:title]}/i
+  end
+  
+  if params[:legislator_name].present?
+    search["quarters.#{params[:quarter]}.office.legislator.lastname"] = /#{params[:legislator_name]}/i
+  end
+  
+  if params[:state].present?
+    search["quarters.#{params[:quarter]}.office.legislator.state"] = params[:state]
+  end
+  
+  if params[:party].present?
+    search["quarters.#{params[:quarter]}.office.legislator.party"] = params[:party]
+  end
+  
+  staffers = Staffer.all search, :order => "lastname ASC, firstname ASC"
   
   erb :search, :locals => {:staffers => staffers}
 end
@@ -44,4 +57,18 @@ get '/office/:id' do
   end
   
   erb :office, :locals => {:office => office, :quarters => quarters}
+end
+
+get '/offices' do
+  offices = nil
+  
+  if params[:type] == 'member'
+    offices = Office.all :type => 'member', :order => "legislator.lastname ASC, legislator.firstname ASC"
+  elsif params[:type] == 'committee'
+    offices = Office.all :type => 'committee', :order => "name ASC"
+  elsif params[:type] == 'other'
+    offices = Office.all :type => 'other', :order => "name ASC"
+  end
+  
+  erb :offices, :locals => {:offices => offices, :type => params[:type]}
 end

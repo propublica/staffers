@@ -9,12 +9,12 @@
     <% positions.each do |position| %>
       <tr class="line">
         <td>
+          <%= capitalize position['title'] %>
+        </td>
+        <td>
           <a href="/office/<%= position['office']['_id'] %>">
             <%= position['office']['name'] %>
           </a>
-        </td>
-        <td>
-          <strong><%= capitalize position['title'] %></strong>
         </td>
         <td>
           <%= position['office']['phone'] %>

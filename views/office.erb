@@ -35,7 +35,10 @@
     <% if staffers.any? %>
       <% staffers.each do |staffer| %>
         
-        <% positions = staffer.quarters[quarter] %>
+        <% positions = staffer.quarters[quarter].select do |position|
+             position['office']['name'] == office.name
+           end
+        %>
         <% positions.each do |position| %>
           <tr class="<%= "line" if positions.last.object_id == position.object_id %>">
             <td>

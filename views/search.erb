@@ -10,7 +10,7 @@
         <% positions = staffer.quarters[quarter] %>
         <% if positions %>
           <% positions.each do |position| %>
-            <tr class="<%= "last" if positions.last.object_id == position.object_id %>">
+            <tr class="<%= "line" if positions.last.object_id == position.object_id %>">
               <td>
                 <% if positions.first.object_id == position.object_id %>
                   <a href="/staffer/<%= staffer._id %>"><%= display_name staffer %></a>
@@ -26,7 +26,7 @@
           <% end %>
           
         <% else %>
-          <tr class="last">
+          <tr class="line">
             <td>
               <a href="/staffer/<%= staffer._id %>"><%= display_name staffer %></a>
             </td>

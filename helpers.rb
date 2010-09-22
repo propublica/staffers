@@ -13,15 +13,6 @@ helpers do
     "#{staffer.lastname}, #{staffer.firstname}".strip
   end
   
-  # assumes the staffer definitely has info for that quarter, and that the office is definitely in there
-  def title_for(staffer, office_name, quarter)
-    position = staffer['quarters'][quarter].find do |position|
-      position['office']['name'] == office_name
-    end
-    
-    position['title']
-  end
-  
   def format_quarter(quarter)
     pieces = quarter.match /^(\d+)(Q\d)/
     "#{pieces[1]} #{pieces[2]}"

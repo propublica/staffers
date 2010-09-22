@@ -55,9 +55,11 @@ h3.quarter, h3.results, div.offices h3 {
   clear: both;
 }
 
+table.quarter {width: 100%}
 table.quarter td {padding: 4px 10px;}
 table.quarter td a {text-decoration: underline}
 
+table.quarter tr.line, table.results tr.line {border-bottom: 1px dotted #bbb;}
 
 /* Search results page */
 
@@ -66,8 +68,6 @@ h3.results {margin-top: 0px;}
 table.results {width: 100%}
 table.results td {padding: 4px 10px;}
 table.results td a {text-decoration: underline;}
-
-table.results tr.last {border-bottom: 1px dotted #bbb;}
 
 span.no_positions {color: #666;}
 

@@ -34,14 +34,21 @@
   <table class="quarter" id="<%= quarter %>">
     <% if staffers.any? %>
       <% staffers.each do |staffer| %>
-        <tr>
-          <td>
-            <a href="/staffer/<%= staffer._id %>"><%= list_name staffer %></a>
-          </td>
-          <td>
-            <%= capitalize title_for(staffer, office.name, quarter) %>
-          </td>
-        </tr>
+        
+        <% positions = staffer.quarters[quarter] %>
+        <% positions.each do |position| %>
+          <tr class="<%= "line" if positions.last.object_id == position.object_id %>">
+            <td>
+                <% if positions.first.object_id == position.object_id %>
+                  <a href="/staffer/<%= staffer._id %>"><%= list_name staffer %></a>
+                <% end %>
+              </td>
+            <td>
+              <%= capitalize position['title'] %>
+            </td>
+          </tr>
+        <% end %>
+        
       <% end %>
     <% else %>
       No staffers listed for this quarter.

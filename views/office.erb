@@ -39,7 +39,7 @@
             <a href="/staffer/<%= staffer._id %>"><%= list_name staffer %></a>
           </td>
           <td>
-            <%= capitalize title_for(staffer, office, quarter) %>
+            <%= capitalize title_for(staffer, office.name, quarter) %>
           </td>
         </tr>
       <% end %>

@@ -63,15 +63,18 @@ table.quarter td a {text-decoration: underline}
 
 h3.results {margin-top: 0px;}
 
+table.results {width: 100%}
 table.results td {padding: 4px 10px;}
 table.results td a {text-decoration: underline;}
 
+table.results tr.last {border-bottom: 1px dotted #bbb;}
+
+span.no_positions {color: #666;}
 
 /* Search page */
 
 table.search td {padding: 4px 10px;}
 input.search {padding: 3px 8px;}
-
 div.offices {margin: 10px;}
 
 

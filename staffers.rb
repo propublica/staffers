@@ -14,9 +14,6 @@ end
 get '/staffers' do
   search = {}
   
-  # quarter is always present
-  search[:quarter] = params[:quarter]
-  
   if params[:staffer_name].present?
     search[:lastname_search] = /#{params[:staffer_name]}/i
   end
@@ -28,7 +25,7 @@ get '/staffers' do
   if params[:legislator_name].present?
     search["quarters.#{params[:quarter]}.office.legislator.lastname"] = /#{params[:legislator_name]}/i
   end
-  
+
   if params[:state].present?
     search["quarters.#{params[:quarter]}.office.legislator.state"] = params[:state]
   end
@@ -37,9 +34,9 @@ get '/staffers' do
     search["quarters.#{params[:quarter]}.office.legislator.party"] = params[:party]
   end
   
-  staffers = Staffer.all search, :order => "lastname ASC, firstname ASC"
+  staffers = Staffer.all search.merge(:order => "lastname ASC, firstname ASC")
   
-  erb :search, :locals => {:staffers => staffers}
+  erb :search, :locals => {:staffers => staffers, :quarter => params[:quarter]}
 end
 
 get '/staffer/:id' do

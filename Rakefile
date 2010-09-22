@@ -206,11 +206,18 @@ namespace :staffers do
       end
       
       staffer[:quarters][quarter] ||= []
-      staffer[:quarters][quarter] << {
-        :title => title.strip,
-        :title_original => title_original.strip,
-        :office => office.attributes
-      }
+      
+      match = staffer[:quarters][quarter].detect do |position|
+        (position['title'] == title) and (position['office']['name'] == office.name)
+      end
+      
+      unless match
+        staffer[:quarters][quarter] << {
+          :title => title,
+          :title_original => title_original,
+          :office => office.attributes
+        }
+      end
       
       staffer.save!
     end

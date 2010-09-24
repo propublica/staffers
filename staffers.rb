@@ -16,6 +16,7 @@ get '/staffers' do
   
   if params[:staffer_name].present?
     search[:lastname_search] = /#{params[:staffer_name]}/i
+    search["quarters.#{params[:quarter]}"] = {"$exists" => true}
   end
   
   if params[:title].present?

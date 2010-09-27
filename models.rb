@@ -8,6 +8,8 @@ class Staffer
   key :firstname_search, String, :index => true
   key :lastname_search, String, :index => true
   
+  ensure_index [[:lastname_search, 1], [:firstname_search, 1]]
+  
   key :firstname, String
   key :lastname, String
 end

@@ -36,7 +36,11 @@ get '/staffers' do
     search["quarters.#{params[:quarter]}.office.legislator.party"] = params[:party]
   end
   
-  staffers = Staffer.all search.merge(:order => "lastname ASC, firstname ASC")
+  if search.keys.empty?
+    staffers = []
+  else
+    staffers = Staffer.all search.merge(:order => "lastname_search ASC, firstname_search ASC")
+  end
   
   erb :search, :locals => {:staffers => staffers, :quarter => params[:quarter]}
 end

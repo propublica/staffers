@@ -14,13 +14,13 @@ end
 get '/staffers' do
   search = {}
   
-  if params[:staffer_firstname].present?
-    search[:firstname_search] = /#{params[:staffer_firstname]}/i
+  if params[:firstname].present?
+    search[:firstname_search] = /#{params[:firstname]}/i
     search["quarters.#{params[:quarter]}"] = {"$exists" => true}
   end
   
-  if params[:staffer_lastname].present?
-    search[:lastname_search] = /#{params[:staffer_lastname]}/i
+  if params[:lastname].present?
+    search[:lastname_search] = /#{params[:lastname]}/i
     search["quarters.#{params[:quarter]}"] = {"$exists" => true}
   end
   

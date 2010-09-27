@@ -1,26 +1,42 @@
 <div class="search">
   <form action="/staffers" method="get">
 
+    <h3>
+      <span>Search for staffers</span>
+      <span class="quarter">Quarter:</span>
+      <%= quarter_select %>
+    </h3>
+    
     <table class="search">
-      <tr class="quarter">
+      <tr>
         <td>
-          <label for="quarter">Quarter:</label>
+          <label for="firstname">First name:</label>
         </td><td>
-          <%= quarter_select %>
+          <input type="text" name="firstname" id="firstname" />
         </td>
       </tr><tr>
         <td>
-          <label for="staffer_name">Last name of a staffer:</label>
+          <label for="lastname">Last name:</label>
         </td><td>
-          <input type="text" name="staffer_name" id="staffer_name" />
+          <input type="text" name="lastname" id="lastname" />
         </td>
       </tr><tr>
-        <td colspan='2'>or</td>
+        <td>
+          <label for="title">Title:</label>
+        </td><td>
+          <input type="text" name="title" id="title" />
+        </td>
       </tr><tr>
         <td>
-          <label for="legislator_name">Last name of a legislator:</label>
+          <label for="state">State:</label>
         </td><td>
-          <input type="text" name="legislator_name" id="legislator_name" />
+          <%= state_select %>
+        </td>
+      </tr><tr>
+        <td>
+          <label for="party">Party:</label>
+        </td><td>
+          <%= party_select %>
         </td>
       </tr><tr>
         <td colspan="2">

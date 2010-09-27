@@ -36,6 +36,16 @@ helpers do
       "\n</select>"
   end
   
+  def party_select
+    parties_by_name = party_names.invert
+    "<select name=\"party\">\n" +
+      "\t<option value=\"\">----</option>" +
+      parties_by_name.keys.sort.map do |name|
+        "\t<option value=\"#{parties_by_name[name]}\">#{name}</option>"
+      end.join("\n") +
+      "\n>/select>"
+  end  
+  
   def quarter_select
     "<select name=\"quarter\">\n" +
       Quarter.all.map {|q| q.name}.sort.reverse.map do |quarter|

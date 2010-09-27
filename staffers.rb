@@ -37,7 +37,7 @@ get '/staffers' do
   end
   
   if search.keys.empty?
-    staffers = []
+    staffers = nil
   else
     staffers = Staffer.all search.merge(:order => "lastname_search ASC, firstname_search ASC")
   end

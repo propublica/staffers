@@ -1,14 +1,16 @@
 <div class="search">
   <form action="/staffers" method="get">
 
-    <h3>
-      <span>Search for staffers</span>
-      <span class="quarter">Quarter:</span>
-      <%= quarter_select %>
-    </h3>
+    <h3>Search for staffers</h3>
     
     <table class="search">
       <tr>
+        <td>
+          <label for="quarter">Quarter:</label>
+        </td><td>
+          <%= quarter_select %>
+        </td>
+      </tr><tr>
         <td>
           <label for="firstname">First name:</label>
         </td><td>
@@ -48,7 +50,7 @@
 </div>
 
 <div class="offices">
-  <h3>Or view a list of offices:</h3>
+  <h3>Or view a list of offices</h3>
   <ul>
     <li>
       <a href="/offices?type=member">Members</a>

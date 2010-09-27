@@ -18,9 +18,15 @@
               </td>
               <td>
                 <%= capitalize position['title'] %>
-              </td
+              </td>
               <td>
                 <a href="/office/<%= position['office']['_id'] %>"><%= position['office']['name'] %></a>
+              </td>
+              <td>
+                <%= position['office']['phone'] %>
+              </td>
+              <td>
+                <%= room_for position['office']['building'], position['office']['room'] %>
               </td>
             </tr>
           <% end %>

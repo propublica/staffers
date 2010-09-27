@@ -7,7 +7,13 @@
     <% if staffers.any? %>
       <% staffers.each do |staffer| %>
         
-        <% positions = staffer.quarters[quarter] %>
+        <% positions = nil
+          if quarter.present?
+             positions = staffer.quarters[quarter] 
+           else
+             positions = staffer.quarters.values.flatten # all positions
+           end %>
+        
         <% if positions %>
           <% positions.each do |position| %>
             <tr class="<%= "line" if positions.last.object_id == position.object_id %>">

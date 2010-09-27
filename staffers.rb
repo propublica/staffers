@@ -13,27 +13,46 @@ end
 
 get '/staffers' do
   search = {}
+  quarters = Quarter.all
   
   if params[:firstname].present?
     search[:firstname_search] = /#{params[:firstname]}/i
-    search["quarters.#{params[:quarter]}"] = {"$exists" => true}
+    
+    if params[:quarter].present?
+      search["quarters.#{params[:quarter]}"] = {"$exists" => true}
+    end
   end
   
   if params[:lastname].present?
     search[:lastname_search] = /#{params[:lastname]}/i
-    search["quarters.#{params[:quarter]}"] = {"$exists" => true}
+    
+    if params[:quarter].present?
+      search["quarters.#{params[:quarter]}"] = {"$exists" => true}
+    end
   end
   
   if params[:title].present?
-    search["quarters.#{params[:quarter]}.title"] = /#{params[:title]}/i
+    if params[:quarter].present?
+      search["quarters.#{params[:quarter]}.title"] = /#{params[:title]}/i
+    else
+      search["$or"] = quarters.map {|quarter| {"quarters.#{quarter.name}.title" => /#{params[:title]}/i}}
+    end
   end
 
   if params[:state].present?
-    search["quarters.#{params[:quarter]}.office.legislator.state"] = params[:state]
+    if params[:quarter].present?
+      search["quarters.#{params[:quarter]}.office.legislator.state"] = params[:state]
+    else
+      search["$or"] = quarters.map {|quarter| {"quarters.#{quarter.name}.office.legislator.state" => params[:state]}}
+    end
   end
   
   if params[:party].present?
-    search["quarters.#{params[:quarter]}.office.legislator.party"] = params[:party]
+    if params[:quarter].present?
+      search["quarters.#{params[:quarter]}.office.legislator.party"] = params[:party]
+    else
+      search["$or"] = quarters.map {|quarter| {"quarters.#{quarter.name}.office.legislator.party" => params[:party]}}
+    end
   end
   
   if search.keys.empty?

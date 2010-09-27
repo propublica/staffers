@@ -47,10 +47,12 @@ helpers do
   end  
   
   def quarter_select
+    quarters = Quarter.all.map {|q| q.name}.sort.reverse
     "<select name=\"quarter\">\n" +
-      Quarter.all.map {|q| q.name}.sort.reverse.map do |quarter|
-        "\t<option>#{quarter}</option>"
+      quarters.map do |quarter|
+        "\t<option value=\"#{quarter}\">#{quarter}#{" (most recent)" if quarter = quarters.first}</option>"
       end.join("\n") +
+      "<option value=\"\">all quarters</option>" +
       "\n</select>"
   end
   

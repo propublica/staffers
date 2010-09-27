@@ -76,6 +76,7 @@ span.no_positions {color: #666;}
 table.search td {padding: 4px 10px;}
 input.search {padding: 3px 8px;}
 div.offices {margin: 10px;}
+div.offices li {margin: 10px 0;}
 
 
 /* Legislator info piece */

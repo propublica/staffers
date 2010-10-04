@@ -1,6 +1,6 @@
 desc 'Loads environment'
 task :environment do
-  require 'staffers'
+  require './staffers'
 end
 
 namespace :staffers do
@@ -8,7 +8,7 @@ namespace :staffers do
   task :load => :environment do
     start = Time.now
     
-    require 'fastercsv'
+    require 'csv'
     require 'sunlight'
     
     Sunlight::Base.api_key = config[:sunlight_api_key]
@@ -31,7 +31,7 @@ namespace :staffers do
     # create a hash of titles from titles.csv
     titles = {}
     i = 0
-    FasterCSV.foreach("data/titles.csv") do |row|
+    CSV.foreach("data/titles.csv") do |row|
       i += 1
       
       next if row[0] == "PURPOSE Field" # header row
@@ -51,7 +51,7 @@ namespace :staffers do
     quarters = []
     
     i = 0
-    FasterCSV.foreach("data/staffers.csv") do |row|
+    CSV.foreach("data/staffers.csv") do |row|
       i += 1
       next if row[0] == "BIOGUIDE_ID" # header row
       

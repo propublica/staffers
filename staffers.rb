@@ -2,10 +2,14 @@
 
 require 'rubygems'
 require 'sinatra'
-require 'config/environment'
+require './config/environment'
 
-require 'models'
-require 'helpers'
+require './models'
+require './helpers'
+
+enable :run
+set :views, './views'
+set :public, './public'
 
 get '/' do
   erb :index

@@ -58,12 +58,18 @@ namespace :staffers do
       # office information
       bioguide_id = row[0]
       committee_id = row[2]
-      office_name = row[3].present? ? row[3] : row[4]
+      office_name = row[3]
+      office_name_original = row[4]
       phone = row[5]
       building = row[6]
       room = row[7]
       
       office_name = office_name.strip if office_name
+      office_name_original = office_name_original.strip if office_name_original
+      
+      if office_name.blank?
+        office_name = office_name_original
+      end
       
       office = nil
       
@@ -81,6 +87,7 @@ namespace :staffers do
           if legislator
             office = Office.new :name => titled_name(legislator)
             office.attributes = {
+              :name_original => office_name_original,
               :type => "member",
               :phone => phone,
               :room => room,
@@ -120,6 +127,7 @@ namespace :staffers do
           if committee
             office = Office.new :name => committee.name
             office.attributes = {
+              :name_original => office_name_original,
               :type => "committee",
               :phone => phone,
               :room => room,
@@ -150,6 +158,7 @@ namespace :staffers do
         if office.nil?
           office = Office.new :name => office_name
           office.attributes = {
+            :name_original => office_name_original,
             :type => "other",
             :phone => phone,
             :room => room,

@@ -69,13 +69,13 @@ get '/staffers' do
 end
 
 get '/staffer/:id' do
-  staffer = Staffer.first :_id => params[:id]
+  staffer = Staffer.first :_id => BSON::ObjectId(params[:id])
   
   erb :staffer, :locals => {:staffer => staffer}
 end
 
 get '/office/:id' do
-  office = Office.first :_id => params[:id]
+  office = Office.first :_id => BSON::ObjectId(params[:id])
   
   quarters = {}
   Quarter.all.each do |quarter|

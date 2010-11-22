@@ -35,17 +35,13 @@ namespace :staffers do
       office_from_row row
     end
     
-    return #TODO
    
     # then from all known legislators
-    legislator_cache = {}
-    (Sunlight::Legislator.all_where(:in_office => 1) + Sunlight::Legislator.all_where(:in_office => 0)).each do |legislator|
-      legislator_cache[legislator.bioguide_id] = legislator
+    Sunlight::Legislator.all_where(:all_legislators => true).each do |legislator|
+      office_from_legislator legislator
     end
     
-    #TODO: iterate over each
-    
-    
+    return
     
     quarters = []
     
@@ -77,44 +73,7 @@ namespace :staffers do
         
         if office.nil?
           # fetch legislator from Sunlight API, falling back to out of office if first call fails
-          legislator = legislator_cache[bioguide_id]
           
-          # override phone, room, and building
-          phone = legislator.phone
-          room, building = split_office legislator.congress_office
-          
-          if legislator
-            office = Office.new :name => titled_name(legislator)
-            office.attributes = {
-              :name_original => office_name_original,
-              :type => "member",
-              :phone => phone,
-              :room => room,
-              :building => building,
-              :legislator => {
-                :bioguide_id => bioguide_id,
-                :firstname => legislator.firstname,
-                :lastname => legislator.lastname,
-                :firstname_search => legislator.firstname.downcase,
-                :lastname_search => legislator.lastname.downcase,
-                :nickname => legislator.nickname,
-                :party => legislator.party,
-                :name_suffix => legislator.name_suffix,
-                :title => legislator.title,
-                :congress_office => legislator.congress_office,
-                :phone => legislator.phone,
-                :state => legislator.state,
-                :district => legislator.district,
-                :in_office => legislator.in_office
-              }
-            }
-          else
-            puts "BAD BIOGUIDE_ID: #{bioguide_id}, row #{i}"
-            next
-          end
-          
-          # puts "New member office: #{office.name}"
-          office.save!
         end
       end
       
@@ -286,6 +245,38 @@ def office_from_row(row)
   end
 end
 
+def office_from_legislator(legislator)
+  phone = legislator.phone
+  room, building = split_office legislator.congress_office
+
+  office = Office.new :name => titled_name(legislator)
+  office.attributes = {
+    :type => "member",
+    :phone => phone,
+    :room => room,
+    :building => building,
+    :legislator => {
+      :bioguide_id => legislator.bioguide_id,
+      :firstname => legislator.firstname,
+      :lastname => legislator.lastname,
+      :firstname_search => legislator.firstname.downcase,
+      :lastname_search => legislator.lastname.downcase,
+      :nickname => legislator.nickname,
+      :party => legislator.party,
+      :name_suffix => legislator.name_suffix,
+      :title => legislator.title,
+      :congress_office => legislator.congress_office,
+      :phone => legislator.phone,
+      :state => legislator.state,
+      :district => legislator.district,
+      :in_office => legislator.in_office
+    }
+  }
+  
+  puts "New member office: #{office.name}"
+  office.save!
+end
+
 def title_from_row(row)
   title_name_original = row[0].strip
   title_name = row[1]
@@ -302,7 +293,7 @@ def title_from_row(row)
   else
     title = Title.new :name => title_name
     title.original_names = [title_name_original]
-    puts "New title: #{title_name} with original title #{title_name_original}"
+    # puts "New title: #{title_name} with original title #{title_name_original}"
   end
   
   title.save!

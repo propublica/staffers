@@ -62,75 +62,79 @@ namespace :load do
       staffer_from_row row, i
     end
     
+    puts "Loaded #{Staffer.count} staffers."
     puts "\nFinished in #{Time.now - start} seconds."
   end
   
 
   desc "Loads database (from scratch) from staffers.csv and titles.csv"
-  task :all => :loading_environment do
+  task :positions => :loading_environment do
     start = Time.now
     
     # clear out database
-    
     Quarter.delete_all
     
-    return
     
     quarters = []
     
-    if true
-      phone = row[5]
-      building = row[6]
-      room = row[7]
+    i = 0
+    CSV.foreach("data/csv/positions.csv") do |row|
+      i += 1
+      next if row[0] == "STAFFER NAME (ORIGINAL)" # header row
       
-      office_name = office_name.strip if office_name
-      office_name_original = office_name_original.strip if office_name_original
-      
-      if office_name.blank?
-        office_name = office_name_original
+      staffer_name_original = row[0]
+      if staffer_name_original.blank?
+        puts "WARNING: No staffer name given, skipping row #{i}"
+        next
+      else
+        staffer_name_original = staffer_name_original.strip
       end
       
-      office = nil
+      title_original = row[1].strip
+      quarter = row[2]
+      bioguide_id = row[3]
+      office_name_original = row[4].strip
       
-      # Staffer information
-      name_original = row[13]
-      title_original = row[11]
+      quarters << quarter unless quarters.include? quarter
       
-      if name_original.blank? or title_original.blank?
-        puts "ERROR: Missing original name or title, row #{i}"
+      
+      staffer = Staffer.first :original_names => staffer_name_original
+      if staffer.nil?
+        puts "Couldn't locate staffer by name #{staffer_name_original} in row #{i}, skipping"
         next
       end
       
-      title_original = title_original.strip
+      title = Title.first :original_names => title_original
+      if title.nil?
+        puts "Couldn't locate title by name #{title_original} in row #{i}, skipping"
+        next
+      end
       
-      
-      
-      title = titles[title_original] || title_original
-      
-      # quarter scoping this office role
-      quarter = row[8]
-      quarters << quarter
-      
-      
-      staffer = Staffer.first :name_original => name_original
-      if staffer.nil?
-        staffer = Staffer.new :name_original => name_original
-        
+      if bioguide_id.present?
+        office = Office.first "legislator.bioguide_id" => bioguide_id
+        if office.nil?
+          puts "Couldn't locate legislator by bioguide_id #{bioguide_id} in row #{i}, skipping"
+          next
+        else
+          # while I'm here, store any known original office name
+          office.original_names << office_name_original unless office_name_original.blank?
+        end
+      else
+        office = Office.first :original_names => office_name_original
+        if office.nil?
+          puts "Couldn't locate office by name #{office_name_original} in row #{i}, skipping"
+          next
+        end
       end
       
       staffer[:quarters][quarter] ||= []
+      staffer[:quarters][quarter] << {
+        :title => title.name,
+        :title_original => title_original,
+        :office => office.attributes
+      }
       
-      match = staffer[:quarters][quarter].detect do |position|
-        (position['title'] == title) and (position['office']['name'] == office.name)
-      end
-      
-      unless match
-        staffer[:quarters][quarter] << {
-          :title => title,
-          :title_original => title_original,
-          :office => office.attributes
-        }
-      end
+      # puts "Added #{quarter} position #{title.name} to #{staffer.name}"
       
       staffer.save!
     end
@@ -149,12 +153,15 @@ namespace :load do
       Staffer.ensure_index "quarters.#{quarter}.title"
     end
     
-    puts "\nLoaded in #{Staffer.count} staffers in #{Office.count} offices."
-    
-    puts "\nLoaded in #{Title.count} titles."
-    
+    puts "\nLoaded in #{i} staffer positions."
     puts "\nFinished in #{Time.now - start} seconds."
   end
+  
+  
+  desc "Run all loading tasks in sequence"
+  task :all => [:loading_environment, "load:titles", "load:offices", "load:staffers", "load:positions"] do
+  end
+  
 end
 
 # format name from Sunlight API
@@ -246,6 +253,7 @@ def office_from_legislator(legislator)
 
   office = Office.new :name => titled_name(legislator)
   office.attributes = {
+    :original_names => [],
     :type => "member",
     :phone => phone,
     :room => room,

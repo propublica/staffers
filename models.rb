@@ -12,6 +12,10 @@ class Staffer
   key :lastname, String
   
   ensure_index [[:lastname_search, 1], [:firstname_search, 1]]
+  
+  def name
+    [firstname, lastname].join " "
+  end
 end
 
 class Office

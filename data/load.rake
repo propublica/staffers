@@ -1,60 +1,84 @@
-namespace :staffers do
-  desc "Loads database (from scratch) from staffers.csv and titles.csv"
-  task :load => :environment do
+task :loading_environment => :environment do
+  require 'csv'
+  require 'sunlight'
+    
+  Sunlight::Base.api_key = config[:sunlight_api_key]
+end
+
+namespace :load do
+
+  desc "Loads titles from titles.csv"
+  task :titles => :loading_environment do
     start = Time.now
     
-    require 'csv'
-    require 'sunlight'
-    
-    Sunlight::Base.api_key = config[:sunlight_api_key]
-    
-    
-    # clear out database
-    Office.delete_all
-    Staffer.delete_all
-    Quarter.delete_all
     Title.delete_all
     
-    
-    # load titles into a hash
-    titles = {}
-    i = 0
     CSV.foreach("data/csv/titles.csv") do |row|
-      i += 1
       next if row[0] == "TITLE (ORIGINAL)" # header row
       
       title_from_row row
     end
     
+    puts "Loaded #{Title.count} titles."
+    puts "\nFinished in #{Time.now - start} seconds."
+  end
+  
+  
+  desc "Loads offices from offices.csv"
+  task :offices => :loading_environment do
+    start = Time.now
     
-    # Create offices, first committees and others from CSV
+    Office.delete_all
+    
     CSV.foreach("data/csv/offices.csv") do |row|
-      i += 1
       next if row[0] == "OFFICE NAME (ORIGINAL)" # header row
       
       office_from_row row
     end
     
-   
-    # then from all known legislators
     Sunlight::Legislator.all_where(:all_legislators => true).each do |legislator|
       office_from_legislator legislator
     end
+    
+    puts "Loaded #{Office.count} offices."
+    puts "\t#{Office.count :type => "member"} members"
+    puts "\t#{Office.count :type => "committee"} committees"
+    puts "\t#{Office.count :type => "other"} other offices"
+    puts "\nFinished in #{Time.now - start} seconds."
+  end
+  
+  
+  desc "Loads staffers from staffers.csv"
+  task :staffers => :loading_environment do
+    start = Time.now
+    
+    Staffer.delete_all
+    
+    i = 0
+    CSV.foreach("data/csv/staffers.csv") do |row|
+      i += 1
+      next if row[0] == "STAFFER NAME (ORIGINAL)" # header row
+      
+      staffer_from_row row, i
+    end
+    
+    puts "\nFinished in #{Time.now - start} seconds."
+  end
+  
+
+  desc "Loads database (from scratch) from staffers.csv and titles.csv"
+  task :all => :loading_environment do
+    start = Time.now
+    
+    # clear out database
+    
+    Quarter.delete_all
     
     return
     
     quarters = []
     
-    i = 0
-    CSV.foreach("data/csv/staffers.csv") do |row|
-      i += 1
-      next if row[0] == "BIOGUIDE_ID" # header row
-      
-      # office information
-      bioguide_id = row[0]
-      committee_id = row[2]
-      office_name = row[3]
-      office_name_original = row[4]
+    if true
       phone = row[5]
       building = row[6]
       room = row[7]
@@ -68,16 +92,6 @@ namespace :staffers do
       
       office = nil
       
-      if bioguide_id.present?
-        office = Office.first "legislator.bioguide_id" => bioguide_id
-        
-        if office.nil?
-          # fetch legislator from Sunlight API, falling back to out of office if first call fails
-          
-        end
-      end
-      
-      
       # Staffer information
       name_original = row[13]
       title_original = row[11]
@@ -89,18 +103,7 @@ namespace :staffers do
       
       title_original = title_original.strip
       
-      # standardize fields
-      lastname, firstname = name_original.split /,\s?/
-      lastname_search = nil
-      firstname_search = nil
-      if lastname
-        lastname = lastname.split(/\s+/).map {|n| n.capitalize}.join " "
-        lastname_search = lastname.downcase
-      end
-      if firstname
-        firstname = firstname.split(/\s+/).map {|n| n.capitalize}.join " "
-        firstname_search = firstname.downcase
-      end
+      
       
       title = titles[title_original] || title_original
       
@@ -112,13 +115,7 @@ namespace :staffers do
       staffer = Staffer.first :name_original => name_original
       if staffer.nil?
         staffer = Staffer.new :name_original => name_original
-        staffer.attributes = {
-          :firstname => firstname,
-          :lastname => lastname,
-          :firstname_search => firstname_search,
-          :lastname_search => lastname_search,
-          :quarters => {}
-        }
+        
       end
       
       staffer[:quarters][quarter] ||= []
@@ -153,9 +150,7 @@ namespace :staffers do
     end
     
     puts "\nLoaded in #{Staffer.count} staffers in #{Office.count} offices."
-    puts "\t#{Office.count :type => "member"} members"
-    puts "\t#{Office.count :type => "committee"} committees"
-    puts "\t#{Office.count :type => "other"} other offices"
+    
     puts "\nLoaded in #{Title.count} titles."
     
     puts "\nFinished in #{Time.now - start} seconds."
@@ -218,7 +213,7 @@ def office_from_row(row)
         next
       end
       
-      puts "New committee office: #{office.name} with original name #{office_name_original}"
+      # puts "New committee office: #{office.name} with original name #{office_name_original}"
     end
     
     office.save!
@@ -227,7 +222,7 @@ def office_from_row(row)
         
     if office
       office.original_names << office_name_original
-      puts "Updated other office: #{office.name} with new original name #{office_name_original}"
+      # puts "Updated other office: #{office.name} with new original name #{office_name_original}"
     else
       office = Office.new :name => office_name
       office.attributes = {
@@ -238,7 +233,7 @@ def office_from_row(row)
         :building => building
       }
       
-      puts "New other office: #{office.name} with original name #{office_name_original}"
+      # puts "New other office: #{office.name} with original name #{office_name_original}"
     end
     
     office.save!
@@ -273,7 +268,7 @@ def office_from_legislator(legislator)
     }
   }
   
-  puts "New member office: #{office.name}"
+  # puts "New member office: #{office.name}"
   office.save!
 end
 
@@ -287,9 +282,10 @@ def title_from_row(row)
   end
   
   title = Title.first :name => title_name
+  
   if title
     title.original_names << title_name_original
-    puts "Updated title: #{title_name} with original title #{title_name_original}"
+    # puts "Updated title: #{title_name} with original title #{title_name_original}"
   else
     title = Title.new :name => title_name
     title.original_names = [title_name_original]
@@ -297,4 +293,58 @@ def title_from_row(row)
   end
   
   title.save!
+end
+
+def staffer_from_row(row, i)
+  staffer_name_original = row[0]
+  staffer_name = row[1]
+  
+  if staffer_name_original.blank?
+    puts "WARNING: no staffer original name provided for row #{i} (not inc. header row), skipping"
+    return
+  else
+    staffer_name_original = staffer_name_original.strip
+  end
+  
+  
+  if staffer_name.blank?
+    staffer_name = staffer_name_original
+  else
+    staffer_name = staffer_name.strip
+  end
+  
+  staffer = Staffer.first :name => staffer_name
+  
+  if staffer
+    staffer.original_names << staffer_name_original
+    # puts "[#{i}] Updated staffer: #{staffer_name} with original name #{staffer_name_original}"
+  else
+    staffer = Staffer.new :name => staffer_name
+    
+    # standardize fields
+    lastname, firstname = staffer_name_original.split /,\s?/
+    lastname_search = nil
+    firstname_search = nil
+    if lastname
+      lastname = lastname.split(/\s+/).map {|n| n.capitalize}.join " "
+      lastname_search = lastname.downcase
+    end
+    if firstname
+      firstname = firstname.split(/\s+/).map {|n| n.capitalize}.join " "
+      firstname_search = firstname.downcase
+    end
+  
+    staffer.attributes = {
+      :original_names => [staffer_name_original],
+      :firstname => firstname,
+      :lastname => lastname,
+      :firstname_search => firstname_search,
+      :lastname_search => lastname_search,
+      :quarters => {}
+    }
+      
+    # puts "[#{i}] New staffer: #{staffer_name} with original name #{staffer_name_original}"
+  end
+  
+  staffer.save!
 end

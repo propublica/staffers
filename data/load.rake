@@ -54,7 +54,7 @@ namespace :load do
     
     Staffer.delete_all
     
-    i = 0
+    i = 1
     CSV.foreach("data/csv/staffers.csv") do |row|
       i += 1
       next if row[0] == "STAFFER NAME (ORIGINAL)" # header row
@@ -77,7 +77,7 @@ namespace :load do
     
     quarters = []
     
-    i = 0
+    i = 1
     CSV.foreach("data/csv/positions.csv") do |row|
       i += 1
       next if row[0] == "STAFFER NAME (ORIGINAL)" # header row

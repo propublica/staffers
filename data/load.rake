@@ -353,6 +353,7 @@ def staffer_from_row(row, i)
     end
   
     staffer.attributes = {
+      :name => [firstname, lastname].join(" "),
       :original_names => [staffer_name_original],
       :firstname => firstname,
       :lastname => lastname,

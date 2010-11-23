@@ -1,4 +1,7 @@
 ENV['RACK_ENV'] = "development"
-require 'staffers'
 
+require 'rubygems'
+require 'bundler/setup'
+
+require 'staffers'
 run Sinatra::Application

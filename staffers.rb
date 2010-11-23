@@ -1,13 +1,10 @@
 #!/usr/bin/env ruby
 
-require 'rubygems'
-require 'sinatra'
 require './config/environment'
 
 require './models'
 require './helpers'
 
-enable :run
 set :views, './views'
 set :public, './public'
 
@@ -62,24 +59,24 @@ get '/staffers' do
   if search.keys.empty?
     staffers = nil
   else
-    staffers = Staffer.all search.merge(:order => "lastname_search ASC, firstname_search ASC")
+    staffers = Staffer.where(search.merge(:order => "lastname_search ASC, firstname_search ASC")).all
   end
   
   erb :search, :locals => {:staffers => staffers, :quarter => params[:quarter]}
 end
 
 get '/staffer/:id' do
-  staffer = Staffer.first :_id => BSON::ObjectId(params[:id])
+  staffer = Staffer.where(:_id => BSON::ObjectId(params[:id])).first
   
   erb :staffer, :locals => {:staffer => staffer}
 end
 
 get '/office/:id' do
-  office = Office.first :_id => BSON::ObjectId(params[:id])
+  office = Office.where(:_id => BSON::ObjectId(params[:id])).first
   
   quarters = {}
   Quarter.all.each do |quarter|
-    quarters[quarter.name] = Staffer.all "quarters.#{quarter.name}.office._id" => office._id, :order => "lastname_search ASC, firstname_search ASC"
+    quarters[quarter.name] = Staffer.where("quarters.#{quarter.name}.office._id" => office._id).order_by([[:lastname_search, :asc], [:firstname_search, :asc]]).all
   end
   
   erb :office, :locals => {:office => office, :quarters => quarters}
@@ -89,11 +86,11 @@ get '/offices' do
   offices = nil
   
   if params[:type] == 'member'
-    offices = Office.all :type => 'member', :order => "legislator.lastname ASC, legislator.firstname ASC"
+    offices = Office.where(:office_type => 'member').order_by([["legislator.lastname", :asc], ["legislator.firstname", :asc]]).all
   elsif params[:type] == 'committee'
-    offices = Office.all :type => 'committee', :order => "name ASC"
+    offices = Office.where(:office_type => 'committee').order_by([[:name, :asc]]).all
   elsif params[:type] == 'other'
-    offices = Office.all :type => 'other', :order => "name ASC"
+    offices = Office.where(:office_type => 'other').order_by([[:name, :asc]]).all
   end
   
   erb :offices, :locals => {:offices => offices, :type => params[:type]}

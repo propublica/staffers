@@ -1,6 +1,8 @@
 desc 'Loads environment'
 task :environment do
-  require './staffers'
+  require 'rubygems'
+  require 'bundler/setup'
+  require 'config/environment'
 end
 
 load 'data/load.rake'

@@ -41,9 +41,9 @@ namespace :load do
     end
     
     puts "Loaded #{Office.count} offices."
-    puts "\t#{Office.count :type => "member"} members"
-    puts "\t#{Office.count :type => "committee"} committees"
-    puts "\t#{Office.count :type => "other"} other offices"
+    puts "\t#{Office.where(:office_type => "member").count} members"
+    puts "\t#{Office.where(:office_type => "committee").count} committees"
+    puts "\t#{Office.where(:office_type => "other").count} other offices"
     puts "\nFinished in #{Time.now - start} seconds."
   end
   
@@ -98,20 +98,20 @@ namespace :load do
       quarters << quarter unless quarters.include? quarter
       
       
-      staffer = Staffer.first :original_names => staffer_name_original
+      staffer = Staffer.where(:original_names => staffer_name_original).first
       if staffer.nil?
         puts "Couldn't locate staffer by name #{staffer_name_original} in row #{i}, skipping"
         next
       end
       
-      title = Title.first :original_names => title_original
+      title = Title.where(:original_names => title_original).first
       if title.nil?
         puts "Couldn't locate title by name #{title_original} in row #{i}, skipping"
         next
       end
       
       if bioguide_id.present?
-        office = Office.first "legislator.bioguide_id" => bioguide_id
+        office = Office.where("legislator.bioguide_id" => bioguide_id).first
         if office.nil?
           puts "Couldn't locate legislator by bioguide_id #{bioguide_id} in row #{i}, skipping"
           next
@@ -120,7 +120,7 @@ namespace :load do
           office.original_names << office_name_original unless office_name_original.blank?
         end
       else
-        office = Office.first :original_names => office_name_original
+        office = Office.where(:original_names => office_name_original).first
         if office.nil?
           puts "Couldn't locate office by name #{office_name_original} in row #{i}, skipping"
           next
@@ -193,7 +193,7 @@ def office_from_row(row)
   end
   
   if committee_id.present?
-    office = Office.first "committee.id" => committee_id
+    office = Office.where("committee.id" => committee_id).first
     
     # there may be multiple spellings of a given committee that cause it to show up in duplicate rows in committees.csv
     if office
@@ -206,7 +206,7 @@ def office_from_row(row)
         office = Office.new :name => committee.name
         office.attributes = {
           :original_names => [office_name_original],
-          :type => "committee",
+          :office_type => "committee",
           :phone => phone,
           :room => room,
           :building => building,
@@ -226,7 +226,7 @@ def office_from_row(row)
     
     office.save!
   else
-    office = Office.first :name => office_name
+    office = Office.where(:name => office_name).first
         
     if office
       office.original_names << office_name_original
@@ -235,7 +235,7 @@ def office_from_row(row)
       office = Office.new :name => office_name
       office.attributes = {
         :original_names => [office_name_original],
-        :type => "other",
+        :office_type => "other",
         :phone => phone,
         :room => room,
         :building => building
@@ -255,7 +255,7 @@ def office_from_legislator(legislator)
   office = Office.new :name => titled_name(legislator)
   office.attributes = {
     :original_names => [],
-    :type => "member",
+    :office_type => "member",
     :phone => phone,
     :room => room,
     :building => building,
@@ -290,7 +290,7 @@ def title_from_row(row)
     title_name = title_name.strip
   end
   
-  title = Title.first :name => title_name
+  title = Title.where(:name => title_name).first
   
   if title
     title.original_names << title_name_original
@@ -322,7 +322,7 @@ def staffer_from_row(row, i)
     staffer_name = staffer_name.strip
   end
   
-  staffer = Staffer.first :name => staffer_name
+  staffer = Staffer.where(:name => staffer_name).first
   
   if staffer
     staffer.original_names << staffer_name_original

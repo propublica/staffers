@@ -1,16 +1,10 @@
-require 'rubygems'
 require 'sinatra'
-require 'sunlight'
-
-require 'active_support' 
-require 'mongo'
-require 'mongo_mapper'
+require 'mongoid'
 
 def config
-  @config ||= YAML.load_file 'config/config.yml'
+  @config ||= YAML.load_file File.join(File.dirname(__FILE__), "config.yml")
 end
 
 configure do
-  MongoMapper.connection = Mongo::Connection.new config[:database][:hostname]
-  MongoMapper.database = config[:database][:database]
+  Mongoid.configure {|c| c.from_hash config[:mongoid]}
 end

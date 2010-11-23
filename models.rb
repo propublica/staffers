@@ -1,17 +1,17 @@
 class Staffer
-  include MongoMapper::Document
+  include Mongoid::Document
+  include Mongoid::Timestamps
   
-  # original unstandardized names, used as a locator
-  key :original_names, Array, :index => true
+  field :original_names, :type => Array
+  field :firstname_search, :type => String
+  field :lastname_search, :type => String
+  field :firstname, :type => String
+  field :lastname, :type => String
   
-  # basic info
-  key :firstname_search, String, :index => true
-  key :lastname_search, String, :index => true
-  
-  key :firstname, String
-  key :lastname, String
-  
-  ensure_index [[:lastname_search, 1], [:firstname_search, 1]]
+  index :original_names
+  index :firstname_search
+  index :lastname_search
+  index [[:lastname_search, Mongo::ASCENDING], [:firstname_search, Mongo::ASCENDING]]
   
   def name
     [firstname, lastname].join " "
@@ -19,28 +19,38 @@ class Staffer
 end
 
 class Office
-  include MongoMapper::Document
+  include Mongoid::Document
+  include Mongoid::Timestamps
   
-  # original unstandardized names, used as a locator
-  key :original_names, Array, :index => true
+  field :original_names, :type => Array
+  field :bioguide_id, :type => String
+  field :committee_id, :type => String
+  field :name, :type => String
+  field :office_type, :type => String
   
-  key :bioguide_id, String, :index => true
-  key :committee_id, String, :index => true
-  key :name, String, :index => true
-  key :type, String, :index => true
+  index :original_names
+  index :bioguide_id
+  index :committee_id
+  index :name
+  index :type
 end
 
 class Title
-  include MongoMapper::Document
+  include Mongoid::Document
+  include Mongoid::Timestamps
   
-  # original unstandardized names, used as a locator
-  key :original_names, Array, :index => true
+  field :original_names, :type => Array
+  index :original_names
   
-  key :name, String, :index => true
+  field :name, :type => String
+  index :name
 end
 
 class Quarter
-  include MongoMapper::Document
+  include Mongoid::Document
+  include Mongoid::Timestamps
   
-  key :name, String, :index => true
+  field :name, :type => String
+  
+  index :name
 end

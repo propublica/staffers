@@ -1,5 +1,7 @@
-:database:
-  :host: localhost
-  :database: staffers
-  
 :sunlight_api_key: # fill in
+
+:mongoid:
+  host: localhost
+  database: staffers
+  raise_not_found_error: false
+  logger: # leaving blank suppresses logging, to enable delete this line

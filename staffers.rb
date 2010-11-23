@@ -2,7 +2,6 @@
 
 require './config/environment'
 
-require './models'
 require './helpers'
 
 set :views, './views'

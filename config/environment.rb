@@ -8,3 +8,5 @@ end
 configure do
   Mongoid.configure {|c| c.from_hash config[:mongoid]}
 end
+
+require 'models'

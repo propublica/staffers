@@ -1,11 +1,18 @@
 #!/usr/bin/env ruby
 
-require './config/environment'
+require 'config/environment'
+require 'helpers'
 
-require './helpers'
+# reload in development without starting server
+configure(:development) do |config|
+  require 'sinatra/reloader'
+  config.also_reload "config/environment.rb"
+  config.also_reload "helpers.rb"
+  config.also_reload "models.rb"
+end
 
-set :views, './views'
-set :public, './public'
+set :public, 'public'
+set :views, 'views'
 
 get '/' do
   erb :index
@@ -58,7 +65,7 @@ get '/staffers' do
   if search.keys.empty?
     staffers = nil
   else
-    staffers = Staffer.where(search.merge(:order => "lastname_search ASC, firstname_search ASC")).all
+    staffers = Staffer.where(search).order_by([[:lastname_search, :asc], [:firstname_search, :asc]]).all
   end
   
   erb :search, :locals => {:staffers => staffers, :quarter => params[:quarter]}

@@ -19,6 +19,8 @@ namespace :load do
       title_from_row row
     end
     
+    Title.create_indexes
+    
     puts "Loaded #{Title.count} titles."
     puts "\nFinished in #{Time.now - start} seconds."
   end
@@ -39,6 +41,8 @@ namespace :load do
     Sunlight::Legislator.all_where(:all_legislators => true).each do |legislator|
       office_from_legislator legislator
     end
+    
+    Office.create_indexes
     
     puts "Loaded #{Office.count} offices."
     puts "\t#{Office.where(:office_type => "member").count} members"
@@ -61,6 +65,8 @@ namespace :load do
       
       staffer_from_row row, i
     end
+    
+    Staffer.create_indexes
     
     puts "Loaded #{Staffer.count} staffers."
     puts "\nFinished in #{Time.now - start} seconds."
@@ -146,13 +152,16 @@ namespace :load do
     
     # create indexes based on these quarters
     quarters.each do |quarter|
-      Staffer.ensure_index "quarters.#{quarter}.office.legislator.firstname_search"
-      Staffer.ensure_index "quarters.#{quarter}.office.legislator.lastname_search"
-      Staffer.ensure_index "quarters.#{quarter}.office.legislator.state"
-      Staffer.ensure_index "quarters.#{quarter}.office.legislator.party"
-      Staffer.ensure_index "quarters.#{quarter}.office._id"
-      Staffer.ensure_index "quarters.#{quarter}.title"
+      Staffer.index "quarters.#{quarter}.office.legislator.firstname_search"
+      Staffer.index "quarters.#{quarter}.office.legislator.lastname_search"
+      Staffer.index "quarters.#{quarter}.office.legislator.state"
+      Staffer.index "quarters.#{quarter}.office.legislator.party"
+      Staffer.index "quarters.#{quarter}.office._id"
+      Staffer.index "quarters.#{quarter}.title"
     end
+    
+    Quarter.create_indexes
+    Staffer.create_indexes
     
     puts "\nLoaded in #{i} staffer positions."
     puts "\nFinished in #{Time.now - start} seconds."

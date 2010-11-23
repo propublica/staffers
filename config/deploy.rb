@@ -29,6 +29,12 @@ after "deploy", "deploy:cleanup"
 after "deploy:update_code", "deploy:shared_links"
 after "deploy:update_code", "deploy:bundle_install"
 
+namespace :staffers do
+  desc "Load/reload all data from CSVs - wipes database"
+  task :reload do
+    run "cd #{current_path} && rake load:all"
+  end
+end
 
 namespace :deploy do
   task :start do
@@ -55,7 +61,7 @@ namespace :deploy do
   task :shared_links, :roles => [:web, :app] do
     run "ln -nfs #{shared_path}/config.yml #{release_path}/config/config.yml"
     run "ln -nfs #{shared_path}/config.ru #{release_path}/config.ru"
-    run "ln -nfs #{shared_path}/data #{release_path}/data"
+    run "ln -nfs #{shared_path}/csv #{release_path}/data/csv"
     run "rm -rf #{File.join release_path, 'tmp'}"
     run "rm #{File.join release_path, 'public', 'system'}"
     run "rm #{File.join release_path, 'log'}"

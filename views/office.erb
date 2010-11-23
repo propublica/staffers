@@ -42,10 +42,10 @@
         <% positions.each do |position| %>
           <tr class="<%= "line" if positions.last.object_id == position.object_id %>">
             <td>
-                <% if positions.first.object_id == position.object_id %>
-                  <a href="/staffer/<%= staffer._id %>"><%= list_name staffer %></a>
-                <% end %>
-              </td>
+              <% if positions.first.object_id == position.object_id %>
+                <a href="<%= staffer_path staffer %>"><%= list_name staffer %></a>
+              <% end %>
+            </td>
             <td>
               <%= capitalize position['title'] %>
             </td>

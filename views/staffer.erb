@@ -12,7 +12,7 @@
           <%= capitalize position['title'] %>
         </td>
         <td>
-          <a href="/office/<%= position['office']['_id'] %>">
+          <a href="<%= office_path position['office'] %>">
             <%= position['office']['name'] %>
           </a>
         </td>

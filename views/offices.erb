@@ -7,7 +7,7 @@
     <% offices.each do |office| %>
         <tr class="line">
           <td>
-            <a href="/office/<%= office._id %>">
+            <a href="<%= office_path office %>">
               <%= office['name'] %>
             </a>
           </td>

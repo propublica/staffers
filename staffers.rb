@@ -71,15 +71,26 @@ get '/staffers' do
   erb :search, :locals => {:staffers => staffers, :quarter => params[:quarter]}
 end
 
-get '/staffer/:id' do
-  staffer = Staffer.where(:_id => BSON::ObjectId(params[:id])).first
+get '/staffer/:slug' do
+  staffer = Staffer.where(:slug => params[:slug]).first
   
   erb :staffer, :locals => {:staffer => staffer}
 end
 
-get '/office/:id' do
-  office = Office.where(:_id => BSON::ObjectId(params[:id])).first
-  
+# office URLs
+get '/office/:slug' do
+  office_for Office.where(:slug => params[:slug]).first
+end
+
+get '/legislator/:bioguide_id' do
+  office_for Office.where("legislator.bioguide_id" => params[:bioguide_id]).first
+end
+
+get '/committee/:committee_id' do
+  office_for Office.where("committee.id" => params[:committee_id]).first
+end
+
+def office_for(office)
   quarters = {}
   Quarter.all.each do |quarter|
     quarters[quarter.name] = Staffer.where("quarters.#{quarter.name}.office._id" => office._id).order_by([[:lastname_search, :asc], [:firstname_search, :asc]]).all
@@ -88,16 +99,19 @@ get '/office/:id' do
   erb :office, :locals => {:office => office, :quarters => quarters}
 end
 
+
+get '/legislators' do
+  offices_for Office.where(:office_type => 'member').order_by([["legislator.lastname", :asc], ["legislator.firstname", :asc]]).all
+end
+
+get '/committees' do
+  offices_for Office.where(:office_type => 'committee').order_by([[:name, :asc]]).all
+end
+
 get '/offices' do
-  offices = nil
-  
-  if params[:type] == 'member'
-    offices = Office.where(:office_type => 'member').order_by([["legislator.lastname", :asc], ["legislator.firstname", :asc]]).all
-  elsif params[:type] == 'committee'
-    offices = Office.where(:office_type => 'committee').order_by([[:name, :asc]]).all
-  elsif params[:type] == 'other'
-    offices = Office.where(:office_type => 'other').order_by([[:name, :asc]]).all
-  end
-  
+  offices_for Office.where(:office_type => 'other').order_by([[:name, :asc]]).all
+end
+
+def offices_for(offices)
   erb :offices, :locals => {:offices => offices, :type => params[:type]}
 end

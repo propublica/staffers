@@ -1,5 +1,19 @@
 helpers do
   
+  def office_path(office)
+    if office['office_type'] == "member"
+      "/legislator/#{office['legislator']['bioguide_id']}"
+    elsif office['office_type'] == "committee"
+      "/committee/#{office['committee']['id']}"
+    else
+      "/office/#{office['slug']}"
+    end
+  end
+  
+  def staffer_path(staffer)
+    "/staffer/#{staffer['slug']}"
+  end
+  
   def capitalize(words)
     first_pass = words.split(' ').map {|word| word.capitalize}.join ' '
     first_pass.gsub(/\/(\w)/) {" / #{$1.upcase}"}

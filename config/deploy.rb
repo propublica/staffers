@@ -2,16 +2,20 @@ set :environment, (ENV['target'] || 'staging')
 
 set :user, 'staffers'
 set :application, user
-set :deploy_to, "/projects/#{user}/"
-set :local_bin, "/projects/#{user}/.gem/ruby/1.8/bin/"
 
 set :sock, "#{user}.sock"
 
-# if environment == 'production' # production api box
-#   set :domain, 'staffers.sunlightfoundation.com'
-# else # environment == 'staging'
+if environment == 'production' # production api box
+  set :deploy_to, "/home/#{user}/"
+  set :local_bin, "/home/#{user}/.gem/ruby/1.8/bin/"
+
+  set :domain, 'rubyhaus.sunlightlabs.org'
+else # environment == 'staging'
+  set :deploy_to, "/projects/#{user}/"
+  set :local_bin, "/projects/#{user}/.gem/ruby/1.8/bin/"
+
   set :domain, 'staffers.sunlightlabs.com'
-# end
+end
 
 set :scm, :git
 set :repository, "git@github.com:sunlightlabs/staffers.git"

@@ -79,6 +79,7 @@ input.search {padding: 3px 15px; font-size: 16pt; margin-top: 8px;}
 div.offices {margin: 10px; margin-top: 40px;}
 div.offices li {margin: 10px 0;}
 
+table.quarter tr.out {background-color: #eee;}
 
 /* Legislator info piece */
 
@@ -95,4 +96,10 @@ div.office_header.member div.details {
 div.office_header div.details span {
   margin: 5px 0;
   display: block;
+}
+
+div.office_header div.empty {
+  margin: 10px 0;
+  font-size: 12pt;
+  font-weight: bold;
 }

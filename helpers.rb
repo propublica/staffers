@@ -1,5 +1,9 @@
 helpers do
   
+  def out?(office)
+    office.office_type == 'member' and office['legislator']['in_office'] == false
+  end
+  
   def office_path(office)
     if office['office_type'] == "member"
       "/legislator/#{office['legislator']['bioguide_id']}"

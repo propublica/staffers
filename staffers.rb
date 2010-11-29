@@ -109,7 +109,7 @@ get '/legislators' do
     end
   end
   
-  offices_for 'legislators', Office.where(conditions).order_by([["legislator.lastname", :asc], ["legislator.firstname", :asc]]).all
+  offices_for 'legislators', Office.where(conditions).order_by([["legislator.in_office", :desc], ["legislator.lastname", :asc], ["legislator.firstname", :asc]]).all
 end
 
 get '/committees' do

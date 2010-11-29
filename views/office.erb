@@ -23,6 +23,10 @@
     <span class="phone"><%= office['phone'] %></span>
     <span class="room"><%= room_for office['building'], office['room'] %></span>
   </div>
+  
+  <div class="empty">
+    This member is no longer in office.
+  </div>
 <% else %>
   <div class="details">
     <h2 class="office"><%= office.name %></h2>

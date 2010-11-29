@@ -20,20 +20,20 @@
 
   <table class="quarter">
     <% offices.each do |office| %>
-        <tr class="line">
-          <td>
-            <a href="<%= office_path office %>">
-              <%= office['name'] %>
-            </a>
-          </td>
-          <td>
-            <%= office['phone'] %>
-          </td>
-          <td>
-            <%= room_for office['building'], office['room'] %>
-          </td>
-        </tr>
-      <% end %>
+      <tr class="line <%= out?(office) ? "out" : "" %>">
+        <td>
+          <a href="<%= office_path office %>">
+            <%= office['name'] %>
+          </a>
+        </td>
+        <td>
+          <%= office['phone'] %>
+        </td>
+        <td>
+          <%= room_for office['building'], office['room'] %>
+        </td>
+      </tr>
+    <% end %>
   </table>
 
 <% else %>

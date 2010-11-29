@@ -11,6 +11,7 @@ GEM
     bson_ext (1.1.2)
     builder (2.1.2)
     daemons (1.0.10)
+    fastercsv (1.5.3)
     gem_plugin (0.2.3)
     i18n (0.4.2)
     json (1.4.6)
@@ -54,6 +55,7 @@ PLATFORMS
 
 DEPENDENCIES
   bson_ext (= 1.1.2)
+  fastercsv (= 1.5.3)
   mongo (= 1.1.2)
   mongoid (= 2.0.0.beta.20)
   mongoid_slug (= 0.4.7)

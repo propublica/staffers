@@ -8,7 +8,7 @@ dl li{list-style: none;}
 
 a:link { outline: none; text-decoration: none;}
 a:visited { outline: none; text-decoration: none;}
-a:hover { outline: none; text-decoration: none;}
+a:hover { outline: none; text-decoration: underline;}
 a:active { outline: none; text-decoration: none;}
 
 /* End YUI Reset */
@@ -24,6 +24,7 @@ div.header {
 
 div.header h1 {font-size: 32pt;} 
 div.header h1 a, div.header h1 a:visited {color: #114488;}
+div.header h1 a:hover {text-decoration: none;}
 
 div.main {
   margin-top: 20px;

@@ -101,7 +101,15 @@ end
 
 
 get '/legislators' do
-  offices_for Office.where(:office_type => 'member').order_by([["legislator.lastname", :asc], ["legislator.firstname", :asc]]).all
+  conditions = {:office_type => 'member'}
+  
+  [:state, :district, :title].each do |key|
+    if params[key]
+      conditions["legislator.#{key}"] = params[key]
+    end
+  end
+  
+  offices_for Office.where(conditions).order_by([["legislator.lastname", :asc], ["legislator.firstname", :asc]]).all
 end
 
 get '/committees' do

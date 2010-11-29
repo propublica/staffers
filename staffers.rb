@@ -1,14 +1,16 @@
 #!/usr/bin/env ruby
 
 require 'config/environment'
+require './csv'
 require 'helpers'
 
 # reload in development without starting server
 configure(:development) do |config|
   require 'sinatra/reloader'
   config.also_reload "config/environment.rb"
-  config.also_reload "helpers.rb"
   config.also_reload "models.rb"
+  config.also_reload "helpers.rb"
+  config.also_reload "./csv.rb"
 end
 
 set :public, 'public'
@@ -16,6 +18,10 @@ set :views, 'views'
 
 get '/' do
   erb :index
+end
+
+get '/faq' do
+  erb :faq
 end
 
 get '/staffers' do
@@ -100,7 +106,7 @@ def office_for(office)
 end
 
 
-get '/legislators' do
+get %r{^/legislators(.csv)?$} do
   conditions = {:office_type => 'member', "legislator.title" => {"$ne" => "Sen"}}
   
   [:state, :district, :title].each do |key|
@@ -112,19 +118,23 @@ get '/legislators' do
   offices_for 'legislators', Office.where(conditions).order_by([["legislator.in_office", :desc], ["legislator.lastname", :asc], ["legislator.firstname", :asc]]).all
 end
 
-get '/committees' do
+get %r{^/legislators(.csv)?$} do
   offices_for 'committees', Office.where(:office_type => 'committee').order_by([[:name, :asc]]).all
 end
 
-get '/offices' do
+get %r{^/legislators(.csv)?$} do
   offices_for 'offices', Office.where(:office_type => 'other').order_by([[:name, :asc]]).all
 end
 
+
 def offices_for(type, offices)
-  erb :offices, :locals => {:offices => offices, :type => type}
-end
-
-
-get '/faq' do
-  erb :faq
+  if csv?
+    if type == 'legislators'
+      legislators_to_csv offices
+    else
+      offices_to_csv offices
+    end
+  else
+    erb :offices, :locals => {:offices => offices, :type => type}
+  end
 end

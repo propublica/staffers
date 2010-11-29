@@ -39,6 +39,10 @@ class Office
   
   slug :name
   validates_uniqueness_of :slug
+  
+  scope :legislators, :where => {:office_type => "member"}
+  scope :committees, :where => {:office_type => "committee"}
+  scope :other, :where => {:office_type => "other"}
 end
 
 class Title

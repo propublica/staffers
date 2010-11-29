@@ -1,11 +1,11 @@
 require 'fastercsv'
 
-def csv_out
-  response['Content-Type'] = 'text/csv'
-end
-
 def csv?
   params[:captures] and (params[:captures][0] == '.csv')
+end
+
+def csv_out
+  response['Content-Type'] = 'text/csv'
 end
 
 
@@ -27,6 +27,24 @@ def legislators_to_csv(legislators)
         legislator.name, legislator.phone, legislator.building, legislator.room,
         leg['bioguide_id'], leg['title'], leg['firstname'], leg['lastname'], leg['name_suffix'],
         leg['party'], leg['state'], leg['district'], leg['in_office']
+      ]
+    end
+  end
+end
+
+def committees_to_csv(committees)
+  csv_out
+  
+  FasterCSV.generate do |csv|
+    csv << [
+      "Name", "Phone", "Building", "Room",
+      "Committee ID"
+    ]
+    
+    committees.each do |committee|
+      csv << [
+        committee.name, committee.phone, committee.building, committee.room,
+        committee['committee']['id']
       ]
     end
   end

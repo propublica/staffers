@@ -131,6 +131,8 @@ def offices_for(type, offices)
   if csv?
     if type == 'legislators'
       legislators_to_csv offices
+    elsif type == 'committees'
+      committees_to_csv offices
     else
       offices_to_csv offices
     end

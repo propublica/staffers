@@ -101,7 +101,7 @@ end
 
 
 get '/legislators' do
-  conditions = {:office_type => 'member'}
+  conditions = {:office_type => 'member', "legislator.title" => {"$ne" => "Sen"}}
   
   [:state, :district, :title].each do |key|
     if params[key]

@@ -30,8 +30,10 @@ class Office
   field :original_names, :type => Array
   field :name
   field :office_type
+  field :chamber
   
   index :original_names
+  index :chamber
   index :name
   index :type
   index :office_type
@@ -43,6 +45,9 @@ class Office
   scope :legislators, :where => {:office_type => "member"}
   scope :committees, :where => {:office_type => "committee"}
   scope :other, :where => {:office_type => "other"}
+  
+  scope :house, :where => {:chamber => 'house'}
+  scope :senate, :where => {:chamber => 'senate'}
 end
 
 class Title

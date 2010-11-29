@@ -219,6 +219,7 @@ def office_from_row(row)
           :phone => phone,
           :room => room,
           :building => building,
+          :chamber => 'house',
           :committee => {
             :id => committee_id,
             :name => committee.name,
@@ -247,7 +248,8 @@ def office_from_row(row)
         :office_type => "other",
         :phone => phone,
         :room => room,
-        :building => building
+        :building => building,
+        :chamber => 'house'
       }
       
       # puts "New other office: #{office.name} with original name #{office_name_original}"
@@ -259,7 +261,9 @@ end
 
 def office_from_legislator(legislator)
   phone = legislator.phone
+  
   room, building = split_office legislator.congress_office
+  chamber = legislator.title == 'Sen' ? 'senate' : 'house'
 
   office = Office.new :name => titled_name(legislator)
   office.attributes = {
@@ -268,6 +272,7 @@ def office_from_legislator(legislator)
     :phone => phone,
     :room => room,
     :building => building,
+    :chamber => chamber,
     :legislator => {
       :bioguide_id => legislator.bioguide_id,
       :firstname => legislator.firstname,
@@ -278,6 +283,7 @@ def office_from_legislator(legislator)
       :party => legislator.party,
       :name_suffix => legislator.name_suffix,
       :title => legislator.title,
+      :chamber => chamber,
       :congress_office => legislator.congress_office,
       :phone => legislator.phone,
       :state => legislator.state,

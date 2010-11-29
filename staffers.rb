@@ -107,7 +107,7 @@ end
 
 
 get %r{^/legislators(.csv)?$} do
-  conditions = {:office_type => 'member', "legislator.title" => {"$ne" => "Sen"}}
+  conditions = {:office_type => 'member', :chamber => 'house'}
   
   [:state, :district, :title].each do |key|
     if params[key]

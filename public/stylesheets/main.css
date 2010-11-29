@@ -53,6 +53,8 @@ h2.staffer, h2.office {
   color: #114488;
 }
 
+h3.quarter {margin-top: 20px;}
+
 h3.quarter, h3.results, div.offices h3, div.search h3 {
   font-size: 14pt;
   border-bottom: 1px solid #666666;
@@ -61,7 +63,7 @@ h3.quarter, h3.results, div.offices h3, div.search h3 {
   clear: both;
 }
 
-table.quarter {width: 100%}
+table.quarter {width: 100%;}
 table.quarter td {padding: 4px 10px;}
 table.quarter td a {text-decoration: underline}
 

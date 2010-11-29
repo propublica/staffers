@@ -85,21 +85,33 @@ end
 
 # office URLs
 get '/office/:slug' do
-  office_for Office.where(:slug => params[:slug]).first
+  office = Office.where(:slug => params[:slug]).first
+  
+  quarters = {}
+  Quarter.all.each do |quarter|
+    quarters[quarter.name] = Staffer.where("quarters.#{quarter.name}.office.slug" => params[:slug]).order_by([[:lastname_search, :asc], [:firstname_search, :asc]]).all
+  end
+  
+  erb :office, :locals => {:office => office, :quarters => quarters}
 end
 
 get '/legislator/:bioguide_id' do
-  office_for Office.where("legislator.bioguide_id" => params[:bioguide_id]).first
+  office = Office.where("legislator.bioguide_id" => params[:bioguide_id]).first
+  
+  quarters = {}
+  Quarter.all.each do |quarter|
+    quarters[quarter.name] = Staffer.where("quarters.#{quarter.name}.office.legislator.bioguide_id" => params[:bioguide_id]).order_by([[:lastname_search, :asc], [:firstname_search, :asc]]).all
+  end
+  
+  erb :office, :locals => {:office => office, :quarters => quarters}
 end
 
 get '/committee/:committee_id' do
-  office_for Office.where("committee.id" => params[:committee_id]).first
-end
-
-def office_for(office)
+  office = Office.where("committee.id" => params[:committee_id]).first
+  
   quarters = {}
   Quarter.all.each do |quarter|
-    quarters[quarter.name] = Staffer.where("quarters.#{quarter.name}.office._id" => office._id).order_by([[:lastname_search, :asc], [:firstname_search, :asc]]).all
+    quarters[quarter.name] = Staffer.where("quarters.#{quarter.name}.office.committee.id" => params[:committee_id]).order_by([[:lastname_search, :asc], [:firstname_search, :asc]]).all
   end
   
   erb :office, :locals => {:office => office, :quarters => quarters}

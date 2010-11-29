@@ -43,7 +43,7 @@ helpers do
   def state_select
     states_by_name = state_codes.invert
     "<select name=\"state\">\n" +
-      "\t<option value=\"\">----</option>" +
+      "\t<option value=\"\">(All states)</option>" +
       states_by_name.keys.sort.map do |name|
         "\t<option value=\"#{states_by_name[name]}\">#{name}</option>"
       end.join("\n") +
@@ -53,7 +53,7 @@ helpers do
   def party_select
     parties_by_name = party_names.invert
     "<select name=\"party\">\n" +
-      "\t<option value=\"\">----</option>" +
+      "\t<option value=\"\">(All parties)</option>" +
       parties_by_name.keys.sort.map do |name|
         "\t<option value=\"#{parties_by_name[name]}\">#{name}</option>"
       end.join("\n") +

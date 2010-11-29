@@ -32,8 +32,17 @@ helpers do
   end
   
   def format_quarter(quarter)
-    pieces = quarter.match /^(\d+)(Q\d)/
-    "#{pieces[1]} #{pieces[2]}"
+    pieces = quarter.match /^(\d+)Q(\d)/
+    year = pieces[1]
+    quarter = pieces[2]
+    ordinal = {
+      "1" => "st",
+      "2" => "nd",
+      "3" => "rd",
+      "4" => "th"
+    }[quarter]
+    
+    "#{year} #{quarter}#{ordinal} Quarter"
   end
   
   def room_for(building, room)

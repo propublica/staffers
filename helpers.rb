@@ -18,6 +18,10 @@ helpers do
     "/staffer/#{staffer['slug']}"
   end
   
+  def csv_path
+    "#{request.fullpath}#{request.fullpath['?'] ? "&" : "?"}format=csv"
+  end
+  
   def capitalize(words)
     first_pass = words.split(' ').map {|word| word.capitalize}.join ' '
     first_pass.gsub(/\/(\w)/) {" / #{$1.upcase}"}

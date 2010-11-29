@@ -88,6 +88,10 @@ div.offices li {margin: 10px 0;}
 
 table.quarter tr.out {background-color: #eee;}
 
+/* Download box */
+
+a.csv {float: right}
+
 /* Legislator info piece */
 
 div.office_header.member img {

@@ -1,7 +1,7 @@
 require 'fastercsv'
 
 def csv?
-  params[:captures] and (params[:captures][0] == '.csv')
+  (params[:format] == 'csv') or (params[:captures] and (params[:captures][0] == '.csv'))
 end
 
 def csv_out

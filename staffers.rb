@@ -83,6 +83,7 @@ get '/staffer/:slug' do
   erb :staffer, :locals => {:staffer => staffer}
 end
 
+
 # office URLs
 get '/office/:slug' do
   office = Office.where(:slug => params[:slug]).first
@@ -92,7 +93,7 @@ get '/office/:slug' do
     quarters[quarter.name] = Staffer.where("quarters.#{quarter.name}.office.slug" => params[:slug]).order_by([[:lastname_search, :asc], [:firstname_search, :asc]]).all
   end
   
-  erb :office, :locals => {:office => office, :quarters => quarters}
+  office_for office, quarters
 end
 
 get '/legislator/:bioguide_id' do
@@ -103,7 +104,7 @@ get '/legislator/:bioguide_id' do
     quarters[quarter.name] = Staffer.where("quarters.#{quarter.name}.office.legislator.bioguide_id" => params[:bioguide_id]).order_by([[:lastname_search, :asc], [:firstname_search, :asc]]).all
   end
   
-  erb :office, :locals => {:office => office, :quarters => quarters}
+  office_for office, quarters
 end
 
 get '/committee/:committee_id' do
@@ -114,8 +115,17 @@ get '/committee/:committee_id' do
     quarters[quarter.name] = Staffer.where("quarters.#{quarter.name}.office.committee.id" => params[:committee_id]).order_by([[:lastname_search, :asc], [:firstname_search, :asc]]).all
   end
   
-  erb :office, :locals => {:office => office, :quarters => quarters}
+  office_for office, quarters
 end
+
+def office_for(office, quarters)
+  if csv?
+    office_to_csv office, quarters
+  else
+    erb :office, :locals => {:office => office, :quarters => quarters}
+  end
+end
+
 
 
 get %r{^/legislators(.csv)?$} do

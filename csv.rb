@@ -4,15 +4,16 @@ def csv?
   (params[:format] == 'csv') or (params[:captures] and (params[:captures][0] == '.csv'))
 end
 
-def csv_out
+def csv_out(filename)
   response['Content-Type'] = 'text/csv'
+  response['Content-Disposition'] = "attachment;filename=#{filename}"
 end
 
 
 # Conversion methods
 
 def legislators_to_csv(legislators)
-  csv_out
+  csv_out 'legislators.csv'
   
   FasterCSV.generate do |csv|
     csv << [
@@ -33,7 +34,7 @@ def legislators_to_csv(legislators)
 end
 
 def committees_to_csv(committees)
-  csv_out
+  csv_out 'committees.csv'
   
   FasterCSV.generate do |csv|
     csv << [
@@ -51,7 +52,7 @@ def committees_to_csv(committees)
 end
 
 def offices_to_csv(offices)
-  csv_out
+  csv_out 'offices.csv'
   
   FasterCSV.generate do |csv|
     csv << [
@@ -64,12 +65,24 @@ def offices_to_csv(offices)
   end
 end
 
-def staffers_to_csv(staffers)
+def office_to_csv(office, quarters)
+  names = {'committee' => 'committee', 'member' => 'legislator', 'other' => 'office'}
+  csv_out "#{names[office.office_type]}.csv"
   
-end
-
-def staffer_to_csv(staffer)
-end
-
-def office_to_csv(office)
+  FasterCSV.generate do |csv|
+    csv << [
+      "Office", "Staffer", "Title", "Quarter"
+    ]
+    
+    quarters.keys.sort.reverse.each do |quarter|
+      staffers = quarters[quarter]
+      
+      staffers.each do |staffer|
+        positions = staffer.positions_for quarter, office
+        positions.each do |position|
+          csv << [office.name, staffer.name, position['title'], quarter]
+        end
+      end
+    end
+  end
 end

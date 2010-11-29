@@ -93,6 +93,7 @@ table.quarter tr.out {background-color: #eee;}
 /* Download box */
 
 a.csv {float: right}
+div.download {margin-top: 10px;}
 
 /* Legislator info piece */
 

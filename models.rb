@@ -20,6 +20,20 @@ class Staffer
   
   slug :name
   validates_uniqueness_of :slug
+  
+  def positions_for(quarter, office)
+    quarters[quarter].select do |position|
+      if office.member? and position['office']['legislator']
+        position['office']['legislator']['bioguide_id'] == office['legislator']['bioguide_id']
+      elsif office.committee? and position['office']['committee']
+        position['office']['committee']['id'] == office['committee']['id']
+      elsif office.other?
+        position['office']['slug'] == office['slug']
+      else
+        false
+      end
+    end
+  end
 end
 
 class Office
@@ -48,6 +62,22 @@ class Office
   
   scope :house, :where => {:chamber => 'house'}
   scope :senate, :where => {:chamber => 'senate'}
+  
+  def member?
+    office_type == 'member'
+  end
+  
+  def legislator?
+    member?
+  end
+  
+  def committee?
+    office_type == 'committee'
+  end
+  
+  def other?
+    office_type == 'other'
+  end
 end
 
 class Title

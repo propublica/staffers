@@ -37,6 +37,10 @@
   </div>
 <% end %>
 
+<div class="download">
+  <a href="<%= csv_path %>">Download CSV</a>
+</div>
+
 <!-- basic office info here -->
 
 <% quarters.keys.sort.reverse.each do |quarter| %>
@@ -48,11 +52,8 @@
     <table class="quarter" id="<%= quarter %>">
     
       <% staffers.each do |staffer| %>
+        <% positions = staffer.positions_for quarter, office %>
         
-        <% positions = staffer.quarters[quarter].select do |position|
-             position['office']['name'] == office.name
-           end
-        %>
         <% positions.each do |position| %>
           <tr class="<%= "line" if positions.last.object_id == position.object_id %>">
             <td>

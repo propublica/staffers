@@ -24,9 +24,11 @@
     <span class="room"><%= room_for office['building'], office['room'] %></span>
   </div>
   
-  <div class="empty">
-    This member is no longer in office.
-  </div>
+  <% if office['legislator']['in_office'] == false %>
+    <div class="empty">
+      This member is no longer in office.
+    </div>
+  <% end %>
 <% else %>
   <div class="details">
     <h2 class="office"><%= office.name %></h2>

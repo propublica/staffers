@@ -78,6 +78,23 @@ helpers do
       "\n</select>"
   end
   
+  def district_for(district)
+    if district.to_i == 0
+      "At-Large"
+    else
+      district
+    end
+  end
+  
+  def plural_title_for(title)
+    {
+      "Del" => "Delegates",
+      "Sen" => "Senators",
+      "Com" => "Commissioners",
+      "Rep" => "Representatives"
+    }[title]
+  end
+  
   def state_codes
     {
       "AL" => "Alabama",

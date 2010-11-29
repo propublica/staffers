@@ -1,5 +1,20 @@
-<% header = {'member' => "Members", 'committee' => "Committees"}[type] || 'Offices' %>
-<h3 class="results"><%= header %></h3>
+<h3 class="results">
+  <% if type == 'committees' %>
+    Committees
+  <% elsif type == 'offices' %>
+    Offices
+  <% elsif type == 'legislators' %>
+    <% if params[:state].present? and params[:district].present? %>
+      Members from <%= state_codes[params[:state]] %>, District <%= district_for params[:district] %>
+    <% elsif params[:state].present? and params[:title].present? %>
+      <%= plural_title_for params[:title] %> from <%= state_codes[params[:state]] %>
+    <% elsif params[:state].present? %>
+      Members from <%= state_codes[params[:state]] %>
+    <% else %>
+      Members
+    <% end %>
+  <% end %>
+</h3>
 
 <% if offices %>
 

@@ -109,17 +109,17 @@ get '/legislators' do
     end
   end
   
-  offices_for Office.where(conditions).order_by([["legislator.lastname", :asc], ["legislator.firstname", :asc]]).all
+  offices_for 'legislators', Office.where(conditions).order_by([["legislator.lastname", :asc], ["legislator.firstname", :asc]]).all
 end
 
 get '/committees' do
-  offices_for Office.where(:office_type => 'committee').order_by([[:name, :asc]]).all
+  offices_for 'committees', Office.where(:office_type => 'committee').order_by([[:name, :asc]]).all
 end
 
 get '/offices' do
-  offices_for Office.where(:office_type => 'other').order_by([[:name, :asc]]).all
+  offices_for 'offices', Office.where(:office_type => 'other').order_by([[:name, :asc]]).all
 end
 
-def offices_for(offices)
-  erb :offices, :locals => {:offices => offices, :type => params[:type]}
+def offices_for(type, offices)
+  erb :offices, :locals => {:offices => offices, :type => type}
 end

@@ -67,6 +67,8 @@ table.quarter td a {text-decoration: underline}
 
 table.quarter tr.line, table.results tr.line {border-bottom: 1px dotted #bbb;}
 
+p.none {margin: 10px 0 30px 0;}
+
 /* Search results page */
 
 h3.results {margin-top: 0px;}

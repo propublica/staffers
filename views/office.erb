@@ -42,8 +42,9 @@
   
   <h3 class="quarter"><%= format_quarter quarter %></h3>
   
-  <table class="quarter" id="<%= quarter %>">
-    <% if staffers.any? %>
+  <% if staffers.any? %>
+    <table class="quarter" id="<%= quarter %>">
+    
       <% staffers.each do |staffer| %>
         
         <% positions = staffer.quarters[quarter].select do |position|
@@ -64,9 +65,9 @@
         <% end %>
         
       <% end %>
-    <% else %>
-      No staffers listed for this quarter.
-    <% end %>
-  </table>
+    </table>
+  <% else %>
+    <p class="none">No staffers listed for this quarter.</p>
+  <% end %>
   
 <% end %>

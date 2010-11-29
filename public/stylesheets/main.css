@@ -110,8 +110,8 @@ div.office_header div.empty {
 }
 
 /** FAQ */
-div.faq {width: 700px; margin: 0 auto;}
-div.faq h1 {font-size: 20pt;}
+div.faq {width: 700px;}
+div.faq h1 {font-size: 20pt; margin-top: 10px; }
 div.faq h3 {font-weight: bold; font-size: 12pt; margin-top: 35px; margin-bottom: 15px;}
 div.faq p {margin: 15px 0;}
 div.faq p, div.faq ol, div.faq ul {line-height: 24px;}

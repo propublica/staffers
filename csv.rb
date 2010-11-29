@@ -33,6 +33,17 @@ def legislators_to_csv(legislators)
 end
 
 def offices_to_csv(offices)
+  csv_out
+  
+  FasterCSV.generate do |csv|
+    csv << [
+      "Name", "Phone", "Building", "Room"
+    ]
+    
+    offices.each do |office|
+      csv << [office.name, office.phone, office.building, office.room]
+    end
+  end
 end
 
 def staffers_to_csv(staffers)

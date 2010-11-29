@@ -118,11 +118,11 @@ get %r{^/legislators(.csv)?$} do
   offices_for 'legislators', Office.where(conditions).order_by([["legislator.in_office", :desc], ["legislator.lastname", :asc], ["legislator.firstname", :asc]]).all
 end
 
-get %r{^/legislators(.csv)?$} do
+get %r{^/committees(.csv)?$} do
   offices_for 'committees', Office.where(:office_type => 'committee').order_by([[:name, :asc]]).all
 end
 
-get %r{^/legislators(.csv)?$} do
+get %r{^/offices(.csv)?$} do
   offices_for 'offices', Office.where(:office_type => 'other').order_by([[:name, :asc]]).all
 end
 

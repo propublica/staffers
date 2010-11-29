@@ -27,7 +27,7 @@ div.header h1 a, div.header h1 a:visited {color: #114488;}
 div.header h1 a:hover {text-decoration: none;}
 
 div.main {
-  margin-top: 20px;
+  margin-top: 10px;
   padding: 10px 30px;
 }
 
@@ -40,6 +40,12 @@ div.footer {
 } div.footer a, div.footer a:visited {text-decoration: underline;}
 
 
+/** Nav **/
+
+ul.nav {padding-top: 20px; padding-left: 30px;}
+ul.nav li {display: inline;}
+ul.nav li a {font-size: 16pt; margin-right: 30px; text-decoration: underline;}
+
 /* Staffer and office pages */
 
 h2.staffer, h2.office {
@@ -51,7 +57,6 @@ h3.quarter, h3.results, div.offices h3, div.search h3 {
   font-size: 14pt;
   border-bottom: 1px solid #666666;
   color: #444444;
-  margin-top: 20px;
   margin-bottom: 5px;
   clear: both;
 }
@@ -103,3 +108,15 @@ div.office_header div.empty {
   font-size: 12pt;
   font-weight: bold;
 }
+
+/** FAQ */
+div.faq {width: 700px; margin: 0 auto;}
+div.faq h1 {font-size: 20pt;}
+div.faq h3 {font-weight: bold; font-size: 12pt; margin-top: 35px; margin-bottom: 15px;}
+div.faq p {margin: 15px 0;}
+div.faq p, div.faq ol, div.faq ul {line-height: 24px;}
+div.faq ol, div.faq ul {}
+div.faq li {margin: 10px 0;}
+div.faq ul {list-style-type: disc; margin-left: 18px;}
+div.faq ol {list-style-type: decimal; margin-left: 18px;}
+div.faq a {text-decoration: underline;}

@@ -10,7 +10,20 @@
     <h1>
       <a href="/">House Staff Directory</a>
     </h1>
-  </div> 
+  </div>
+  
+  <ul class="nav">
+    <li>
+      <a href="/faq">FAQ</a>
+    </li>
+    <li>
+      <a href="http://github.com/sunlightlabs/staffers">Open Source</a>
+    </li>
+    <li>
+      <a href="http://getsatisfaction.com/sunlightfoundation/">Feedback</a>
+    </li>
+  </ul>
+      
   
   <div class="main">
     <%= yield %>
@@ -20,6 +33,7 @@
     This website is a project of the <a href="http://sunlightfoundation.com">Sunlight Foundation</a>, and is <a href="http://github.com/sunlightlabs/staffers">open source</a>. Information taken from the official House of Representatives' <a href="http://disbursements.house.gov">Statements of Disbursements</a>.
   </div>
   
+  <!--
   <script type="text/javascript" charset="utf-8"> 
     var is_ssl = ("https:" == document.location.protocol);
     var asset_host = is_ssl ? "https://s3.amazonaws.com/getsatisfaction.com/" : "http://s3.amazonaws.com/getsatisfaction.com/";
@@ -33,6 +47,7 @@
     feedback_widget_options.color = "#222";
     feedback_widget_options.style = "idea";
     var feedback_widget = new GSFN.feedback_widget(feedback_widget_options);
-  </script> 
+  </script
+  -->
 </body>
 </html>

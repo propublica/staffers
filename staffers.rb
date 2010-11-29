@@ -123,3 +123,8 @@ end
 def offices_for(type, offices)
   erb :offices, :locals => {:offices => offices, :type => type}
 end
+
+
+get '/faq' do
+  erb :faq
+end

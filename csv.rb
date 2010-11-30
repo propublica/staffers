@@ -71,7 +71,7 @@ def office_to_csv(office, quarters)
   
   FasterCSV.generate do |csv|
     csv << [
-      "Office", "Staffer", "Title", "Quarter"
+      "Office", "Quarter", "Staffer", "Title"
     ]
     
     quarters.keys.sort.reverse.each do |quarter|
@@ -80,7 +80,7 @@ def office_to_csv(office, quarters)
       staffers.each do |staffer|
         positions = staffer.positions_for quarter, office
         positions.each do |position|
-          csv << [office.name, staffer.name, position['title'], quarter]
+          csv << [office.name, quarter, staffer.name, position['title']]
         end
       end
     end
@@ -92,13 +92,41 @@ def staffer_to_csv(staffer)
   
   FasterCSV.generate do |csv|
     csv << [
-      "Staffer", "Office", "Title", "Quarter"
+      "Staffer", "Quarter", "Title", "Office", "Phone", "Building", "Room"
     ]
     
     staffer['quarters'].keys.sort.reverse.each do |quarter|
       positions = staffer['quarters'][quarter]
       positions.each do |position|
-        csv << [staffer.name, position['office']['name'], position['title'], quarter]
+        csv << [staffer.name, quarter, position['title'], position['office']['name'], position['office']['phone'], position['office']['building'], position['office']['room']]
+      end
+    end
+  end
+end
+
+def staffers_to_csv(staffers, quarter)
+  csv_out 'staffers.csv'
+  
+  quarters = []
+  if quarter.blank?
+    quarters = Quarter.all.map {|q| q.name}
+  else
+    quarters = [quarter]
+  end
+  
+  FasterCSV.generate do |csv|
+    csv << [
+      "Staffer", "Quarter", "Title", "Office", "Phone", "Building", "Room"
+    ]
+    
+    staffers.each do |staffer|
+      quarters.sort.reverse.each do |quarter|
+        positions = staffer['quarters'][quarter]
+        if positions
+          positions.each do |position|
+            csv << [staffer.name, quarter, position['title'], position['office']['name'], position['office']['phone'], position['office']['building'], position['office']['room']]
+          end
+        end
       end
     end
   end

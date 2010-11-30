@@ -74,7 +74,11 @@ get '/staffers' do
     staffers = Staffer.where(search).order_by([[:lastname_search, :asc], [:firstname_search, :asc]]).all
   end
   
-  erb :search, :locals => {:staffers => staffers, :quarter => params[:quarter]}
+  if csv?
+    staffers_to_csv staffers, params[:quarter]
+  else
+    erb :staffers, :locals => {:staffers => staffers, :quarter => params[:quarter]}
+  end
 end
 
 get '/staffer/:slug' do

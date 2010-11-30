@@ -77,8 +77,11 @@ namespace :load do
   task :positions => :loading_environment do
     start = Time.now
     
-    # clear out database
+    # clear out quarters
     Quarter.delete_all
+    
+    # clean out existing positions
+    Mongoid.database.collection('staffers').update({}, {"$set" => {"quarters" => {}}}, {:multi => true})
     
     
     quarters = []
@@ -133,14 +136,22 @@ namespace :load do
         end
       end
       
-      staffer[:quarters][quarter] ||= []
-      staffer[:quarters][quarter] << {
+      position = {
         :title => title.name,
         :title_original => title_original,
         :office => office.attributes
       }
       
-      # puts "Added #{quarter} position #{title.name} to #{staffer.name}"
+      staffer[:quarters][quarter] ||= []
+      
+      # doing "<< position" instead does not work and I DON'T KNOW WHY
+      # it causes there to be no more than one position in the array, the first one found for that quarter
+      # the position will get added to the array correctly, and save will return true, 
+      # but the new item won't actually get saved onto the array
+      # but with +=, it WORKS FINE
+      staffer[:quarters][quarter] += [position]
+      
+      # puts "[#{quarter}] #{staffer.name} - #{title.name}, #{office.name}"
       
       staffer.save!
     end

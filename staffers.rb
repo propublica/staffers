@@ -26,7 +26,13 @@ end
 
 get '/staffers' do
   search = {}
-  quarters = Quarter.all
+  
+  quarters = []
+  if params[:quarter].present?
+    quarters = [params[:quarter]]
+  else
+    quarters = Quarter.all.map {|q| q.name}.sort.reverse
+  end
   
   if params[:firstname].present?
     search[:firstname_search] = /#{params[:firstname]}/i
@@ -48,7 +54,7 @@ get '/staffers' do
     if params[:quarter].present?
       search["quarters.#{params[:quarter]}.title"] = /#{params[:title]}/i
     else
-      search["$or"] = quarters.map {|quarter| {"quarters.#{quarter.name}.title" => /#{params[:title]}/i}}
+      search["$or"] = quarters.map {|quarter| {"quarters.#{quarter}.title" => /#{params[:title]}/i}}
     end
   end
 
@@ -56,7 +62,7 @@ get '/staffers' do
     if params[:quarter].present?
       search["quarters.#{params[:quarter]}.office.legislator.state"] = params[:state]
     else
-      search["$or"] = quarters.map {|quarter| {"quarters.#{quarter.name}.office.legislator.state" => params[:state]}}
+      search["$or"] = quarters.map {|quarter| {"quarters.#{quarter}.office.legislator.state" => params[:state]}}
     end
   end
   
@@ -64,7 +70,7 @@ get '/staffers' do
     if params[:quarter].present?
       search["quarters.#{params[:quarter]}.office.legislator.party"] = params[:party]
     else
-      search["$or"] = quarters.map {|quarter| {"quarters.#{quarter.name}.office.legislator.party" => params[:party]}}
+      search["$or"] = quarters.map {|quarter| {"quarters.#{quarter}.office.legislator.party" => params[:party]}}
     end
   end
   
@@ -75,9 +81,9 @@ get '/staffers' do
   end
   
   if csv?
-    staffers_to_csv staffers, params[:quarter]
+    staffers_to_csv staffers, quarters
   else
-    erb :staffers, :locals => {:staffers => staffers, :quarter => params[:quarter]}
+    erb :staffers, :locals => {:staffers => staffers, :quarters => quarters}
   end
 end
 

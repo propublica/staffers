@@ -104,15 +104,8 @@ def staffer_to_csv(staffer)
   end
 end
 
-def staffers_to_csv(staffers, quarter)
+def staffers_to_csv(staffers, quarters)
   csv_out 'staffers.csv'
-  
-  quarters = []
-  if quarter.blank?
-    quarters = Quarter.all.map {|q| q.name}
-  else
-    quarters = [quarter]
-  end
   
   FasterCSV.generate do |csv|
     csv << [
@@ -120,7 +113,7 @@ def staffers_to_csv(staffers, quarter)
     ]
     
     staffers.each do |staffer|
-      quarters.sort.reverse.each do |quarter|
+      quarters.each do |quarter|
         positions = staffer['quarters'][quarter]
         if positions
           positions.each do |position|

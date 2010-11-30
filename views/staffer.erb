@@ -1,5 +1,9 @@
 <h2 class="staffer"><%= display_name staffer %></h2>
 
+<div class="download">
+  <a href="<%= csv_path %>">Download CSV</a>
+</div>
+
 <% staffer['quarters'].keys.sort.reverse.each do |quarter| %>
   <% positions = staffer['quarters'][quarter] %>
   

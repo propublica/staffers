@@ -80,7 +80,11 @@ end
 get '/staffer/:slug' do
   staffer = Staffer.where(:slug => params[:slug]).first
   
-  erb :staffer, :locals => {:staffer => staffer}
+  if csv?
+    staffer_to_csv staffer
+  else
+    erb :staffer, :locals => {:staffer => staffer}
+  end
 end
 
 

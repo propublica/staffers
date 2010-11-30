@@ -86,3 +86,20 @@ def office_to_csv(office, quarters)
     end
   end
 end
+
+def staffer_to_csv(staffer)
+  csv_out 'staffer.csv'
+  
+  FasterCSV.generate do |csv|
+    csv << [
+      "Staffer", "Office", "Title", "Quarter"
+    ]
+    
+    staffer['quarters'].keys.sort.reverse.each do |quarter|
+      positions = staffer['quarters'][quarter]
+      positions.each do |position|
+        csv << [staffer.name, position['office']['name'], position['title'], quarter]
+      end
+    end
+  end
+end

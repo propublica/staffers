@@ -1,0 +1,47 @@
+
+body { background: url("../images/live_bg.jpg"); background-repeat:repeat-x; background-position:center top;}
+h1.technique-three {margin-top:20px; width: 215px; height: 120px; background: url("../images/sf_logo_trans.png"); text-indent: -9999px; }
+h1.technique-three-live {margin-top:20px; width:251px; height: 80px; background: url("../images/sf_logo_live.png"); text-indent: -9999px; }
+h1.technique-three-sm {margin-top:10px; width:250px; height: 60px; background: url("../images/sf_logo_sm.png"); text-indent: -9999px; }
+#greenbar { background-image:url(../images/green_bar_bg.png); background-repeat:repeat-x; padding-top:0; height:36px;}
+#greenbar input .join { border:1px solid #669933; font-size:14px; margin-right:10px;}
+#greenbar input.email { margin-right:5px; border:1px solid #669933; font-size:12px; margin-top:8px;}
+#greenbar input.zipcode { margin-right:5px; border:1px solid #669933; font-size:12px;}
+#greenbar label.email,label.zip { color:#548330;}
+#greenbar submit input { }
+#headerSearchbox { margin-left:430px;}
+#searchContainer li { list-style:none; margin-top:15px;}
+.searchContainer div { background: rgb(255,255,255); background: rgba(255,255,255,0.5); display:inline; padding:5px; -moz-border-radius:7px; border:1px solid #b8d2ef; -webkit-border-radius: 7px;}
+.searchContainer input[type="text"] {border:none; background-color:transparent; font-size:12px; width:140px; padding-left:5px;}
+.searchContainer img { vertical-align:middle;}
+#mailinglist-form { float:left;}
+#mailinglist-form-thanks { font-weight:bold; color:#548330; font-size:16px; text-shadow:0 1px 0 #e2ecd7; display: none; text-align:center; padding-top:5px;}
+#mailinglist-form-error { font-weight:bold; color:#548330; font-size:16px; text-shadow:0 1px 0 #e2ecd7; display: none; text-align:center; padding-top:5px;}
+.list_prompt { font-weight:bold; color:#548330; font-size:16px; float:left; margin-right:40px; margin-left:40px; text-shadow:0 1px 0 #e2ecd7; padding-top:5px;}
+.join_button { border: none; background: url(../images/join_button.png) no-repeat top left; width:70px; height:26px; vertical-align:top; margin-top:4px; }
+.join_button:hover { border: none; background: url(../images/join_button.png) no-repeat; background-position: 0 -36px; width:70px; height:26px; margin-top:4px; }
+.join_social_bar { float:left; margin-left:10px; padding-top:5px; font-weight:normal; color:#548330; font-size:14px; width:200px; text-align:left;}
+#social_list li { font-family:"Trebuchet MS","Lucida Sans Unicode","Lucida Grande"," Lucida Sans",Arial,sans-serif; color:#efeadc; font-size:14px; list-style:none; }
+#social_list li a { background-image:url('../images/social_sprites.png'); background-repeat:no-repeat; padding:0 25px; line-height:25px; color:#efeadc; text-decoration:none; }
+#social_list li a:hover { text-decoration:underline; }
+#social_list li a.social_1 {background-position:0px -187px;}
+#social_list li a:hover.social_1 {background-position:0px -51px;}
+#social_list li a.social_2 {background-position:0px -102px;}
+#social_list li a:hover.social_2 {background-position:0px 0px;}
+#social_list li a.social_3 {background-position:0px -136px;}
+#social_list li a:hover.social_3 {background-position:0px -85px;}
+#social_list li a.social_4 {background-position:0px -119px;}
+#social_list li a:hover.social_4 {background-position:0px -17px;}
+#social_list li a.social_5 {background-position:0px -170px;}
+#social_list li a:hover.social_5 {background-position:0px -34px;}
+#social_list_horizontal li { font-family:"Trebuchet MS","Lucida Sans Unicode","Lucida Grande"," Lucida Sans",Arial,sans-serif; color:#efeadc; font-size:12px; list-style:none; float:left; color:#548330; }
+#social_list_horizontal li a { background-image:url('../images/social_sprites.png'); background-repeat:no-repeat; padding:0 5px 0 0; margin-top:4px; color:#548330; text-decoration:none; height:14px; float:left; }
+#social_list_horizontal li a:hover { text-decoration:none; }
+#social_list_horizontal li a.social_1 {background-position:0px -187px; padding-left:25px; padding-bottom:4px; }
+#social_list_horizontal li a:hover.social_1 {background-position:0px -51px;}
+#social_list_horizontal li a.social_2 {background-position:0px -102px; padding-left:25px; padding-bottom:4px;}
+#social_list_horizontal li a:hover.social_2 {background-position:0px 0px;}
+#social_list_horizontal li a.social_3 {background-position:0px -136px; padding-left:25px; padding-bottom:4px;}
+#social_list_horizontal li a:hover.social_3 {background-position:0px -85px;}
+#social_list_horizontal li a.social_6 {background-position:0px -221px; padding-left:25px; padding-bottom:4px;}
+#social_list_horizontal li a:hover.social_6 {background-position:0px -204px;}

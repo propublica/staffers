@@ -17,18 +17,17 @@ a:active { outline: none; text-decoration: none;}
 a:visited, a:hover, a:active, a:link {color: #114488;}
 
 div.header {
-  padding: 10px 30px;
-  border-bottom: 1px solid #aaaaaa;
-  background-color: #f5f5f5;
+  padding: 20px 30px;
 }
-
-div.header h1 {font-size: 32pt;} 
+div.header h1 {
+  font-size: 22pt; float: left;
+}
 div.header h1 a, div.header h1 a:visited {color: #114488;}
 div.header h1 a:hover {text-decoration: none;}
 
 div.main {
-  margin-top: 10px;
-  padding: 10px 30px;
+  padding: 20px 30px;
+  clear: both;
 }
 
 div.footer {
@@ -42,7 +41,7 @@ div.footer {
 
 /** Nav **/
 
-ul.nav {padding-top: 20px; padding-left: 30px;}
+ul.nav {float: right;}
 ul.nav li {display: inline;}
 ul.nav li a {font-size: 16pt; margin-right: 30px; text-decoration: underline;}
 

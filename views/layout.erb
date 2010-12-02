@@ -5,78 +5,17 @@
   <title>House Staff Directory</title>
   <link href="/stylesheets/sf_frame.css" rel="stylesheet" type="text/css" />
   <link href="/stylesheets/main.css" rel="stylesheet" type="text/css" />
+  <link href="/stylesheets/popup.css" rel="stylesheet" type="text/css" />
   
-  <style> 
-        article, aside, details, figcaption, figure, footer, header,
-        hgroup, menu, nav, section { display: block; }
-      </style> 
-      <style> 
-      
-        .clear:after { display: block; visibility: hidden; clear: both; height: 0; content: "."; }
- 
-        body {
-          background-color: #F8F6EC;
-          background-image: url(http://assets.sunlightfoundation.com/site/3.1/images/bg_blog.jpg);
-          background-position: 50% 0%;
-          background-repeat: repeat-x;
-          font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-          margin: 0;
-        }
-        
-        p { margin-bottom: 1em;}
-            strong, b { font-weight: bold;}
-            em, i { font-style: italic; }
- 
-        .container, header { margin: 0 auto; width: 940px; padding: 0 10px;}
-        #navWrapper { background: url("http://assets.sunlightfoundation.com/site/3.1/images/green_bar_bg.png") top left repeat-x; height: 36px; }
-        #contentWrapper { background: #F8F6EC url(http://assets.sunlightfoundation.com/site/3.1/images/below_green_bg.png) repeat-x; padding-top: 25px; padding-bottom: 80px;}
-        #mainContainer { border:1px solid #DDD7D7; -moz-border-radius: 6px; -webkit-border-radius: 6px; background-color: #fff; padding: 25px 25px 50px; width: 890px;}
- 
-        ul { list-style: none; margin: 0; padding: 0; }
-        ul li { list-style: none; margin: 0; padding: 0; }
- 
-        header.main h1 {
-          background: url(http://assets.sunlightfoundation.com/site/3.1/images/sf_logo_sm.png) top left no-repeat;
-          text-indent: -9999px;
-          width: 120px;
-          height: 60px;
-          margin: 10px 0 7px;
-        }
- 
-        .list_prompt {
-                color:#548330;
-                float:left;
-                font-size:16px;
-                font-weight:bold;
-                margin-right:40px;
-                padding-top:12px;
-                text-shadow:0 1px 0 #E2ECD7;
-            }
- 
-            form#mailinglist-form { float: right; }
-            form#mailinglist-form label { color: #548330; font-size: 90%; width: auto; margin-right: 10px; padding-top: 4px; float: left; display: block;}
-            form#mailinglist-form input { border: 1px solid #669933; width: 80px; padding: 3px; font-size: 70%; background-color: #F8F6EC;}
-            form#mailinglist-form li { float: left; margin: 7px 10px; clear: none;}
- 
-            input { -moz-border-radius: 3px; -webkit-border-radius: 3px;}
-          
-            #socialMedia { float: right;}
-            #socialMedia li { float: left; width: 16px; height: 16px; margin: 12px 0 0 5px;}
-            #socialMedia li a { width: 16px; height: 16px; display: block; text-indent: -9999em;}
-            .social_6 { background: url(http://assets.sunlightfoundation.com/site/3.1/images/social_sprites.png) left -69px no-repeat; } 
-        .social_1 { background: url(http://assets.sunlightfoundation.com/site/3.1/images/social_sprites.png) left -52px no-repeat; }
-        .social_2 { background: url(http://assets.sunlightfoundation.com/site/3.1/images/social_sprites.png) left top no-repeat; }
-        .social_3 { background: url(http://assets.sunlightfoundation.com/site/3.1/images/social_sprites.png) left -86px no-repeat; }
- 
-        form#mailinglist-form .join_button { background: url(http://assets.sunlightfoundation.com/site/3.1/images/join_button.png) top left no-repeat; width: 70px; height: 26px; border: none; text-indent: -9999em; display: block; background-color: none; margin-top: -1px;}
-        form#mailinglist-form .join_button:hover { background: url(http://assets.sunlightfoundation.com/site/3.1/images/join_button.png) left -35px no-repeat;}
-    </style> 
+  <script type="text/javascript" src="/javascripts/jquery-1.4.4.min.js"></script>
+  <script type="text/javascript" src="/javascripts/jqModal.js"></script>
 </head>
 <body>
   
   <header class="main"> 
     <a href="http://sunlightfoundation.com"><h1>Sunlight Foundation</h1></a> 
   </header> 
+  
   <div id="navWrapper"> 
       <div class="container"> 
           <span class="list_prompt">You should join the transparency movement</span> 
@@ -137,21 +76,19 @@
     This website is a project of the <a href="http://sunlightfoundation.com">Sunlight Foundation</a>, and is <a href="http://github.com/sunlightlabs/staffers">open source</a>. Information taken from the official House of Representatives' <a href="http://disbursements.house.gov">Statements of Disbursements</a>.
   </div>
   
-  <!--
-  <script type="text/javascript" charset="utf-8"> 
-    var is_ssl = ("https:" == document.location.protocol);
-    var asset_host = is_ssl ? "https://s3.amazonaws.com/getsatisfaction.com/" : "http://s3.amazonaws.com/getsatisfaction.com/";
-    document.write(unescape("%3Cscript src='" + asset_host + "javascripts/feedback-v2.js' type='text/javascript'%3E%3C/script%3E"));
-  </script> 
-  <script type="text/javascript" charset="utf-8"> 
-    var feedback_widget_options = {};
-    feedback_widget_options.display = "overlay";  
-    feedback_widget_options.company = "sunlightfoundation";
-    feedback_widget_options.placement = "right";
-    feedback_widget_options.color = "#222";
-    feedback_widget_options.style = "idea";
-    var feedback_widget = new GSFN.feedback_widget(feedback_widget_options);
-  </script
-  -->
+  <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-1265484-72']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  
 </body>
 </html>

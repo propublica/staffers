@@ -128,3 +128,13 @@ div.faq li {margin: 10px 0;}
 div.faq ul {list-style-type: disc; margin-left: 18px;}
 div.faq ol {list-style-type: decimal; margin-left: 18px;}
 div.faq a {text-decoration: underline;}
+
+
+.jqmWindow {
+  overflow-y: scroll; height: 300px;
+  background-color: white;
+  padding: 20px;
+}
+
+.jqmWindow td {padding: 2px 0;}
+.jqmWindow a {text-decoration: underline;}

@@ -27,6 +27,7 @@
           <label for="title">Title:</label>
         </td><td>
           <input type="text" name="title" id="title" />
+          <a href="#" class="jqModal">Choose from a list</a>
         </td>
       </tr><tr>
         <td>
@@ -62,4 +63,31 @@
       <a href="/offices">Other Offices</a>
     </li>
   </ul>
+</div>
+
+<!-- popup window for title list -->
+<script type="text/javascript">
+  $().ready(function() {
+    $('#dialog').jqm();
+    
+    $("#dialog a").click(function() {
+      $("#title").val($.trim($(this).text()));
+      $("#dialog").jqmHide();
+      return false;
+    });
+  });
+</script>
+
+<div class="jqmWindow" id="dialog">
+  <table class="titles">
+    <% titles.each do |title| %>
+      <tr>
+        <td>
+          <a href="#">
+            <%= capitalize title.name %>
+          </a>
+        </td>
+      </tr>
+    <% end %>
+  </table>
 </div>

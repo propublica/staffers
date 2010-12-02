@@ -17,7 +17,8 @@ set :public, 'public'
 set :views, 'views'
 
 get '/' do
-  erb :index
+  titles = Title.order_by([[:name, :asc]]).all
+  erb :index, :locals => {:titles => titles}
 end
 
 get '/faq' do

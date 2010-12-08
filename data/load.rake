@@ -354,10 +354,8 @@ def staffer_from_row(row, i)
     staffer.original_names << staffer_name_original
     # puts "[#{i}] Updated staffer: #{staffer_name} with original name #{staffer_name_original}"
   else
-    staffer = Staffer.new :name => staffer_name
-    
     # standardize fields
-    lastname, firstname = staffer_name_original.split /,\s?/
+    lastname, firstname = staffer_name.split /,\s?/
     lastname_search = nil
     firstname_search = nil
     if lastname
@@ -369,6 +367,7 @@ def staffer_from_row(row, i)
       firstname_search = firstname.downcase
     end
   
+    staffer = Staffer.new
     staffer.attributes = {
       :name => [firstname, lastname].join(" "),
       :original_names => [staffer_name_original],

@@ -8,16 +8,22 @@
   <table class="results">
     <% if staffers.any? %>
       <% staffers.each do |staffer| %>
+      
+        <% 
+          # iterate only over the quarters that a staffer has, and that are selected for searching
+          # we know from the search query performed that this will be at least one quarter
+          staffer_quarters = staffer['quarters'].keys & quarters
+        %>
         
-        <% quarters.each do |quarter| %>
+        <% staffer_quarters.each do |quarter| %>
           <% positions = staffer['quarters'][quarter] %>
           
           <% if positions %>
             <% positions.each do |position| %>
               
               <% 
-                last = ((positions.last.object_id == position.object_id) and (quarter == quarters.last))
-                first = ((positions.first.object_id == position.object_id) and (quarter == quarters.first))
+                last = ((positions.last.object_id == position.object_id) and (quarter == staffer_quarters.last))
+                first = ((positions.first.object_id == position.object_id) and (quarter == staffer_quarters.first))
               %>
               
               <tr class="<%= "line" if last %>">

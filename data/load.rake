@@ -147,8 +147,9 @@ namespace :load do
       end
       
       if existing
-        staffer['quarters'][quarter][existing]['title_originals'] << title_original
-        # puts "[#{quarter}] #{staffer.name} - found duplicate position with title #{title.name} at index #{existing}, adding original title #{title_original}"
+        staffer.write_attribute "quarters.#{quarter}.#{existing}.title_originals", (staffer['quarters'][quarter][existing]['title_originals'] + [title_original])
+        
+        # puts "[#{quarter}] #{staffer.slug} - found duplicate position with title #{title.name} at index #{existing}, adding original title #{title_original}"
         
       else
         # doing "<< position" instead does not work and I DON'T KNOW WHY

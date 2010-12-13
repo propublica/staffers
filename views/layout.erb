@@ -9,6 +9,7 @@
   
   <script type="text/javascript" src="/javascripts/jquery-1.4.4.min.js"></script>
   <script type="text/javascript" src="/javascripts/jqModal.js"></script>
+  <script type="text/javascript" src="/javascripts/jquery.qtip-1.0.0-rc3.min.js"></script>
 </head>
 <body>
   
@@ -75,6 +76,22 @@
   <div class="footer">
     This website is a project of the <a href="http://sunlightfoundation.com">Sunlight Foundation</a>, and is <a href="http://github.com/sunlightlabs/staffers">open source</a>. Information taken from the official House of Representatives' <a href="http://disbursements.house.gov">Statements of Disbursements</a>.
   </div>
+  
+  <script type="text/javascript">
+    // modified tooltips
+    $(function() {
+      $('a[title]').qtip({
+        style: {
+          name: 'light', 
+          width: 400,
+          tip: true
+        },
+        show: {
+          delay: 1
+        }
+      });
+    });
+  </script>
   
   <script type="text/javascript">
 

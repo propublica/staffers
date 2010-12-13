@@ -138,3 +138,10 @@ div.faq a {text-decoration: underline;}
 
 .jqmWindow td {padding: 2px 0;}
 .jqmWindow a {text-decoration: underline;}
+
+/** Tooltips **/
+table td a.title_hover {
+  text-decoration: none; 
+  margin-left: 5px;
+  color: #662222;
+}

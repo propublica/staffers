@@ -30,7 +30,7 @@ helpers do
   def title_listing(position)
     name = capitalize position['title']
     original_names = position['title_originals'].join("<br/>").gsub("\"", "\\\"")
-    "#{name} <a href=\"#\" onclick=\"return false\" class=\"title_hover\" title=\"Titles as originally listed:<br/>#{original_names}\">?</a>"
+    "#{name} <a href=\"#\" onclick=\"return false\" class=\"title_hover\" title=\"Titles as originally listed:<br/><br/>#{original_names}\">?</a>"
   end
   
   def display_name(staffer)

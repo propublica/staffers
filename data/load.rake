@@ -81,6 +81,7 @@ namespace :load do
     Quarter.delete_all
     
     # clean out existing positions
+    puts "Deleting all existing positions..."
     Mongoid.database.collection('staffers').update({}, {"$set" => {"quarters" => {}}}, {:multi => true})
     
     
@@ -136,22 +137,34 @@ namespace :load do
         end
       end
       
-      position = {
-        :title => title.name,
-        :title_original => title_original,
-        :office => office.attributes
-      }
       
-      staffer[:quarters][quarter] ||= []
       
-      # doing "<< position" instead does not work and I DON'T KNOW WHY
-      # it causes there to be no more than one position in the array, the first one found for that quarter
-      # the position will get added to the array correctly, and save will return true, 
-      # but the new item won't actually get saved onto the array
-      # but with +=, it WORKS FINE
-      staffer[:quarters][quarter] += [position]
+      staffer['quarters'][quarter] ||= []
       
-      # puts "[#{quarter}] #{staffer.name} - #{title.name}, #{office.name}"
+      existing = nil
+      staffer['quarters'][quarter].each_with_index do |position, j|
+        existing = j if (position['title'] == title.name) and (position['office']['name'] == office['name'])
+      end
+      
+      if existing
+        staffer['quarters'][quarter][existing]['title_originals'] << title_original
+        # puts "[#{quarter}] #{staffer.name} - found duplicate position with title #{title.name} at index #{existing}, adding original title #{title_original}"
+        
+      else
+        # doing "<< position" instead does not work and I DON'T KNOW WHY
+        # it causes there to be no more than one position in the array, the first one found for that quarter
+        # the position will get added to the array correctly, and save will return true, 
+        # but the new item won't actually get saved onto the array
+        # but with +=, it WORKS FINE
+        staffer['quarters'][quarter] += [{
+          'title' => title.name,
+          'title_originals' => [title_original],
+          'office' => office.attributes
+        }]
+        
+        # puts "[#{quarter}] #{staffer.name} - #{title.name}, #{office.name}"
+      end
+      
       
       staffer.save!
     end

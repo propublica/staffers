@@ -183,4 +183,25 @@ helpers do
     }
   end
   
+  def search_titles
+    [
+      "Case Worker",
+      "Chief of Staff",
+      "Clerk",
+      "Constituent Liaison",
+      "Counsel",
+      "District Director",
+      "Executive Assistant",
+      "Legislative Assistant",
+      "Legislative Correspondent",
+      "Legislative Director",
+      "Office Manager",
+      "Press Secretary",
+      "Professional Staff",
+      "Research Assistant",
+      "Scheduler",
+      "Staff Assistant",
+      "System Administrator"
+    ]
+  end
 end

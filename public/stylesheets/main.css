@@ -131,7 +131,7 @@ div.faq a {text-decoration: underline;}
 
 
 .jqmWindow {
-  overflow-y: scroll; height: 300px;
+  overflow-y: scroll; max-height: 500px;
   background-color: white;
   padding: 20px;
 }

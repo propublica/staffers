@@ -13,7 +13,7 @@
     <% positions.each do |position| %>
       <tr class="line">
         <td>
-          <%= capitalize position['title'] %>
+          <%= title_listing position %>
         </td>
         <td>
           <a href="<%= office_path position['office'] %>">

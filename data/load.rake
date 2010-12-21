@@ -32,10 +32,12 @@ namespace :load do
     
     Office.delete_all
     
+    i = 1
     CSV.foreach("data/csv/offices.csv") do |row|
+      i += 1
       next if row[0] == "OFFICE NAME (ORIGINAL)" # header row
       
-      office_from_row row
+      office_from_row row, i
     end
     
     Sunlight::Legislator.all_where(:all_legislators => true).each do |legislator|
@@ -211,7 +213,7 @@ def split_office(congress_office)
 end
 
 # office from a row in offices.csv
-def office_from_row(row)
+def office_from_row(row, i)
   office_name_original = row[0]
   office_name = row[1]
   committee_id = row[2]
@@ -253,7 +255,7 @@ def office_from_row(row)
         }
       else
         puts "BAD COMMITTEE_ID: #{committee_id}, row #{i}"
-        next
+        return
       end
       
       # puts "New committee office: #{office.name} with original name #{office_name_original}"

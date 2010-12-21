@@ -31,7 +31,7 @@ def restore_fixture(name)
   model = name.singularize.camelize.constantize
   model.delete_all
   
-  YAML::load_file("fixtures/#{collection}.yml").each do |row|
+  YAML::load_file("fixtures/#{name}.yml").each do |row|
     record = model.new
     row.keys.each do |field|
       record[field] = row[field] if row[field]

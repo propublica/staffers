@@ -1,13 +1,12 @@
-This directory expects two CSV files:
+This directory expects four CSV files:
 
 staffers.csv - 
-  * A row for every staffer in the system. The same staffer may appear multiple times as long as the quarter (2009Q3, 2010Q1, etc.) is different.
-  * The first row should be a header of column titles.
-  * Offices will be created as needed as the rows are parsed. 
-    ** If a row has a bioguide_id, a member office will be created if needed, and the staffer linked to it.
-    ** If a row has a committee_id, a committee office will be created if needed, and the staffer linked to it.
-    ** Otherwise, a regular office will be created if needed, and the staffer linked to it.
+  Unique staffer names as they appear in the original disbursement data, and any standardizations or corrections to those titles.
+titles.csv - 
+  Unique titles as they appear in the original disbursement data, and any standardizations or corrections to those titles.
+offices.csv -
+  Unique office names as they appear in the original disbursement data, and any standardizations or corrections to those titles.
+  Expanded details for each office (committee ID, building, room, telephone number) are added by hand.
 
-titles.csv -
-  * A row for every unique original staffer title in the system, with its accompanying standardized title.
-  * The first row should be a header of column titles.
+positions.csv -
+  The "join table" that links staffer names, title names, and office names together as a "position" for each quarter.

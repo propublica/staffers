@@ -30,14 +30,16 @@ namespace :load do
   task :offices => :loading_environment do
     start = Time.now
     
-    Office.delete_all
+    # don't empty out offices; we don't keep past committees anywhere, so they must be preserved
+    
+    committees = committee_cache
     
     i = 0
     CSV.foreach("data/csv/offices.csv") do |row|
       i += 1
       next if row[0] == "OFFICE NAME (ORIGINAL)" # header row
       
-      office_from_row row, i
+      office_from_row row, i, committees
     end
     
     Sunlight::Legislator.all_where(:all_legislators => true).each do |legislator|
@@ -213,7 +215,7 @@ def split_office(congress_office)
 end
 
 # office from a row in offices.csv
-def office_from_row(row, i)
+def office_from_row(row, i, committees)
   office_name_original = row[0]
   office_name = row[1]
   committee_id = row[2]
@@ -233,10 +235,16 @@ def office_from_row(row, i)
     
     # there may be multiple spellings of a given committee that cause it to show up in duplicate rows in committees.csv
     if office
-      office.original_names << office_name_original
-      # puts "Updated committee office: #{office.name} with new original name #{office_name_original}"
+      
+      if !office.original_names.include?(office_name_original)
+        office.original_names << office_name_original
+        # puts "Updated committee office: #{office.name} with new original name #{office_name_original}"
+      # else
+        # puts "Found old committee office with this name, not touching"
+      end
+      
     else
-      committee = Sunlight::Committee.get committee_id
+      committee = committees[committee_id]
       
       if committee
         office = Office.new :name => committee.name
@@ -254,7 +262,7 @@ def office_from_row(row, i)
           }
         }
       else
-        puts "BAD COMMITTEE_ID: #{committee_id}, row #{i}"
+        puts "BAD OR OLD COMMITTEE_ID: #{committee_id}, row #{i}"
         return
       end
       
@@ -266,8 +274,12 @@ def office_from_row(row, i)
     office = Office.where(:name => office_name).first
         
     if office
-      office.original_names << office_name_original
-      # puts "Updated other office: #{office.name} with new original name #{office_name_original}"
+      
+      if !office.original_names.include?(office_name_original)
+        office.original_names << office_name_original
+        # puts "Updated other office: #{office.name} with new original name #{office_name_original}"
+      end
+      
     else
       office = Office.new :name => office_name
       office.attributes = {
@@ -292,7 +304,13 @@ def office_from_legislator(legislator)
   room, building = split_office legislator.congress_office
   chamber = legislator.title == 'Sen' ? 'senate' : 'house'
 
-  office = Office.new :name => titled_name(legislator)
+  unless office = Office.where("legislator.bioguide_id" => legislator.bioguide_id).first
+    office = Office.new :name => titled_name(legislator)
+    # puts "[#{legislator.bioguide_id}] not found, making new record"
+  # else
+    # puts "[#{legislator.bioguide_id}] found, updating existing record"
+  end
+  
   office.attributes = {
     :original_names => [],
     :office_type => "member",
@@ -319,7 +337,7 @@ def office_from_legislator(legislator)
     }
   }
   
-  # puts "New member office: #{office.name}"
+  # puts "[#{legislator.bioguide_id}] New or updated member office: #{office.name}"
   office.save!
 end
 
@@ -398,4 +416,16 @@ def staffer_from_row(row, i)
   end
   
   staffer.save!
+end
+
+def committee_cache
+  senate = Sunlight::Committee.all_for_chamber 'Senate'
+  house = Sunlight::Committee.all_for_chamber 'House'
+  joint = Sunlight::Committee.all_for_chamber 'Joint'
+  cache = {}
+  (senate + house + joint).each do |comm|
+    cache[comm.id] = comm
+  end
+  
+  cache
 end

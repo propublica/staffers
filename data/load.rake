@@ -109,6 +109,12 @@ namespace :load do
       bioguide_id = row[3]
       office_name_original = row[4].strip
       
+      # also strip off title addendums, we're ignoring these and collapsing them programmatically
+      ["(OTHER COMPENSATION)", "(OVERTIME)"].each do |addendum|
+        title_original.sub! addendum, ''
+      end
+      title_original.strip!
+      
       quarters << quarter unless quarters.include? quarter
       
       
@@ -343,6 +349,7 @@ end
 
 def title_from_row(row)
   title_name_original = row[0].strip
+  
   title_name = row[1]
   if title_name.blank?
     title_name = title_name_original

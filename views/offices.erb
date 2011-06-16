@@ -29,10 +29,16 @@
           </a>
         </td>
         <td>
-          <%= office['phone'] %>
+          <% if out?(office) %>
+            (out of office)
+          <% else %>
+            <%= office['phone'] %>
+          <% end %>
         </td>
         <td>
-          <%= room_for office['building'], office['room'] %>
+          <% unless out?(office) %>
+            <%= room_for office['building'], office['room'] %>
+          <% end %>
         </td>
       </tr>
     <% end %>

@@ -191,6 +191,9 @@ namespace :load do
       Staffer.index "quarters.#{quarter}.office.legislator.lastname_search"
       Staffer.index "quarters.#{quarter}.office.legislator.state"
       Staffer.index "quarters.#{quarter}.office.legislator.party"
+      Staffer.index "quarters.#{quarter}.office.legislator.bioguide_id"
+      Staffer.index "quarters.#{quarter}.office.committee.id"
+      Staffer.index "quarters.#{quarter}.office.slug"
       Staffer.index "quarters.#{quarter}.office._id"
       Staffer.index "quarters.#{quarter}.title"
     end

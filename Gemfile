@@ -3,6 +3,7 @@ source 'http://rubygems.org'
 gem 'sunlight', '1.1.0'
 
 gem 'sinatra', '1.2.6'
+gem 'sinatra-content-for', '0.2'
 gem 'fastercsv', '1.5.3'
 
 gem "mongo", "1.3.1"

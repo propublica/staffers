@@ -1,93 +1,141 @@
-<div class="search">
-  <form action="/staffers" method="get">
+<% content_for :header do %>
+  <section id="feature" role="banner">
+    <h2 class="replace">Finding a staffer has never been easier</h2>
+    <p>
+      <strong>With over 25,000 Congressional Staffers,</strong> finding the right person can be a challenge. Sunlight's House Staff Directory makes it easy to perform complex searches of the latest House employee data, empowering the public to better communicate with their representatives.
+      <span id="action">Find your staffer now!</span>
+    </p>
+  </section>
+<% end %>
 
-    <h3>Search for staffers</h3>
-    
-    <table class="search">
-      <tr>
-        <td>
-          <label for="quarter">Quarter:</label>
-        </td><td>
-          <%= quarter_select %>
-        </td>
-      </tr><tr>
-        <td>
-          <label for="firstname">First name:</label>
-        </td><td>
-          <input type="text" name="firstname" id="firstname" />
-        </td>
-      </tr><tr>
-        <td>
-          <label for="lastname">Last name:</label>
-        </td><td>
-          <input type="text" name="lastname" id="lastname" />
-        </td>
-      </tr><tr>
-        <td>
-          <label for="title">Title:</label>
-        </td><td>
-          <input type="text" name="title" id="title" />
-          <a href="#" class="jqModal">Choose from a list</a>
-        </td>
-      </tr><tr>
-        <td>
-          <label for="state">State:</label>
-        </td><td>
-          <%= state_select %>
-        </td>
-      </tr><tr>
-        <td>
-          <label for="party">Party:</label>
-        </td><td>
-          <%= party_select %>
-        </td>
-      </tr><tr>
-        <td colspan="2">
-          <input type="submit" value="Search" class="search" />
-        </td>
-      </tr>
-    </table>
-  </form>
-</div>
+<section id="directory-search-area">  
+  <div id="directory-search-corner"></div>
+  <nav id="directory-search" class="basic-search" role="search">
+    <h2 class="replace">Search the Directory</h2>
+    <span id="search-tip" class="tip">To conduct a search, fill out one or more of the fields below.</span>
 
-<div class="offices">
-  <h3>Or view a list of offices</h3>
-  <ul>
-    <li>
-      <a href="/legislators">Members</a>
-    </li>
-    <li>
-      <a href="/committees">Committees</a>
-    </li>
-    <li>
-      <a href="/offices">Other Offices</a>
-    </li>
-  </ul>
-</div>
+    <form action="/staffers" method="get" id="directory-search-form" role="form">
+      <ul class="search-list">
+        <li>
+          <label for="id_firstname">First Name</label>
+          <input type="text" name="firstname" id="id_firstname" placeholder="enter first name here">
+        </li>
+        <li>
+          <label for="id_lastname">Last Name</label>
+          <input type="text" name="lastname" id="id_lastname" placeholder="enter last name here">
+        </li>
+        <li>
+          <label for="id_title">Title</label>
+          <select name="title" id="id_title">
+            <option value="" selected="selected">Select a Title</option>
+            <% search_titles.each do |title| %>
+              <option><%= title %></option>
+            <% end %>
+          </select>
+        </li>
+        <li>
+          <label for="id_yearquarter">Year/Quarter</label>
+          <select name="year quarter" id="id_yearquarter">
+            <option value="" selected="selected">Select a Year/Quarter</option>
+            <% quarter_names.each_with_index do |name, i| %>
+              <option value="<%= name %>"><%= name %><%=" (most recent)" if i == 0 %></option>
+            <% end %>
+          </select>
+        </li>
+        <li>
+          <label for="id_state">State</label>
+          <select name="state" id="id_state">
+            <option value="" selected="selected">Select a State</option>
+            <% states_by_name = state_codes.invert %>
+            <% states_by_name.keys.sort.map do |name| %>
+              <option value="<%= states_by_name[name] %>"><%= name %></option>
+            <% end %>
+          </select>
+        </li>
+        <li>
+          <label for="id_party">Party</label>
+          <select name="party" id="id_party">
+            <option value="" selected="selected">Select a Party</option>
+            <% parties_by_name = party_names.invert %>
+            <% parties_by_name.keys.sort.map do |name| %>
+              <option value="<%= parties_by_name[name] %>"><%= name %></option>
+            <% end %>
+          </select>
+        </li>
+        <li>
+          <label for="id_committee">Committee</label>
+          <select name="committee" id="id_committee">
+            <option value="" selected="selected">Select a Committee</option>
+            <% committees.each do |committee| %>
+              <option value="<%= committee['committee']['committee_id'] %>"><%= committee['name'] %></option>
+            <% end %>
+          </select>
+        </li>
+        <li>
+          <label for="id_Offices">Offices</label>
+          <select name="offices" id="id_offices">
+            <option value="" selected="selected">Select an Office</option>
+            <% offices.each do |office| %>
+              <option><%= office['name'] %></option>
+            <% end %>
+          </select>
+        </li>
+        <li>
+          <button id="search-button" class="replace" role="search" title="Search Now!" type="submit" value="Search">
+            <span>Search Now!</span>
+          </button>
+        </li>
+      </ul>
+    </form>
+  </nav>
+</section>
 
-<!-- popup window for title list -->
-<script type="text/javascript">
-  $().ready(function() {
-    $('#dialog').jqm();
-    
-    $("#dialog a").click(function() {
-      $("#title").val($.trim($(this).text()));
-      $("#dialog").jqmHide();
-      return false;
-    });
-  });
-</script>
-
-<div class="jqmWindow" id="dialog">
-  <table class="titles">
-    <% search_titles.each do |title| %>
-      <tr>
-        <td>
-          <a href="#">
-            <%= capitalize title %>
+<article id="directory-browse" class="center" role="search">
+  <h3 class="replace">Browse the Directory</h3>
+  <span id="browse-tip">Check out just a few of the committees, members, and offices that you can learn more about below.</span>
+  
+  <section id="house-members" class="browse-column">
+    <h4><a href="/legislators" title="House Members">Members</a></h4>
+    <ol>
+      <% members.each do |member| %>
+        <% legislator = member['legislator'] %>
+        <li>
+          <a href="<%= office_path member %>"><%= member['name'] %></a>
+          <span class="member-parties">
+            (<%= legislator['party']%>) <%= legislator['state']%>-<%= district_for legislator['district'] %>
+          </span>
+        </li>
+      <% end %>
+    </ol>
+    <a class="view" href="/legislators" title="House Members">View All Members</a>
+  </section>
+  
+  <section id="house-comm" class="browse-column">
+    <h4><a href="/committees" title="House Committees">Committees</a></h4>
+    <ol>
+      <% committees[0...10].each do |committee| %>
+        <li>
+          <a href="<%= office_path committee %>">
+            <%= committee['name'] %>
           </a>
-        </td>
-      </tr>
-    <% end %>
-  </table>
-</div>
+        </li>
+      <% end %>
+    </ol>
+    <a class="view" href="/committees" title="House Committees">View All Committees</a>
+  </section>
+  
+  <section id="house-offices" class="browse-column">
+    <h4><a href="/offices" title="All Other Offices">Offices</a></h4>
+    <ol>
+      <% offices[0...10].each do |office| %>
+        <li>
+          <a href="<%= office_path office %>">
+            <%= office['name'] %>
+          </a>
+        </li>
+      <% end %>
+    </ol>
+    <a class="view" href="/offices" title="All Other Offices">View All Offices</a>
+  </section>
+  <div class="clear"></div>     
+</article>

@@ -63,44 +63,6 @@ helpers do
     end
   end
   
-  def state_select
-    states_by_name = state_codes.invert
-    "<select name=\"state\">\n" +
-      "\t<option value=\"\">(All states)</option>" +
-      states_by_name.keys.sort.map do |name|
-        "\t<option value=\"#{states_by_name[name]}\">#{name}</option>"
-      end.join("\n") +
-      "\n</select>"
-  end
-  
-  def party_select
-    parties_by_name = party_names.invert
-    "<select name=\"party\">\n" +
-      "\t<option value=\"\">(All parties)</option>" +
-      parties_by_name.keys.sort.map do |name|
-        "\t<option value=\"#{parties_by_name[name]}\">#{name}</option>"
-      end.join("\n") +
-      "\n>/select>"
-  end  
-  
-  def quarter_select
-    quarters = Quarter.all.map {|q| q.name}.sort.reverse
-    "<select name=\"quarter\">\n" +
-      quarters.map do |quarter|
-        "\t<option value=\"#{quarter}\">#{quarter}#{" (most recent)" if quarter == quarters.first}</option>"
-      end.join("\n") +
-      "<option value=\"\">all quarters</option>" +
-      "\n</select>"
-  end
-  
-  def title_select
-    "<select name=\"title\">\n" +
-      Title.all.map {|t| t.name}.compact.sort.map do |title|
-        "\t<option>#{title}</option>"
-      end.join("\n") +
-      "\n</select>"
-  end
-  
   def district_for(district)
     if district.to_i == 0
       "At-Large"

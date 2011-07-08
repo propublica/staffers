@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 require 'config/environment'
+require 'sinatra/content_for'
 require './csv'
 require 'helpers'
 
@@ -17,8 +18,17 @@ set :public, 'public'
 set :views, 'views'
 
 get '/' do
-  titles = Title.order_by([[:name, :asc]]).all
-  erb :index, :locals => {:titles => titles}
+  # titles = Title.order_by([[:name, :asc]]).all
+  quarter_names = Quarter.all.map {|q| q.name}.sort.reverse
+  
+  # all of them for the dropdown
+  committees = Office.where(:office_type => 'committee').order_by([[:name, :asc]]).all
+  offices = Office.where(:office_type => 'other').order_by([[:name, :asc]]).all
+  
+  # first 10 only
+  members = Office.where(:office_type => 'member', :chamber => 'house').order_by([["legislator.in_office", :desc], ["legislator.lastname", :asc], ["legislator.firstname", :asc]]).limit(10).all
+  
+  erb :index, :locals => {:quarter_names => quarter_names, :committees => committees, :offices => offices, :members => members}
 end
 
 get '/faq' do

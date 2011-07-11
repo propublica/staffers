@@ -12,16 +12,19 @@ class Staffer
   include Mongoid::Timestamps
   include Mongoid::Slug
   
-  field :name
-  field :original_names, :type => Array
-  field :firstname
-  field :lastname
-  
-  index :original_names
-  index :slug
-  
   slug :name
   validates_uniqueness_of :slug
+  index :slug
+  
+  field :name
+  field :original_names, :type => Array
+  field :first_name
+  field :last_name
+  
+  index :original_names
+  index [[:last_name, Mongo::ASCENDING], [:first_name, Mongo::ASCENDING]]
+
+  # scope :alphabetical, 
   
   def positions_for(quarter, office)
     quarters[quarter].select do |position|

@@ -364,21 +364,21 @@ def staffer_from_row(row, i)
     # puts "[#{i}] Updated staffer: #{staffer_name} with original name #{staffer_name_original}"
   else
     # standardize fields
-    lastname, firstname = staffer_name.split /,\s?/
-    if lastname
-      lastname = lastname.split(/\s+/).map {|n| n.capitalize}.join " "
+    last_name, first_name = staffer_name.split /,\s?/
+    if last_name
+      last_name = last_name.split(/\s+/).map {|n| n.capitalize}.join " "
     end
     
-    if firstname
-      firstname = firstname.split(/\s+/).map {|n| n.capitalize}.join " "
+    if first_name
+      first_name = first_name.split(/\s+/).map {|n| n.capitalize}.join " "
     end
   
     staffer = Staffer.new
     staffer.attributes = {
-      :name => [firstname, lastname].join(" "),
+      :name => [first_name, last_name].join(" "),
       :original_names => [staffer_name_original],
-      :firstname => firstname,
-      :lastname => lastname,
+      :first_name => first_name,
+      :last_name => last_name,
       :quarters => {}
     }
       

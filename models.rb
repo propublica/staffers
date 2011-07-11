@@ -1,5 +1,12 @@
 require 'mongoid/slug'
 
+class Position
+  include Mongoid::Document
+  include Mongoid::Timestamps
+  
+  
+end
+
 class Staffer
   include Mongoid::Document
   include Mongoid::Timestamps
@@ -7,15 +14,10 @@ class Staffer
   
   field :name
   field :original_names, :type => Array
-  field :firstname_search
-  field :lastname_search
   field :firstname
   field :lastname
   
   index :original_names
-  index :firstname_search
-  index :lastname_search
-  index [[:lastname_search, Mongo::ASCENDING], [:firstname_search, Mongo::ASCENDING]]
   index :slug
   
   slug :name

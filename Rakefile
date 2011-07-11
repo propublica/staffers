@@ -7,10 +7,9 @@ end
 
 load 'data/load.rake'
 
-task :create_indexes do
-  Quarter.create_indexes
-  Staffer.create_indexes
-  Title.create_indexes
-  Office.create_indexes
-  # Position.create_indexes
+task :create_indexes => :environment do
+  [Quarter, Staffer, Title, Office, Position].each do |klass|
+    klass.create_indexes
+    puts "Created indexes for #{klass}."
+  end
 end

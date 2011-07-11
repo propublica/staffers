@@ -11,15 +11,26 @@ namespace :load do
   task :titles => :loading_environment do
     start = Time.now
     
+    # blow away and start from scratch
     Title.delete_all
     
     CSV.foreach("data/csv/titles.csv") do |row|
       next if row[0] == "TITLE (ORIGINAL)" # header row
       
-      title_from_row row
+      title_name_original = row[0].strip
+      title_name = row[1].blank? ? title_name_original : row[1].strip
+      
+      if title = Title.where(:name => title_name).first
+        title.original_names << title_name_original
+        puts "Updated title: #{title_name} with original title #{title_name_original}"
+      else
+        title = Title.new :name => title_name
+        title.original_names = [title_name_original]
+        puts "New title: #{title_name} with original title #{title_name_original}"
+      end
+      
+      title.save!
     end
-    
-    Title.create_indexes
     
     puts "Loaded #{Title.count} titles."
     puts "\nFinished in #{Time.now - start} seconds."
@@ -46,8 +57,6 @@ namespace :load do
       office_from_legislator legislator
     end
     
-    Office.create_indexes
-    
     puts "Loaded #{Office.count} offices."
     puts "\t#{Office.where(:office_type => "member").count} members"
     puts "\t#{Office.where(:office_type => "committee").count} committees"
@@ -69,8 +78,6 @@ namespace :load do
       
       staffer_from_row row, i
     end
-    
-    Staffer.create_indexes
     
     puts "Loaded #{Staffer.count} staffers."
     puts "\nFinished in #{Time.now - start} seconds."
@@ -184,22 +191,6 @@ namespace :load do
     quarters.each do |quarter|
       Quarter.create! :name => quarter
     end
-    
-    # create indexes based on these quarters
-    quarters.each do |quarter|
-      Staffer.index "quarters.#{quarter}.office.legislator.firstname_search"
-      Staffer.index "quarters.#{quarter}.office.legislator.lastname_search"
-      Staffer.index "quarters.#{quarter}.office.legislator.state"
-      Staffer.index "quarters.#{quarter}.office.legislator.party"
-      Staffer.index "quarters.#{quarter}.office.legislator.bioguide_id"
-      Staffer.index "quarters.#{quarter}.office.committee.id"
-      Staffer.index "quarters.#{quarter}.office.slug"
-      Staffer.index "quarters.#{quarter}.office._id"
-      Staffer.index "quarters.#{quarter}.title"
-    end
-    
-    Quarter.create_indexes
-    Staffer.create_indexes
     
     puts "\nLoaded in #{i} staffer positions."
     puts "\nFinished in #{Time.now - start} seconds."
@@ -331,8 +322,6 @@ def office_from_legislator(legislator)
       :bioguide_id => legislator.bioguide_id,
       :firstname => legislator.firstname,
       :lastname => legislator.lastname,
-      :firstname_search => legislator.firstname.downcase,
-      :lastname_search => legislator.lastname.downcase,
       :nickname => legislator.nickname,
       :party => legislator.party,
       :name_suffix => legislator.name_suffix,
@@ -348,30 +337,6 @@ def office_from_legislator(legislator)
   
   # puts "[#{legislator.bioguide_id}] New or updated member office: #{office.name}"
   office.save!
-end
-
-def title_from_row(row)
-  title_name_original = row[0].strip
-  
-  title_name = row[1]
-  if title_name.blank?
-    title_name = title_name_original
-  else
-    title_name = title_name.strip
-  end
-  
-  title = Title.where(:name => title_name).first
-  
-  if title
-    title.original_names << title_name_original
-    # puts "Updated title: #{title_name} with original title #{title_name_original}"
-  else
-    title = Title.new :name => title_name
-    title.original_names = [title_name_original]
-    # puts "New title: #{title_name} with original title #{title_name_original}"
-  end
-  
-  title.save!
 end
 
 def staffer_from_row(row, i)
@@ -400,15 +365,12 @@ def staffer_from_row(row, i)
   else
     # standardize fields
     lastname, firstname = staffer_name.split /,\s?/
-    lastname_search = nil
-    firstname_search = nil
     if lastname
       lastname = lastname.split(/\s+/).map {|n| n.capitalize}.join " "
-      lastname_search = lastname.downcase
     end
+    
     if firstname
       firstname = firstname.split(/\s+/).map {|n| n.capitalize}.join " "
-      firstname_search = firstname.downcase
     end
   
     staffer = Staffer.new
@@ -417,8 +379,6 @@ def staffer_from_row(row, i)
       :original_names => [staffer_name_original],
       :firstname => firstname,
       :lastname => lastname,
-      :firstname_search => firstname_search,
-      :lastname_search => lastname_search,
       :quarters => {}
     }
       

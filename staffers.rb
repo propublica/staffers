@@ -46,7 +46,7 @@ get '/staffers' do
   end
   
   if params[:firstname].present?
-    search[:firstname_search] = /#{params[:firstname]}/i
+    search[:firstname] = /#{params[:firstname]}/i
     
     if params[:quarter].present?
       search["quarters.#{params[:quarter]}"] = {"$exists" => true}
@@ -54,7 +54,7 @@ get '/staffers' do
   end
   
   if params[:lastname].present?
-    search[:lastname_search] = /#{params[:lastname]}/i
+    search[:lastname] = /#{params[:lastname]}/i
     
     if params[:quarter].present?
       search["quarters.#{params[:quarter]}"] = {"$exists" => true}
@@ -88,7 +88,7 @@ get '/staffers' do
   if search.keys.empty?
     staffers = nil
   else
-    staffers = Staffer.where(search).order_by([[:lastname_search, :asc], [:firstname_search, :asc]]).all
+    staffers = Staffer.where(search).order_by([[:lastname, :asc], [:firstname, :asc]]).all
   end
   
   if csv?
@@ -115,7 +115,7 @@ get '/office/:slug' do
   
   quarters = {}
   Quarter.all.each do |quarter|
-    quarters[quarter.name] = Staffer.where("quarters.#{quarter.name}.office.slug" => params[:slug]).order_by([[:lastname_search, :asc], [:firstname_search, :asc]]).all
+    quarters[quarter.name] = Staffer.where("quarters.#{quarter.name}.office.slug" => params[:slug]).order_by([[:lastname, :asc], [:firstname, :asc]]).all
   end
   
   office_for office, quarters
@@ -126,7 +126,7 @@ get '/legislator/:bioguide_id' do
   
   quarters = {}
   Quarter.all.each do |quarter|
-    quarters[quarter.name] = Staffer.where("quarters.#{quarter.name}.office.legislator.bioguide_id" => params[:bioguide_id]).order_by([[:lastname_search, :asc], [:firstname_search, :asc]]).all
+    quarters[quarter.name] = Staffer.where("quarters.#{quarter.name}.office.legislator.bioguide_id" => params[:bioguide_id]).order_by([[:lastname, :asc], [:firstname, :asc]]).all
   end
   
   office_for office, quarters
@@ -137,7 +137,7 @@ get '/committee/:committee_id' do
   
   quarters = {}
   Quarter.all.each do |quarter|
-    quarters[quarter.name] = Staffer.where("quarters.#{quarter.name}.office.committee.id" => params[:committee_id]).order_by([[:lastname_search, :asc], [:firstname_search, :asc]]).all
+    quarters[quarter.name] = Staffer.where("quarters.#{quarter.name}.office.committee.id" => params[:committee_id]).order_by([[:lastname, :asc], [:firstname, :asc]]).all
   end
   
   office_for office, quarters

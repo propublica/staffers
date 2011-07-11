@@ -23,7 +23,7 @@ def legislators_to_csv(legislators)
     ]
      
     legislators.each do |legislator|
-      leg = legislator['legislator']
+      leg = legislator['member']
       csv << [
         legislator.name, legislator.phone, legislator.building, legislator.room,
         leg['bioguide_id'], leg['title'], leg['firstname'], leg['lastname'], leg['name_suffix'],
@@ -66,7 +66,7 @@ def offices_to_csv(offices)
 end
 
 def office_to_csv(office, quarters)
-  names = {'committee' => 'committee', 'member' => 'legislator', 'other' => 'office'}
+  names = {'committee' => 'committee', 'member' => 'member', 'other' => 'office'}
   csv_out "#{names[office.office_type]}.csv"
   
   FasterCSV.generate do |csv|

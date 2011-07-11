@@ -25,20 +25,6 @@ class Staffer
   index [[:last_name, Mongo::ASCENDING], [:first_name, Mongo::ASCENDING]]
 
   # scope :alphabetical, 
-  
-  def positions_for(quarter, office)
-    quarters[quarter].select do |position|
-      if office.member? and position['office']['legislator']
-        position['office']['legislator']['bioguide_id'] == office['legislator']['bioguide_id']
-      elsif office.committee? and position['office']['committee']
-        position['office']['committee']['id'] == office['committee']['id']
-      elsif office.other?
-        position['office']['slug'] == office['slug']
-      else
-        false
-      end
-    end
-  end
 end
 
 class Office
@@ -63,7 +49,7 @@ class Office
   
   scope :legislators, :where => {:office_type => "member"}
   scope :committees, :where => {:office_type => "committee"}
-  scope :other, :where => {:office_type => "other"}
+  scope :others, :where => {:office_type => "other"}
   
   scope :house, :where => {:chamber => 'house'}
   scope :senate, :where => {:chamber => 'senate'}

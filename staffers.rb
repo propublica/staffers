@@ -26,7 +26,7 @@ get '/' do
   offices = Office.others.order_by([[:name, :asc]]).all
   
   # first 10 only
-  members = Office.legislators.house.order_by([["legislator.in_office", :desc], ["legislator.lastname", :asc], ["legislator.firstname", :asc]]).limit(10).all
+  members = Office.members.house.order_by([["member.in_office", :desc], ["member.lastname", :asc], ["member.firstname", :asc]]).limit(10).all
   
   erb :index, :locals => {:quarter_names => quarter_names, :committees => committees, :offices => offices, :members => members}
 end
@@ -71,17 +71,17 @@ get '/staffers' do
 
   if params[:state].present?
     if params[:quarter].present?
-      search["quarters.#{params[:quarter]}.office.legislator.state"] = params[:state]
+      search["quarters.#{params[:quarter]}.office.member.state"] = params[:state]
     else
-      search["$or"] = quarters.map {|quarter| {"quarters.#{quarter}.office.legislator.state" => params[:state]}}
+      search["$or"] = quarters.map {|quarter| {"quarters.#{quarter}.office.member.state" => params[:state]}}
     end
   end
   
   if params[:party].present?
     if params[:quarter].present?
-      search["quarters.#{params[:quarter]}.office.legislator.party"] = params[:party]
+      search["quarters.#{params[:quarter]}.office.member.party"] = params[:party]
     else
-      search["$or"] = quarters.map {|quarter| {"quarters.#{quarter}.office.legislator.party" => params[:party]}}
+      search["$or"] = quarters.map {|quarter| {"quarters.#{quarter}.office.member.party" => params[:party]}}
     end
   end
   
@@ -122,11 +122,11 @@ get '/office/:slug' do
 end
 
 get '/legislator/:bioguide_id' do
-  office = Office.where("legislator.bioguide_id" => params[:bioguide_id]).first
+  office = Office.where("member.bioguide_id" => params[:bioguide_id]).first
   
   quarters = {}
   Quarter.all.each do |quarter|
-    quarters[quarter.name] = Staffer.where("quarters.#{quarter.name}.office.legislator.bioguide_id" => params[:bioguide_id]).order_by([[:last_name, :asc], [:first_name, :asc]]).all
+    quarters[quarter.name] = Staffer.where("quarters.#{quarter.name}.office.member.bioguide_id" => params[:bioguide_id]).order_by([[:last_name, :asc], [:first_name, :asc]]).all
   end
   
   office_for office, quarters
@@ -158,11 +158,11 @@ get %r{^/legislators(.csv)?$} do
   
   [:state, :district, :title].each do |key|
     if params[key]
-      conditions["legislator.#{key}"] = params[key]
+      conditions["member.#{key}"] = params[key]
     end
   end
   
-  offices_for 'legislators', Office.legislators.house.where(conditions).order_by([["legislator.in_office", :desc], ["legislator.lastname", :asc], ["legislator.firstname", :asc]]).all
+  offices_for 'legislators', Office.members.house.where(conditions).order_by([["member.in_office", :desc], ["member.lastname", :asc], ["member.firstname", :asc]]).all
 end
 
 get %r{^/committees(.csv)?$} do

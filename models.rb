@@ -32,6 +32,10 @@ class Office
   include Mongoid::Timestamps
   include Mongoid::Slug
   
+  index :slug
+  slug :name
+  validates_uniqueness_of :slug
+  
   field :original_names, :type => Array
   field :name
   field :office_type
@@ -40,14 +44,13 @@ class Office
   index :original_names
   index :chamber
   index :name
-  index :type
   index :office_type
-  index :slug
   
-  slug :name
-  validates_uniqueness_of :slug
+  index "committee.id"
+  index "member.bioguide_id"
   
-  scope :legislators, :where => {:office_type => "member"}
+  
+  scope :members, :where => {:office_type => "member"}
   scope :committees, :where => {:office_type => "committee"}
   scope :others, :where => {:office_type => "other"}
   
@@ -56,10 +59,6 @@ class Office
   
   def member?
     office_type == 'member'
-  end
-  
-  def legislator?
-    member?
   end
   
   def committee?

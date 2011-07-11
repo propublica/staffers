@@ -138,7 +138,7 @@ namespace :load do
       end
       
       if bioguide_id.present?
-        office = Office.where("legislator.bioguide_id" => bioguide_id).first
+        office = Office.where("member.bioguide_id" => bioguide_id).first
         if office.nil?
           puts "Couldn't locate legislator by bioguide_id #{bioguide_id} in row #{i}, skipping"
           next
@@ -304,7 +304,7 @@ def office_from_legislator(legislator)
   room, building = split_office legislator.congress_office
   chamber = legislator.title == 'Sen' ? 'senate' : 'house'
 
-  unless office = Office.where("legislator.bioguide_id" => legislator.bioguide_id).first
+  unless office = Office.where("member.bioguide_id" => legislator.bioguide_id).first
     office = Office.new :name => titled_name(legislator)
     # puts "[#{legislator.bioguide_id}] not found, making new record"
   # else
@@ -318,7 +318,7 @@ def office_from_legislator(legislator)
     :room => room,
     :building => building,
     :chamber => chamber,
-    :legislator => {
+    :member => {
       :bioguide_id => legislator.bioguide_id,
       :firstname => legislator.firstname,
       :lastname => legislator.lastname,
@@ -389,7 +389,7 @@ def staffer_from_row(row, i)
 end
 
 def committee_cache
-  senate = Sunlight::Committee.all_for_chamber 'Senate'
+  # senate = Sunlight::Committee.all_for_chamber 'Senate'
   house = Sunlight::Committee.all_for_chamber 'House'
   joint = Sunlight::Committee.all_for_chamber 'Joint'
   cache = {}

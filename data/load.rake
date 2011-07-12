@@ -15,8 +15,10 @@ namespace :load do
     # blow away and start from scratch
     Title.delete_all
     
+    i = 0
     CSV.foreach("data/csv/titles.csv") do |row|
-      next if row[0] == "TITLE (ORIGINAL)" # header row
+      i += 1
+      next if i == 1 # header row
       
       title_name_original = row[0].strip
       title_name = row[1].blank? ? title_name_original : row[1].strip
@@ -50,7 +52,7 @@ namespace :load do
     i = 0
     CSV.foreach("data/csv/offices.csv") do |row|
       i += 1
-      next if row[0] == "OFFICE NAME (ORIGINAL)" # header row
+      next if row == 1 # header row
       
       office_from_row row, i, committees
     end
@@ -344,28 +346,21 @@ def office_from_legislator(legislator)
 end
 
 def staffer_from_row(row, i)
-  staffer_name_original = row[0]
-  staffer_name = row[1]
+  debug = ENV['debug'].present?
+  
+  staffer_name_original = strip row[0]
+  staffer_name = strip(row[1]) || staffer_name_original
   
   if staffer_name_original.blank?
-    puts "WARNING: no staffer original name provided for row #{i} (not inc. header row), skipping"
+    puts "WARNING: no staffer original name provided for row #{i}, skipping"
     return
-  else
-    staffer_name_original = staffer_name_original.strip
   end
   
   
-  if staffer_name.blank?
-    staffer_name = staffer_name_original
-  else
-    staffer_name = staffer_name.strip
-  end
-  
-  staffer = Staffer.where(:name => staffer_name).first
-  
-  if staffer
+  if staffer = Staffer.where(:name => staffer_name).first
     staffer.original_names << staffer_name_original
-    # puts "[#{i}] Updated staffer: #{staffer_name} with original name #{staffer_name_original}"
+    puts "[#{i}] Updated staffer: #{staffer_name} with original name #{staffer_name_original}" if debug
+    
   else
     # standardize fields
     last_name, first_name = staffer_name.split /,\s?/
@@ -383,10 +378,9 @@ def staffer_from_row(row, i)
       :original_names => [staffer_name_original],
       :first_name => first_name,
       :last_name => last_name,
-      :quarters => {}
     }
       
-    # puts "[#{i}] New staffer: #{staffer_name} with original name #{staffer_name_original}"
+    puts "[#{i}] New staffer: #{staffer_name} with original name #{staffer_name_original}" if debug
   end
   
   staffer.save!

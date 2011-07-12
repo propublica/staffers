@@ -4,7 +4,17 @@ class Position
   include Mongoid::Document
   include Mongoid::Timestamps
   
+  # finding all positions by an office or staffer
+  index "office.slug"
+  index "staffer.slug"
   
+  # various search form options
+  index :title
+  index "office.member.state"
+  index "office.member.party"
+  index "office.member.chamber"
+  index "staffer.first_name"
+  index "staffer.last_name"
 end
 
 class Staffer

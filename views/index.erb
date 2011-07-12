@@ -18,11 +18,11 @@
       <ul class="search-list">
         <li>
           <label for="id_firstname">First Name</label>
-          <input type="text" name="firstname" id="id_firstname" placeholder="enter first name here">
+          <input type="text" name="first_name" id="id_firstname" placeholder="enter first name here">
         </li>
         <li>
           <label for="id_lastname">Last Name</label>
-          <input type="text" name="lastname" id="id_lastname" placeholder="enter last name here">
+          <input type="text" name="last_name" id="id_lastname" placeholder="enter last name here">
         </li>
         <li>
           <label for="id_title">Title</label>
@@ -35,7 +35,7 @@
         </li>
         <li>
           <label for="id_yearquarter">Year/Quarter</label>
-          <select name="year quarter" id="id_yearquarter">
+          <select name="quarter" id="id_yearquarter">
             <option value="" selected="selected">Select a Year/Quarter</option>
             <% quarter_names.each_with_index do |name, i| %>
               <option value="<%= name %>"><%= name %><%=" (most recent)" if i == 0 %></option>
@@ -67,16 +67,16 @@
           <select name="committee" id="id_committee">
             <option value="" selected="selected">Select a Committee</option>
             <% committees.each do |committee| %>
-              <option value="<%= committee['committee']['committee_id'] %>"><%= committee['name'] %></option>
+              <option value="<%= committee['slug'] %>"><%= committee['name'] %></option>
             <% end %>
           </select>
         </li>
         <li>
-          <label for="id_Offices">Offices</label>
-          <select name="offices" id="id_offices">
+          <label for="id_offices">Offices</label>
+          <select name="office" id="id_offices">
             <option value="" selected="selected">Select an Office</option>
             <% offices.each do |office| %>
-              <option><%= office['name'] %></option>
+              <option value="<%= office['slug'] %>"><%= office['name'] %></option>
             <% end %>
           </select>
         </li>

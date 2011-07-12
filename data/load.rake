@@ -94,33 +94,31 @@ namespace :load do
   task :positions => :loading_environment do
     start = Time.now
     
-    # clear out quarters
+    debug = ENV['debug'].present?
+    limit = ENV['limit'].present? ? ENV['limit'].to_i : nil
+    
+    # clear out quarters and positions
     Quarter.delete_all
+    Position.delete_all
     
-    # clean out existing positions
-    puts "Deleting all existing positions..."
-    Mongoid.database.collection('staffers').update({}, {"$set" => {"quarters" => {}}}, {:multi => true})
-    
-    
-    quarters = []
-    
-    i = 1
+    i = 0
     CSV.foreach("data/csv/positions.csv") do |row|
       i += 1
-      next if row[0] == "STAFFER NAME (ORIGINAL)" # header row
+      next if i == 1 # header row
       
-      staffer_name_original = row[0]
+      # for debugging usage
+      return if limit and i > limit
+      
+      staffer_name_original = strip row[0]
       if staffer_name_original.blank?
         puts "WARNING: No staffer name given, skipping row #{i}"
         next
-      else
-        staffer_name_original = staffer_name_original.strip
       end
       
-      title_original = row[1].strip
-      quarter = row[2]
-      bioguide_id = row[3]
-      office_name_original = row[4].strip
+      title_original = strip row[1]
+      quarter = strip row[2]
+      bioguide_id = strip row[3]
+      office_name_original = strip row[4]
       
       # also strip off title addendums, we're ignoring these and collapsing them programmatically
       ["(OTHER COMPENSATION)", "(OVERTIME)"].each do |addendum|
@@ -128,77 +126,49 @@ namespace :load do
       end
       title_original.strip!
       
-      quarters << quarter unless quarters.include? quarter
       
-      
-      staffer = Staffer.where(:original_names => staffer_name_original).first
-      if staffer.nil?
+      unless staffer = Staffer.where(:original_names => staffer_name_original).first
         puts "Couldn't locate staffer by name #{staffer_name_original} in row #{i}, skipping"
         next
       end
       
-      title = Title.where(:original_names => title_original).first
-      if title.nil?
+      unless title = Title.where(:original_names => title_original).first
         puts "Couldn't locate title by name #{title_original} in row #{i}, skipping"
         next
       end
       
+      office = nil
       if bioguide_id.present?
-        office = Office.where("member.bioguide_id" => bioguide_id).first
-        if office.nil?
+        unless office = Office.where("member.bioguide_id" => bioguide_id).first
           puts "Couldn't locate legislator by bioguide_id #{bioguide_id} in row #{i}, skipping"
           next
-        else
-          # while I'm here, store any known original office name
-          office.original_names << office_name_original unless office_name_original.blank?
         end
+        
       else
-        office = Office.where(:original_names => office_name_original).first
-        if office.nil?
+        unless office = Office.where(:original_names => office_name_original).first
           puts "Couldn't locate office by name #{office_name_original} in row #{i}, skipping"
           next
         end
       end
       
+      position = Position.new(
+        :quarter => quarter,
+        :title => title.attributes,
+        :staffer => staffer.attributes,
+        :office => office.attributes
+      )
       
+      position.save!
       
-      staffer['quarters'][quarter] ||= []
-      
-      existing = nil
-      staffer['quarters'][quarter].each_with_index do |position, j|
-        existing = j if (position['title'] == title.name) and (position['office']['name'] == office['name'])
-      end
-      
-      if existing
-        staffer.write_attribute "quarters.#{quarter}.#{existing}.title_originals", (staffer['quarters'][quarter][existing]['title_originals'] + [title_original])
-        
-        # puts "[#{quarter}] #{staffer.slug} - found duplicate position with title #{title.name} at index #{existing}, adding original title #{title_original}"
-        
-      else
-        # doing "<< position" instead does not work and I DON'T KNOW WHY
-        # it causes there to be no more than one position in the array, the first one found for that quarter
-        # the position will get added to the array correctly, and save will return true, 
-        # but the new item won't actually get saved onto the array
-        # but with +=, it WORKS FINE
-        staffer['quarters'][quarter] += [{
-          'title' => title.name,
-          'title_originals' => [title_original],
-          'office' => office.attributes
-        }]
-        
-        # puts "[#{quarter}] #{staffer.name} - #{title.name}, #{office.name}"
-      end
-      
-      
-      staffer.save!
+      puts "[#{i}][#{quarter}] #{staffer.name} works as #{title.name} for #{office.name}" if debug
     end
     
-    quarters = quarters.uniq
-    quarters.each do |quarter|
+    Position.all.distinct(:quarter).each do |quarter|
       Quarter.create! :name => quarter
     end
     
-    puts "\nLoaded in #{i} staffer positions."
+    puts "\nLoaded in #{Position.count} staffer positions."
+    puts "\nLoaded in #{Quarter.count} quarters: #{Quarter.all.map(&:name).join ','}"
     puts "\nFinished in #{Time.now - start} seconds."
   end
   

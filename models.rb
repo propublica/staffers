@@ -9,13 +9,15 @@ class Position
   index "staffer.slug"
   
   # various search form options
-  index :title
   index :quarter
+  index "title.name"
   index "office.member.state"
   index "office.member.party"
   index "office.member.chamber"
   index "staffer.first_name"
   index "staffer.last_name"
+  
+  validates_presence_of :quarter
 end
 
 class Staffer

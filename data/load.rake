@@ -10,6 +10,7 @@ namespace :load do
   desc "Loads titles from titles.csv"
   task :titles => :loading_environment do
     start = Time.now
+    debug = ENV['debug'].present?
     
     # blow away and start from scratch
     Title.delete_all
@@ -22,11 +23,11 @@ namespace :load do
       
       if title = Title.where(:name => title_name).first
         title.original_names << title_name_original
-        puts "Updated title: #{title_name} with original title #{title_name_original}"
+        puts "Updated title: #{title_name} with original title #{title_name_original}" if debug
       else
         title = Title.new :name => title_name
         title.original_names = [title_name_original]
-        puts "New title: #{title_name} with original title #{title_name_original}"
+        puts "New title: #{title_name} with original title #{title_name_original}" if debug
       end
       
       title.save!

@@ -42,9 +42,10 @@ namespace :load do
   task :offices => :loading_environment do
     start = Time.now
     
-    # don't empty out offices; we don't keep past committees anywhere, so they must be preserved
+    offline = ENV['offline'].present?
     
-    committees = committee_cache
+    # don't empty out offices; we don't keep past committees anywhere, so they must be preserved
+    committees = offline ? {} : committee_cache
     
     i = 0
     CSV.foreach("data/csv/offices.csv") do |row|
@@ -54,14 +55,16 @@ namespace :load do
       office_from_row row, i, committees
     end
     
-    Sunlight::Legislator.all_where(:all_legislators => true).each do |legislator|
-      office_from_legislator legislator
+    unless offline
+      Sunlight::Legislator.all_where(:all_legislators => true).each do |legislator|
+        office_from_legislator legislator
+      end
     end
     
     puts "Loaded #{Office.count} offices."
-    puts "\t#{Office.where(:office_type => "member").count} members"
-    puts "\t#{Office.where(:office_type => "committee").count} committees"
-    puts "\t#{Office.where(:office_type => "other").count} other offices"
+    puts "\t#{Office.members.count} members"
+    puts "\t#{Office.committees.count} committees"
+    puts "\t#{Office.others.count} other offices"
     puts "\nFinished in #{Time.now - start} seconds."
   end
   
@@ -72,10 +75,10 @@ namespace :load do
     
     Staffer.delete_all
     
-    i = 1
+    i = 0
     CSV.foreach("data/csv/staffers.csv") do |row|
       i += 1
-      next if row[0] == "STAFFER NAME (ORIGINAL)" # header row
+      next if i == 1 # header row
       
       staffer_from_row row, i
     end
@@ -215,21 +218,21 @@ def split_office(congress_office)
   [words[0], words[1]]
 end
 
+def strip(str)
+  str.present? ? str.strip : nil
+end
+
 # office from a row in offices.csv
 def office_from_row(row, i, committees)
-  office_name_original = row[0]
-  office_name = row[1]
-  committee_id = row[2]
-  phone = row[3]
-  building = row[4]
-  room = row[5]
+  office_name_original = strip row[0]
+  office_name = strip(row[1]) || office_name_original
   
-  office_name = office_name.strip if office_name
-  office_name_original = office_name_original.strip if office_name_original
+  committee_id = strip row[2]
+  phone = strip row[3]
+  building = strip row[4]
+  room = strip row[5]
   
-  if office_name.blank?
-    office_name = office_name_original
-  end
+  debug = ENV['debug'].present?
   
   if committee_id.present?
     office = Office.where("committee.id" => committee_id).first
@@ -239,9 +242,9 @@ def office_from_row(row, i, committees)
       
       if !office.original_names.include?(office_name_original)
         office.original_names << office_name_original
-        # puts "Updated committee office: #{office.name} with new original name #{office_name_original}"
-      # else
-        # puts "Found old committee office with this name, not touching"
+        puts "Updated committee office: #{office.name} with new original name #{office_name_original}" if debug
+      else
+        puts "Found old committee office with this name, not touching" if debug
       end
       
     else
@@ -267,7 +270,7 @@ def office_from_row(row, i, committees)
         return
       end
       
-      # puts "New committee office: #{office.name} with original name #{office_name_original}"
+      puts "New committee office: #{office.name} with original name #{office_name_original}" if debug
     end
     
     office.save!
@@ -278,7 +281,7 @@ def office_from_row(row, i, committees)
       
       if !office.original_names.include?(office_name_original)
         office.original_names << office_name_original
-        # puts "Updated other office: #{office.name} with new original name #{office_name_original}"
+        puts "Updated other office: #{office.name} with new original name #{office_name_original}" if debug
       end
       
     else
@@ -292,7 +295,7 @@ def office_from_row(row, i, committees)
         :chamber => 'house'
       }
       
-      # puts "New other office: #{office.name} with original name #{office_name_original}"
+      puts "New other office: #{office.name} with original name #{office_name_original}" if debug
     end
     
     office.save!

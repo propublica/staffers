@@ -10,6 +10,7 @@ class Position
   
   # various search form options
   index :title
+  index :quarter
   index "office.member.state"
   index "office.member.party"
   index "office.member.chamber"

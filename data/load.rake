@@ -97,8 +97,6 @@ namespace :load do
     debug = ENV['debug'].present?
     limit = ENV['limit'].present? ? ENV['limit'].to_i : nil
     
-    # clear out quarters and positions
-    Quarter.delete_all
     Position.delete_all
     
     i = 0
@@ -163,18 +161,23 @@ namespace :load do
       puts "[#{i}][#{quarter}] #{staffer.name} works as #{title.name} for #{office.name}" if debug
     end
     
+    puts "\nLoaded in #{Position.count} staffer positions."
+    puts "\nFinished in #{Time.now - start} seconds."
+  end
+  
+  desc "Load in quarters from positions"
+  task :quarters => :loading_environment do
+    Quarter.delete_all
+    
     Position.all.distinct(:quarter).each do |quarter|
       Quarter.create! :name => quarter
     end
     
-    puts "\nLoaded in #{Position.count} staffer positions."
-    puts "\nLoaded in #{Quarter.count} quarters: #{Quarter.all.map(&:name).join ','}"
-    puts "\nFinished in #{Time.now - start} seconds."
+    puts "\nLoaded in #{Quarter.count} quarters: #{Quarter.all.map(&:name).join ', '}"
   end
   
-  
   desc "Run all loading tasks in sequence"
-  task :all => [:loading_environment, "load:titles", "load:offices", "load:staffers", "load:positions"] do
+  task :all => [:loading_environment, "load:titles", "load:offices", "load:staffers", "load:positions", "load:quarters"] do
   end
   
 end

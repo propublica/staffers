@@ -62,6 +62,10 @@ get '/staffers' do
     search["office.member.party"] = params[:party]
   end
   
+  if params[:office].present?
+    search["office.slug"] = params[:office]
+  end
+  
   if search.keys.empty?
     positions = nil
   else

@@ -10,7 +10,6 @@ def csv_out(filename)
 end
 
 
-# Conversion methods
 
 def legislators_to_csv(legislators)
   csv_out 'legislators.csv'

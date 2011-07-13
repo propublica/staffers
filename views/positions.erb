@@ -1,54 +1,83 @@
-<% if positions %>
-  <h3 class="results">
-    Results for 
+<% content_for :header_class do %>header-internal<% end %>
+
+<div id="main-internal" class="main" role="main">
+
+  <% if positions %>
+    <div id="directory-search-internal-min" role="search">
+      
+      <a id="toggle-on" class="toggle">Toggle</a>
+
+      <h2 class="replace">Your Search Results</h2>
     
-    <a class="csv" href="<%= csv_path %>">CSV</a>
-  </h3>
-  
-  
-  <% if positions.any? %>
-    <table class="results">
-      <% positions.each do |position| %>
+    </div>
+    <div class="clear"></div>
+    
+    <article id="search-results" class="center" role="main">
+      
+      <% if positions.any? %>
+      
+        <a href="<%= csv_path %>" id="download-csv" class="replace" title="Download As CSV">
+          <span>Download As CSV</span>
+        </a>
         
-        <tr>
-          <td>
-            <a href="<%= staffer_path position['staffer'] %>"><%= display_name position['staffer'] %></a>
-          </td>
-          <td>
-            <%= position['quarter'] %>
-          </td>
-          <td>
-            <%= title_listing position['title'] %>
-          </td>
-          <td>
-            <a href="<%= office_path position['office'] %>">
-              <%= position['office']['name'] %>
-            </a>
-          </td>
-          <td>
-            <%= position['office']['phone'] %>
-          </td>
-          <td>
-            <%= room_for position['office']['building'], position['office']['room'] %>
-          </td>
-        </tr>
+        <table id="results-table" class="basic-table" role="main">
+          <colgroup span="2">
+          <colgroup span="1" class="wide-col">
+          <colgroup span="3">
+          <thead>
+            <tr>
+              <th class="column-sort">Name</th>
+              <th class="column-sort">Year/Quarter</th>
+              <th>Title/Position</th>
+              <th class="column-sort">Office</th>
+              <th>Contact Number</th>
+              <th>Office/Building</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <% positions.each do |position| %>
+              <tr>
+                <td>
+                  <a href="<%= staffer_path position['staffer'] %>">
+                    <%= display_name position['staffer'] %>
+                  </a>
+                </td>
+                <td><%= position['quarter'] %></td>
+                <td><%= title_listing position['title'] %></td>
+                <td>
+                  <a href="<%= office_path position['office'] %>">
+                    <%= position['office']['name'] %>
+                  </a>
+                </td>
+                <td>
+                  <%= position['office']['phone'] %>
+                </td>
+                <td>
+                  <%= room_for position['office']['building'], position['office']['room'] %>
+                </td>
+              </tr>
+            <% end %>
+            
+          </tbody>
+        </table>
         
+      <% else %>
+      
+        <p class="no_results">
+          No staffers found for that search.
+        </p>
+      
       <% end %>
-    
-    </table>
-  
+      
+    </article>
+
   <% else %>
-    
+
     <p class="no_results">
-      No staffers found for that search.
+      You need to specify at least one field in your search.
     </p>
     
   <% end %>
 
-<% else %>
-
-  <p class="no_results">
-    You need to specify at least one field in your search.
-  </p>
-  
-<% end %>
+</div>

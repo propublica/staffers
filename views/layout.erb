@@ -25,61 +25,61 @@
 
   <div id="banner" role="banner"></div>
   
-  <header>
-    <h1><a class="replace" href="/" title="House Staff Directory homepage">House Staff Directory</a></h1>
-      <% yield_content :header %>
-      <div class="clear"></div>
-    </header>
+  <header class="<% yield_content :header_class %>">
+    <h1>
+      <a class="replace" href="/" title="House Staff Directory homepage">House Staff Directory</a>
+    </h1>
+    
+    <% yield_content :header %>
+    
+    <div class="clear"></div>
+  </header>
 
-    <div id="main-home" class="main" role="main">
+  <%= yield %>
     
-      <%= yield %>
-    
-    </div>
-    
-   <footer class="footer-basic">
-    <section id="footer-home" class="footer-content">
-      <nav id="subnav" role="navigation">
+  <footer class="footer-basic">
+  <section id="footer-home" class="footer-content">
+    <nav id="subnav" role="navigation">
+      <ul>
+        <li id="faqs">
+          <a href="/faq" title="House Staff Directory FAQ Page">FAQs</a>
+        </li>
+        <li id="feedback">
+          <a href="http://getsatisfaction.com/sunlightfoundation/" title="Sunlight Foundation's Feedback Page">Feedback</a>
+        </li>
+        <li id="opensource">
+          <a href="https://github.com/sunlightlabs/staffers" title="Github Page for House Staff Directory">Open Source</a>
+        </li>
+      </ul>
+      <div class="clear"></div>
+    </nav>
+    <aside id="join"><p><strong>Like this product and want to see more like it?</strong> Sign up below to get regular updates and to be a part of our open government community.</p>
+    </aside>
+    <div id="emailmediarow">
+      <form action="/mailinglist/subscribe/" method="post" id="mailinglistform" role="form">
         <ul>
-          <li id="faqs">
-            <a href="/faq" title="House Staff Directory FAQ Page">FAQs</a>
+          <li>
+            <label for="id_email">Email</label>
+            <input type="text" name="email" id="id_email" placeholder="email">
           </li>
-          <li id="feedback">
-            <a href="http://getsatisfaction.com/sunlightfoundation/" title="Sunlight Foundation's Feedback Page">Feedback</a>
+          <li>
+            <label for="id_zipcode">Zip Code</label>
+            <input type="text" name="zip code" id="id_zipcode" placeholder="zip code" pattern="[0-9]{5}" maxlength="5">
           </li>
-          <li id="opensource">
-            <a href="https://github.com/sunlightlabs/staffers" title="Github Page for House Staff Directory">Open Source</a>
+          <li>
+            <button id="join-button" title="Join Us!" type="submit">
+              <span>Join</span>
+            </button>
           </li>
         </ul>
-        <div class="clear"></div>
-      </nav>
-      <aside id="join"><p><strong>Like this product and want to see more like it?</strong> Sign up below to get regular updates and to be a part of our open government community.</p>
-      </aside>
-      <div id="emailmediarow">
-        <form action="/mailinglist/subscribe/" method="post" id="mailinglistform" role="form">
-          <ul>
-            <li>
-              <label for="id_email">Email</label>
-              <input type="text" name="email" id="id_email" placeholder="email">
-            </li>
-            <li>
-              <label for="id_zipcode">Zip Code</label>
-              <input type="text" name="zip code" id="id_zipcode" placeholder="zip code" pattern="[0-9]{5}" maxlength="5">
-            </li>
-            <li>
-              <button id="join-button" title="Join Us!" type="submit">
-                <span>Join</span>
-              </button>
-            </li>
-          </ul>
-        </form>
-        <span id="facebook"><a href="https://www.facebook.com/sunlightfoundation">Click to visit us on Facebook!</a></span>
-        <span id="twitter"><a href="http://twitter.com/#!/sunfoundation">Click to follow us on Twitter!</a></span>
-      </div>
-      <div class="clear"></div>
-      <aside id="about" role="contentinfo"><small>Founded in 2006, the Sunlight Foundation is a non-partisan non-profit that uses cutting-edge technology and ideas to make government transparent and accountable. Visit <a href="http://sunlightfoundation.com" title="Sunlight Foundation homepage">SunlightFoundation.com</a> to learn more.</small></aside>
-    </section>
-    </footer>
+      </form>
+      <span id="facebook"><a href="https://www.facebook.com/sunlightfoundation">Click to visit us on Facebook!</a></span>
+      <span id="twitter"><a href="http://twitter.com/#!/sunfoundation">Click to follow us on Twitter!</a></span>
+    </div>
+    <div class="clear"></div>
+    <aside id="about" role="contentinfo"><small>Founded in 2006, the Sunlight Foundation is a non-partisan non-profit that uses cutting-edge technology and ideas to make government transparent and accountable. Visit <a href="http://sunlightfoundation.com" title="Sunlight Foundation homepage">SunlightFoundation.com</a> to learn more.</small></aside>
+  </section>
+  </footer>
 
   <script type="text/javascript">
 

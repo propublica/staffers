@@ -27,14 +27,14 @@ helpers do
     first_pass.gsub(/\/(\w)/) {" / #{$1.upcase}"}
   end
   
-  def title_listing(position)
-    name = capitalize position['title']
-    original_names = position['title_originals'].join("<br/>").gsub("\"", "\\\"")
-    "#{name} <a href=\"#\" onclick=\"return false\" class=\"title_hover\" title=\"Titles as originally listed:<br/><br/>#{original_names}\">?</a>"
+  def title_listing(title)
+    name = capitalize title['name']
+    original_names = title['original_names'].join("<br/>").gsub("\"", "\\\"")
+    "#{name} <a href=\"#\" onclick=\"return false\" class=\"info-icon\" title=\"Titles as originally listed:<br/><br/>#{original_names}\">i</a>"
   end
   
   def display_name(staffer)
-    "#{staffer.firstname} #{staffer.lastname}".strip
+    "#{staffer['first_name']} #{staffer['last_name']}".strip
   end
   
   def list_name(staffer)

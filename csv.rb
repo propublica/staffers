@@ -104,23 +104,16 @@ def staffer_to_csv(staffer)
   end
 end
 
-def staffers_to_csv(staffers, quarters)
-  csv_out 'staffers.csv'
+def positions_to_csv(positions)
+  csv_out 'positions.csv'
   
   FasterCSV.generate do |csv|
     csv << [
       "Staffer", "Quarter", "Title", "Office", "Phone", "Building", "Room"
     ]
     
-    staffers.each do |staffer|
-      quarters.each do |quarter|
-        positions = staffer['quarters'][quarter]
-        if positions
-          positions.each do |position|
-            csv << [staffer.name, quarter, position['title'], position['office']['name'], position['office']['phone'], position['office']['building'], position['office']['room']]
-          end
-        end
-      end
+    positions.each do |position|
+      csv << [position['staffer']['name'], position['quarter'], position['title']['name'], position['office']['name'], position['office']['phone'], position['office']['building'], position['office']['room']]
     end
   end
 end

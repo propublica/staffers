@@ -1,0 +1,54 @@
+<% if positions %>
+  <h3 class="results">
+    Results for 
+    
+    <a class="csv" href="<%= csv_path %>">CSV</a>
+  </h3>
+  
+  
+  <% if positions.any? %>
+    <table class="results">
+      <% positions.each do |position| %>
+        
+        <tr>
+          <td>
+            <a href="<%= staffer_path position['staffer'] %>"><%= display_name position['staffer'] %></a>
+          </td>
+          <td>
+            <%= position['quarter'] %>
+          </td>
+          <td>
+            <%= title_listing position['title'] %>
+          </td>
+          <td>
+            <a href="<%= office_path position['office'] %>">
+              <%= position['office']['name'] %>
+            </a>
+          </td>
+          <td>
+            <%= position['office']['phone'] %>
+          </td>
+          <td>
+            <%= room_for position['office']['building'], position['office']['room'] %>
+          </td>
+        </tr>
+        
+      <% end %>
+    
+    </table>
+  
+  <% else %>
+    
+    <p class="no_results">
+      No staffers found for that search.
+    </p>
+    
+  <% end %>
+
+<% else %>
+
+  <p class="no_results">
+    You need to specify at least one field in your search.
+  </p>
+  
+<% end %>

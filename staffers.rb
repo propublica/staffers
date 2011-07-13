@@ -38,63 +38,41 @@ end
 get '/staffers' do
   search = {}
   
-  quarters = []
   if params[:quarter].present?
-    quarters = [params[:quarter]]
-  else
-    quarters = Quarter.all.map {|q| q.name}.sort.reverse
+    search[:quarter] = params[:quarter]
   end
   
   if params[:first_name].present?
-    search[:first_name] = /#{params[:first_name]}/i
-    
-    if params[:quarter].present?
-      search["quarters.#{params[:quarter]}"] = {"$exists" => true}
-    end
+    search["staffer.first_name"] = regex_for params[:first_name]
   end
   
   if params[:last_name].present?
-    search[:last_name] = /#{params[:last_name]}/i
-    
-    if params[:quarter].present?
-      search["quarters.#{params[:quarter]}"] = {"$exists" => true}
-    end
+    search["staffer.last_name"] = regex_for params[:last_name]
   end
   
   if params[:title].present?
-    if params[:quarter].present?
-      search["quarters.#{params[:quarter]}.title"] = /#{params[:title]}/i
-    else
-      search["$or"] = quarters.map {|quarter| {"quarters.#{quarter}.title" => /#{params[:title]}/i}}
-    end
+    search["title.name"] = regex_for params[:title]
   end
 
   if params[:state].present?
-    if params[:quarter].present?
-      search["quarters.#{params[:quarter]}.office.member.state"] = params[:state]
-    else
-      search["$or"] = quarters.map {|quarter| {"quarters.#{quarter}.office.member.state" => params[:state]}}
-    end
+    search["office.member.state"] = params[:state]
   end
   
   if params[:party].present?
-    if params[:quarter].present?
-      search["quarters.#{params[:quarter]}.office.member.party"] = params[:party]
-    else
-      search["$or"] = quarters.map {|quarter| {"quarters.#{quarter}.office.member.party" => params[:party]}}
-    end
+    search["office.member.party"] = params[:party]
   end
   
   if search.keys.empty?
-    staffers = nil
+    positions = nil
   else
-    staffers = Staffer.where(search).order_by([[:last_name, :asc], [:first_name, :asc]]).all
+    positions = Position.where(search).desc(:quarter).all
+    positions = positions.limit(50)
   end
   
   if csv?
-    staffers_to_csv staffers, quarters
+    positions_to_csv positions
   else
-    erb :staffers, :locals => {:staffers => staffers, :quarters => quarters}
+    erb :positions, :locals => {:positions => positions}
   end
 end
 
@@ -186,4 +164,10 @@ def offices_for(type, offices)
   else
     erb :offices, :locals => {:offices => offices, :type => type}
   end
+end
+
+def regex_for(value)
+  regex_value = value.dup
+  %w{+ ? . * ^ $ ( ) [ ] { } | \ }.each {|char| regex_value.gsub! char, "\\#{char}"}
+  /#{regex_value}/i
 end

@@ -1,57 +1,90 @@
-<div class="office_header <%= office['office_type'] %>">
-<% if office['office_type'] == 'member' %>
-  <% member = office['member'] %>
-  <img src="http://assets.sunlightfoundation.com/moc/100x125/<%= member['bioguide_id'] %>.jpg" />
-  <div class="details">
-    <h2 class="office legislator"><%= office['name'] %></h2>
-    <span>
-      <%= party_names[member['party']] %> from 
-      
-      <a href="/legislators?state=<%= member['state'] %>">
-        <%= state_codes[member['state']] %></a>, 
-        
-      <% if member['title'] == 'Sen' %>
-        <a href="/legislators?state=<%= member['state'] %>&title=Sen">
-          Senator
-        </a>
-      <% else %>
-        <a href="/legislators?state=<%= member['state'] %>&district=<%= member['district'] %>">
-          <%= member['district'].to_i == 0 ? "At-Large" : "District #{member['district']}" %>
-        </a>
-      <% end %>
-    </span>
-    <span class="phone"><%= office['phone'] %></span>
-    <span class="room"><%= room_for office['building'], office['room'] %></span>
-  </div>
-  
-  <% if office['member']['in_office'] == false %>
-    <div class="empty">
-      This member is no longer in office.
-    </div>
+<div id="main-person" class="main" role="main">
+
+  <% if office['office_type'] == 'member' %>
+    <% member = office['member'] %>
+    
+    <section id="person-info" role="complementary">
+      <figure>
+        <img id="id_portrait" title="portrait" alt="a portrait of <%= office['name'] %>" src="http://assets.sunlightfoundation.com/moc/100x125/<%= member['bioguide_id'] %>.jpg">
+      </figure><!-- Is it possible to auto-place the name of the person into the alt attribute?-->
+      <section id="vcard-wrapper">  
+        <h2 id="id_person-name"><%= office['name'] %></h2>
+        <span id="id_party-district">
+          <%= party_names[member['party']] %> from
+          
+          <a href="/legislators?state=<%= member['state'] %>">
+            <%= state_codes[member['state']] %></a>,
+          
+          <% if member['title'] == 'Sen' %>
+            <a href="/legislators?state=<%= member['state'] %>&title=Sen">
+              Senator
+            </a>
+          <% else %>
+            <a href="/legislators?state=<%= member['state'] %>&district=<%= member['district'] %>">
+              <%= member['district'].to_i == 0 ? "At-Large" : "District #{member['district']}" %>
+            </a>
+          <% end %>
+          
+        </span>
+        <div class="vcard">
+          <div class="adr">
+            <span class="type">Work</span>
+            <div class="street-address"><%= room_for office['building'], office['room'] %></div>
+            <span class="locality">Washington</span>,  
+            <abbr class="region" title="District of Columbia">DC</abbr>&nbsp;&nbsp;
+          </div>
+          <div class="tel">
+            <span class="type">Work</span> +1-<%= office['phone'] %>
+          </div>
+        </div>
+      </section>
+      <div class="clear"></div>
+    </section>
   <% end %>
-<% else %>
-  <div class="details">
-    <h2 class="office"><%= office['name'] %></h2>
-    <span class="phone"><%= office['phone'] %></span>
-    <span class="room"><%= room_for office['building'], office['room'] %></span>
-  </div>
-<% end %>
-
-<div class="download">
-  <a href="<%= csv_path %>">Download CSV</a>
-</div>
-
-<% positions.each do |position| %>
-  <tr>
-    <td>
-      <a href="<%= staffer_path position['staffer'] %>"><%= list_name position['staffer'] %></a>
-    </td>
-    <td>
-      <%= title_listing position['title'] %>
-    </td>
-    <td>
-      <%= position['quarter'] %>
-    </td>
-  </tr>
-<% end %>
   
+  <article id="basic-content" class="center" role="main">
+    <h3 class="person-page-staffers">Staffers for <%= office['name'] %></h3> 
+    <section id="three-columns">          
+      <a href="<%= csv_path %>" id="download-csv" class="replace" title="Download As CSV">Download As CSV</a>       
+      <table class="basic-table" id="person-results-table" role="main">
+        <colgroup span="1">
+        <colgroup span="1" class="wide-col">
+        <colgroup span="1" class="short-col">
+        <thead>
+          <tr>
+            <th class="column-sort">Name</th>
+            <th>Title/Position</th>
+            <th class="column-sort">Year/Quarter</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <% positions.each do |position| %>
+            <tr>
+              <td>
+                <a href="<%= staffer_path position['staffer'] %>"><%= list_name position['staffer'] %></a>
+              </td>
+              <td>
+                <%= title_listing position['title'] %>
+              </td>
+              <td>
+                <%= position['quarter'] %>
+              </td>
+            </tr>
+          <% end %>
+        
+        </tbody>
+      </table>
+    </section>
+    
+    <div class="directory-search-area-right">
+      <div id="directory-search-right-corner"></div>
+      <div id="directory-search-right" role="search">
+        <h4 id="new-search" class="replace">New Search</h4>
+      </div>
+    </div>
+    
+    <div class="clear"></div>
+  </article>
+
+</div>

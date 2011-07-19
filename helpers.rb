@@ -57,7 +57,7 @@ helpers do
   
   def room_for(building, room)
     if building and room
-      "#{room} #{building.split(' ').first}"
+      "#{room} #{building.split(' ').first} House Office Building"
     else
       nil
     end

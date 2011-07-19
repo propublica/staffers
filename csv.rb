@@ -74,7 +74,7 @@ def office_to_csv(office, positions)
     ]
     
     positions.each do |position|
-      csv << [position['office']['name'], position['quarter'], position['staffer']['name'], position['title']]
+      csv << [position['office']['name'], position['quarter'], position['staffer']['name'], position['title']['name']]
     end
   end
 end

@@ -38,7 +38,7 @@ helpers do
   end
   
   def list_name(staffer)
-    "#{staffer.lastname}, #{staffer.firstname}".strip
+    "#{staffer['last_name']}, #{staffer['first_name']}".strip
   end
   
   def format_quarter(quarter)

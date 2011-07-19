@@ -94,42 +94,29 @@ end
 # office URLs
 get '/office/:slug' do
   office = Office.where(:slug => params[:slug]).first
-  
-  quarters = {}
-  Quarter.all.each do |quarter|
-    quarters[quarter.name] = Staffer.where("quarters.#{quarter.name}.office.slug" => params[:slug]).order_by([[:last_name, :asc], [:first_name, :asc]]).all
-  end
-  
-  office_for office, quarters
+  positions = Position.where("office.slug" => params[:slug]).all
+  office_for office, positions
 end
 
 get '/legislator/:bioguide_id' do
   office = Office.where("member.bioguide_id" => params[:bioguide_id]).first
-  
-  quarters = {}
-  Quarter.all.each do |quarter|
-    quarters[quarter.name] = Staffer.where("quarters.#{quarter.name}.office.member.bioguide_id" => params[:bioguide_id]).order_by([[:last_name, :asc], [:first_name, :asc]]).all
-  end
-  
-  office_for office, quarters
+  positions = Position.where("office.member.bioguide_id" => params[:bioguide_id]).order_by([["staffer.last_name", :asc], ["staffer.first_name", :asc]]).all
+  office_for office, positions
 end
 
 get '/committee/:committee_id' do
   office = Office.where("committee.id" => params[:committee_id]).first
   
-  quarters = {}
-  Quarter.all.each do |quarter|
-    quarters[quarter.name] = Staffer.where("quarters.#{quarter.name}.office.committee.id" => params[:committee_id]).order_by([[:last_name, :asc], [:first_name, :asc]]).all
-  end
+  positions = Position.where("office.committee.id" => params[:committee_id]).order_by([["staffer.last_name", :asc], ["staffer.first_name", :asc]]).all
   
-  office_for office, quarters
+  office_for office, positions
 end
 
-def office_for(office, quarters)
+def office_for(office, positions)
   if csv?
-    office_to_csv office, quarters
+    office_to_csv office, positions
   else
-    erb :office, :locals => {:office => office, :quarters => quarters}
+    erb :office, :locals => {:office => office, :positions => positions}
   end
 end
 

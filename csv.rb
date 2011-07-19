@@ -64,7 +64,7 @@ def offices_to_csv(offices)
   end
 end
 
-def office_to_csv(office, quarters)
+def office_to_csv(office, positions)
   names = {'committee' => 'committee', 'member' => 'member', 'other' => 'office'}
   csv_out "#{names[office.office_type]}.csv"
   
@@ -73,15 +73,8 @@ def office_to_csv(office, quarters)
       "Office", "Quarter", "Staffer", "Title"
     ]
     
-    quarters.keys.sort.reverse.each do |quarter|
-      staffers = quarters[quarter]
-      
-      staffers.each do |staffer|
-        positions = staffer.positions_for quarter, office
-        positions.each do |position|
-          csv << [office.name, quarter, staffer.name, position['title']]
-        end
-      end
+    positions.each do |position|
+      csv << [position['office']['name'], position['quarter'], position['staffer']['name'], position['title']]
     end
   end
 end

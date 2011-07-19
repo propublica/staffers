@@ -11,8 +11,8 @@ end
 
 
 
-def legislators_to_csv(legislators)
-  csv_out 'legislators.csv'
+def members_to_csv(members)
+  csv_out 'members.csv'
   
   FasterCSV.generate do |csv|
     csv << [
@@ -21,10 +21,10 @@ def legislators_to_csv(legislators)
       "Party", "State", "District", "In Office"
     ]
      
-    legislators.each do |legislator|
-      leg = legislator['member']
+    members.each do |member|
+      leg = member['member']
       csv << [
-        legislator.name, legislator.phone, legislator.building, legislator.room,
+        member.name, member.phone, member.building, member.room,
         leg['bioguide_id'], leg['title'], leg['firstname'], leg['lastname'], leg['name_suffix'],
         leg['party'], leg['state'], leg['district'], leg['in_office']
       ]

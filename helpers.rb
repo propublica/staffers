@@ -1,12 +1,12 @@
 helpers do
   
   def out?(office)
-    office.office_type == 'member' and office['legislator']['in_office'] == false
+    office.office_type == 'member' and office['member']['in_office'] == false
   end
   
   def office_path(office)
     if office['office_type'] == "member"
-      "/legislator/#{office['member']['bioguide_id']}"
+      "/member/#{office['member']['bioguide_id']}"
     elsif office['office_type'] == "committee"
       "/committee/#{office['committee']['id']}"
     else
@@ -55,9 +55,9 @@ helpers do
     "#{year} #{quarter}#{ordinal} Quarter"
   end
   
-  def room_for(building, room)
+  def room_for(building, room, long = false)
     if building and room
-      "#{room} #{building.split(' ').first} House Office Building"
+      "#{room} #{building.split(' ').first}#{" House Office Building" if long}"
     else
       nil
     end

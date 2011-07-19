@@ -1,51 +1,106 @@
-<h3 class="results">
-  <% if type == 'committees' %>
-    Committees
-  <% elsif type == 'offices' %>
-    Offices
-  <% elsif type == 'legislators' %>
-    <% if params[:state].present? and params[:district].present? %>
-      Members from <%= state_codes[params[:state]] %>, District <%= district_for params[:district] %>
-    <% elsif params[:state].present? and params[:title].present? %>
-      <%= plural_title_for params[:title] %> from <%= state_codes[params[:state]] %>
-    <% elsif params[:state].present? %>
-      Members from <%= state_codes[params[:state]] %>
-    <% else %>
-      Members
-    <% end %>
-  <% end %>
-  
-  <a class="csv" href="<%= csv_path %>">CSV</a>
-</h3>
+<div id="main-basic" class="main" role="main">
 
-<% if offices %>
-
-  <table class="quarter">
-    <% offices.each do |office| %>
-      <tr class="line <%= out?(office) ? "out" : "" %>">
-        <td>
-          <a href="<%= office_path office %>">
-            <%= office['name'] %>
-          </a>
-        </td>
-        <td>
-          <% if out?(office) %>
-            (out of office)
+  <article id="basic-content" class="center" role="main">
+    <h2>
+      <% if type == 'committees' %>
+        House Committees
+      <% elsif type == 'offices' %>
+        House Offices
+      <% elsif type == 'members' %>
+        <% if params[:state].present? and params[:district].present? %>
+          House Members from <%= state_codes[params[:state]] %>, District <%= district_for params[:district] %>
+        <% elsif params[:state].present? and params[:title].present? %>
+          <%= plural_title_for params[:title] %> from <%= state_codes[params[:state]] %>
+        <% elsif params[:state].present? %>
+          House Members from <%= state_codes[params[:state]] %>
+        <% else %>
+          House Members
+        <% end %>
+      <% end %>
+    </h2>
+    
+    <section id="three-columns">          
+      <a href="<%= csv_path %>" id="download-csv" class="replace" title="Download As CSV">Download As CSV</a>       
+      <table class="basic-table" id="<%= type == 'member' ? "three-col-results-table" : "person-results-table" %>" role="main">
+        <colgroup span="1" class="wide col">
+        <colgroup span="2">
+        
+        <% if type == 'members' %>
+          <colgroup span="1" class="short-col">
+        <% end %>
+        
+        <thead>
+          <% if type == 'members' %>
+            <tr>
+              <th class="column-sort">Name</th>
+              <th class="column-sort">Party</th>
+              <th>State</th>
+              <th class="column-sort">In Office</th>
+            </tr>
           <% else %>
-            <%= office['phone'] %>
+            <tr>
+              <th class="column-sort">Offices</th>
+              <th>Contact Number</th>
+              <th>Office/Building</th>
+            </tr>
           <% end %>
-        </td>
-        <td>
-          <% unless out?(office) %>
-            <%= room_for office['building'], office['room'] %>
+        </thead>
+        <tbody>
+
+          <% offices.each do |office| %>
+            <tr>
+              <% if type == 'members' %>
+                <td>
+                  <a href="<%= office_path office %>">
+                    <%= office['name'] %>
+                  </a>
+                </td>
+                <td>
+                  <%= party_names[office['member']['party']] %>
+                </td>
+                <td>
+                  <%= office['member']['state'] %><%= office['member']['district'].to_i != 0 ? "-#{office['member']['district']}" : "" %>
+                </td>
+                <td>
+                  <% if office['member']['in_office'] %>
+                    <img src="/images/hsd_star_15.png" width="15" height="15" alt="Currently in office" class="in-office">
+                    Yes
+                  <% else %>
+                    No
+                  <% end %>
+                </td>
+              <% else %>
+                <td>
+                  <a href="<%= office_path office %>">
+                    <%= office['name'] %>
+                  </a>
+                </td>
+                <td>
+                  <% unless out?(office) %>
+                    <%= office['phone'] %>
+                  <% end %>
+                </td>
+                <td>
+                  <% unless out?(office) %>
+                    <%= room_for office['building'], office['room'] %>
+                  <% end %>
+                </td>
+              <% end %>
+            </tr>
           <% end %>
-        </td>
-      </tr>
-    <% end %>
-  </table>
+        
+        </tbody>
+      </table>
+    </section>
+    
+    <div class="directory-search-area-right">
+      <div id="directory-search-right-corner"></div>
+      <div id="directory-search-right" role="search">
+        <h3 id="new-search" class="replace">New Search</h3>
+      </div>
+    </div>
+    
+    <div class="clear"></div>
+  </article>
 
-<% else %>
-
-  <br/>Invalid search parameters for offices.
-  
-<% end %>
+</div>

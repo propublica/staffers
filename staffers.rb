@@ -98,9 +98,11 @@ get '/office/:slug' do
   office_for office, positions
 end
 
-get '/legislator/:bioguide_id' do
-  office = Office.where("member.bioguide_id" => params[:bioguide_id]).first
-  positions = Position.where("office.member.bioguide_id" => params[:bioguide_id]).order_by([["staffer.last_name", :asc], ["staffer.first_name", :asc]]).all
+# support legacy /legislator/ URL
+get %r{/(?:member|legislator)/(\w\d+)} do
+  bioguide_id = params[:captures].first
+  office = Office.where("member.bioguide_id" => bioguide_id).first
+  positions = Position.where("office.member.bioguide_id" => bioguide_id).order_by([["staffer.last_name", :asc], ["staffer.first_name", :asc]]).all
   office_for office, positions
 end
 
@@ -122,7 +124,7 @@ end
 
 
 
-get %r{^/legislators(.csv)?$} do
+get '/members' do
   conditions = {}
   
   [:state, :district, :title].each do |key|
@@ -131,15 +133,33 @@ get %r{^/legislators(.csv)?$} do
     end
   end
   
-  offices_for 'legislators', Office.members.house.where(conditions).order_by([["member.in_office", :desc], ["member.lastname", :asc], ["member.firstname", :asc]]).all
+  offices = Office.members.house.where(conditions).order_by([["member.in_office", :desc], ["member.lastname", :asc], ["member.firstname", :asc]]).all
+  
+  if csv?
+    members_to_csv offices
+  else
+    erb :offices, :locals => {:offices => offices, :type => 'members'}
+  end
 end
 
-get %r{^/committees(.csv)?$} do
-  offices_for 'committees', Office.committees.order_by([[:name, :asc]]).all
+get '/committees' do
+  offices = Office.committees.order_by([[:name, :asc]]).all
+  
+  if csv?
+    committees_to_csv offices
+  else
+    erb :offices, :locals => {:offices => offices, :type => 'committees'}
+  end
 end
 
-get %r{^/offices(.csv)?$} do
-  offices_for 'offices', Office.others.order_by([[:name, :asc]]).all
+get '/offices' do
+  offices = Office.others.order_by([[:name, :asc]]).all
+  
+  if csv?
+    offices_to_csv offices
+  else
+    erb :offices, :locals => {:offices => offices, :type => 'offices'}
+  end
 end
 
 
@@ -153,7 +173,7 @@ def offices_for(type, offices)
       offices_to_csv offices
     end
   else
-    erb :offices, :locals => {:offices => offices, :type => type}
+    
   end
 end
 

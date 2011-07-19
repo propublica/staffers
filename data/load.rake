@@ -360,7 +360,7 @@ def staffer_from_row(row, i)
 end
 
 def committee_cache
-  # senate = Sunlight::Committee.all_for_chamber 'Senate'
+  senate = Sunlight::Committee.all_for_chamber 'Senate'
   house = Sunlight::Committee.all_for_chamber 'House'
   joint = Sunlight::Committee.all_for_chamber 'Joint'
   cache = {}

@@ -6,7 +6,7 @@ helpers do
   
   def office_path(office)
     if office['office_type'] == "member"
-      "/legislator/#{office['legislator']['bioguide_id']}"
+      "/legislator/#{office['member']['bioguide_id']}"
     elsif office['office_type'] == "committee"
       "/committee/#{office['committee']['id']}"
     else

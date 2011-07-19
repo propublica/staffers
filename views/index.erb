@@ -100,7 +100,7 @@
       <h4><a href="/legislators" title="House Members">Members</a></h4>
       <ol>
         <% members.each do |member| %>
-          <% legislator = member['legislator'] %>
+          <% legislator = member['member'] %>
           <li>
             <a href="<%= office_path member %>"><%= member['name'] %></a>
             <span class="member-parties">

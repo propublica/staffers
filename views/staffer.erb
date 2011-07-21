@@ -1,33 +1,54 @@
-<h2 class="staffer"><%= display_name staffer %></h2>
+<div id="main-basic" class="main" role="main">
 
-<div class="download">
-  <a href="<%= csv_path %>">Download CSV</a>
+  <article id="basic-content" class="center" role="main">
+    <h2><%= display_name staffer %></h2>  
+    <section id="three-columns">          
+      <a href="<%= csv_path %>" id="download-csv" class="replace" title="Download As CSV">Download As CSV</a>       
+      <table class="basic-table" id="three-col-results-table" role="main">
+        <thead>
+          <tr>
+            <th class="column-sort">Title</th>
+            <th class="column-sort">Office</th>
+            <th>Contact Number</th>
+            <th>Room/Building</th>
+            <th class="column-sort">Year/Quarter</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% positions.each do |position| %>
+            <tr>
+              <td><%= title_listing position['title'] %></td>
+              <td>
+                <a href="<%= office_path position['office'] %>">
+                  <%= position['office']['name'] %>
+                </a>
+              </td>
+              <td>
+                <%= position['office']['phone'] %>
+              </td>
+              <td>
+                <%= room_for position['office']['building'], position['office']['room'] %>
+              </td>
+              <td>
+                <%= position['quarter'] %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </section>
+    
+    <div class="directory-search-area-right">
+      <div id="directory-search-right-corner"></div>
+      <div id="directory-search-right" role="search">
+        <h3 id="new-search" class="replace">New Search</h3>
+        <span class="tip">Fill out one or more of the fields below to create a new search.</span>
+        <%= partial :search, :locals => {:position => "right"} %>
+      </div>
+    </div>
+  
+    <div class="clear"></div>
+  </article>
+
+  <div class="clear"></div>
 </div>
-
-<% staffer['quarters'].keys.sort.reverse.each do |quarter| %>
-  <% positions = staffer['quarters'][quarter] %>
-  
-  <h3 class="quarter"><%= format_quarter quarter %></h3>
-  
-  <table class="quarter staffer">
-    <% positions.each do |position| %>
-      <tr class="line">
-        <td>
-          <%= title_listing position %>
-        </td>
-        <td>
-          <a href="<%= office_path position['office'] %>">
-            <%= position['office']['name'] %>
-          </a>
-        </td>
-        <td>
-          <%= position['office']['phone'] %>
-        </td>
-        <td>
-          <%= room_for position['office']['building'], position['office']['room'] %>
-        </td>
-      </tr>
-    <% end %>
-  </table>
-  
-<% end %>

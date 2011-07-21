@@ -81,10 +81,14 @@
       <div id="directory-search-right-corner"></div>
       <div id="directory-search-right" role="search">
         <h4 id="new-search" class="replace">New Search</h4>
+        <span class="tip">Fill out one or more of the fields below to create a new search.</span>
+        
+        <%= partial :search, :locals => {:position => 'right'} %>
       </div>
     </div>
     
     <div class="clear"></div>
   </article>
 
+  <div class="clear"></div>
 </div>

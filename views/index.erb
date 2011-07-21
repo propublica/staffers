@@ -16,79 +16,8 @@
       <h2 class="replace">Search the Directory</h2>
       <span id="search-tip" class="tip">To conduct a search, fill out one or more of the fields below.</span>
 
-      <form action="/staffers" method="get" id="directory-search-form" role="form">
-        <ul class="search-list">
-          <li>
-            <label for="id_firstname">First Name</label>
-            <input type="text" name="first_name" id="id_firstname" placeholder="enter first name here">
-          </li>
-          <li>
-            <label for="id_lastname">Last Name</label>
-            <input type="text" name="last_name" id="id_lastname" placeholder="enter last name here">
-          </li>
-          <li>
-            <label for="id_title">Title</label>
-            <select name="title" id="id_title">
-              <option value="" selected="selected">Select a Title</option>
-              <% search_titles.each do |title| %>
-                <option><%= title %></option>
-              <% end %>
-            </select>
-          </li>
-          <li>
-            <label for="id_yearquarter">Year/Quarter</label>
-            <select name="quarter" id="id_yearquarter">
-              <option value="" selected="selected">Select a Year/Quarter</option>
-              <% quarter_names.each_with_index do |name, i| %>
-                <option value="<%= name %>"><%= name %><%=" (most recent)" if i == 0 %></option>
-              <% end %>
-            </select>
-          </li>
-          <li>
-            <label for="id_state">State</label>
-            <select name="state" id="id_state">
-              <option value="" selected="selected">Select a State</option>
-              <% states_by_name = state_codes.invert %>
-              <% states_by_name.keys.sort.map do |name| %>
-                <option value="<%= states_by_name[name] %>"><%= name %></option>
-              <% end %>
-            </select>
-          </li>
-          <li>
-            <label for="id_party">Party</label>
-            <select name="party" id="id_party">
-              <option value="" selected="selected">Select a Party</option>
-              <% parties_by_name = party_names.invert %>
-              <% parties_by_name.keys.sort.map do |name| %>
-                <option value="<%= parties_by_name[name] %>"><%= name %></option>
-              <% end %>
-            </select>
-          </li>
-          <li>
-            <label for="id_committee">Committee</label>
-            <select name="committee" id="id_committee">
-              <option value="" selected="selected">Select a Committee</option>
-              <% committees.each do |committee| %>
-                <option value="<%= committee['slug'] %>"><%= committee['name'] %></option>
-              <% end %>
-            </select>
-          </li>
-          <li>
-            <label for="id_offices">Offices</label>
-            <select name="office" id="id_offices">
-              <option value="" selected="selected">Select an Office</option>
-              <% offices.each do |office| %>
-                <option value="<%= office['slug'] %>"><%= office['name'] %></option>
-              <% end %>
-            </select>
-          </li>
-          <li>
-            <button id="search-button" class="replace" role="search" title="Search Now!" type="submit" value="Search">
-              <span>Search Now!</span>
-            </button>
-          </li>
-        </ul>
-      </form>
+      <%= partial :search %>
+      
     </nav>
   </section>
 

@@ -251,7 +251,7 @@ h2 {
 	box-shadow: #8b8981 2px 2px 5px;
 }
 
-#directory-search-internal-min {
+#directory-search-internal.min {
 	background: url('../images/searchbar_tile.jpg') top left repeat;
 	width: 850px;
 	color: #ffffff;
@@ -276,7 +276,7 @@ h2 {
 	float: left;
 }
 
-#directory-search-internal-min h2 {
+#directory-search-internal.min h2 {
 	background: url('../images/resultstitle.png') left top no-repeat;
 	width: 253px;
 	height: 48px;
@@ -295,7 +295,7 @@ h2 {
 	position: absolute;
 }
 
-#directory-search-internal-min .toggle {
+#directory-search-internal.min .toggle {
 	margin: 0 0 0 -10px;
 }
 

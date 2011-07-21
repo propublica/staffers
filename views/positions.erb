@@ -3,11 +3,15 @@
 <div id="main-internal" class="main" role="main">
 
   <% if positions %>
-    <div id="directory-search-internal-min" role="search">
+    <div id="directory-search-internal" role="search">
       
-      <a id="toggle-on" class="toggle">Toggle</a>
+      <a id="toggle-off" href="#" class="toggle">Toggle</a>
 
       <h2 class="replace">Your Search Results</h2>
+      
+      <span id="results-tip" class="tip">Fill out one or more of the fields below to revise your search.</span>
+      
+      <%= partial :search, :locals => {:position => "internal"} %>
     
     </div>
     <div class="clear"></div>

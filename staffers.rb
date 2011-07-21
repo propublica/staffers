@@ -66,6 +66,10 @@ get '/staffers' do
     search["office.slug"] = params[:office]
   end
   
+  if params[:committee].present?
+    search["office.slug"] = params[:committee]
+  end
+  
   if search.keys.empty?
     positions = nil
   else

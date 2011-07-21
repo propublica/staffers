@@ -20,7 +20,8 @@
   <link rel="stylesheet" href="/css/style.css">
   
   <script type="text/javascript" src="/javascripts/jquery-1.6.2.min.js"></script>
-  <script type="text/javascript" src="/javascripts/jqModal.js"></script>
+  <script type="text/javascript" src="/javascripts/jquery.qtip-1.0.0-rc3.min.js"></script>
+  <script type="text/javascript" src="/javascripts/jquery.tablesorter.min.js"></script>
   <script type="text/javascript" src="/javascripts/staffers.js"></script>
 
 </head>
@@ -84,6 +85,22 @@
     <aside id="about" role="contentinfo"><small>Founded in 2006, the Sunlight Foundation is a non-partisan non-profit that uses cutting-edge technology and ideas to make government transparent and accountable. Visit <a href="http://sunlightfoundation.com" title="Sunlight Foundation homepage">SunlightFoundation.com</a> to learn more.</small></aside>
   </section>
   </footer>
+  
+  <script type="text/javascript"> 
+    // modified tooltips
+    $(function() {
+      $('a.info-icon').qtip({
+        style: {
+          name: 'light', 
+          width: 400,
+          tip: true
+        },
+        show: {
+          delay: 1
+        }
+      });
+    });
+  </script> 
 
   <script type="text/javascript">
 

@@ -1,11 +1,29 @@
 <% content_for :header_class do %>header-internal<% end %>
 
+<script type="text/javascript">
+  $(function() {
+    $("a#toggle").click(function() {
+      var elem = $(this);
+      if (elem.hasClass("on")) {
+        $("#directory-search-internal").addClass("min");
+        elem.removeClass("on");
+        elem.addClass("off");
+      } else {
+        $("#directory-search-internal").removeClass("min");
+        elem.removeClass("off");
+        elem.addClass("on");
+      }
+    });
+    
+  });
+</script>
+
 <div id="main-internal" class="main" role="main">
 
   <% if positions %>
     <div id="directory-search-internal" role="search">
       
-      <a id="toggle-off" href="#" class="toggle">Toggle</a>
+      <a id="toggle" href="#" class="on toggle">Toggle</a>
 
       <h2 class="replace">Your Search Results</h2>
       

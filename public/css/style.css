@@ -285,7 +285,7 @@ h2 {
 }
 
 
-.toggle {
+a.toggle {
 	width: 15px;
 	height: 15px;
 	margin: 0 0 0 -13px;
@@ -299,11 +299,11 @@ h2 {
 	margin: 0 0 0 -10px;
 }
 
-#toggle-on {
+a.toggle.on {
 	background: url('../images/toggle-on.png') left top no-repeat;
 }
 
-#toggle-off {
+a.toggle.off {
 	background: url('../images/toggle-off.png') left top no-repeat;
 }
 

@@ -706,12 +706,24 @@ h3 {
 	width: 30%;
 }
 
-#person-results-table .wide-col {
+#person-results-table .wide-col, #three-col-results-table .wide-col {
 	width: 45%;
 }
 
 #person-results-table .short-col {
 	width: 20%;
+}
+
+#three-col-results-table .short-col {
+  width: 15%;
+}
+
+#three-col-results-table .short-col {
+  width: 15%;
+}
+
+#three-col-results-table .no-col {
+  padding-left:27px;
 }
 
 #results-table th:nth-child(5) {

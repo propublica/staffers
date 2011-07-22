@@ -5,11 +5,11 @@
     $("a#toggle").click(function() {
       var elem = $(this);
       if (elem.hasClass("on")) {
-        $("#directory-search-internal").addClass("min");
+        $("#directory-search-internal").removeClass("min");
         elem.removeClass("on");
         elem.addClass("off");
       } else {
-        $("#directory-search-internal").removeClass("min");
+        $("#directory-search-internal").addClass("min");
         elem.removeClass("off");
         elem.addClass("on");
       }
@@ -21,17 +21,20 @@
 <div id="main-internal" class="main" role="main">
 
   <% if positions %>
-    <div id="directory-search-internal" role="search">
+    <div id="directory-search-internal" class="min" role="search">
       
       <a id="toggle" href="#" class="on toggle">Toggle</a>
 
       <h2 class="replace">Your Search Results</h2>
       
-      <span id="results-tip" class="tip">Fill out one or more of the fields below to revise your search.</span>
+      <span id="results-tip" class="tip"
+        >Fill out one or more of the fields below to revise your search.
+      </span>
       
       <%= partial :search, :locals => {:position => "internal"} %>
     
     </div>
+    
     <div class="clear"></div>
     
     <article id="search-results" class="center" role="main">

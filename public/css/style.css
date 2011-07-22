@@ -299,6 +299,10 @@ a.toggle {
 	margin: 0 0 0 -10px;
 }
 
+#directory-search-internal.min span.tip, #directory-search-internal.min form {
+  display: none;
+}
+
 a.toggle.on {
 	background: url('../images/toggle-on.png') left top no-repeat;
 }

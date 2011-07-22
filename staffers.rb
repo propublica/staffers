@@ -35,7 +35,7 @@ get '/faq' do
   erb :faq
 end
 
-get '/staffers' do
+get '/positions' do
   search = {}
   
   if params[:quarter].present?

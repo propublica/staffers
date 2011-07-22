@@ -1,3 +1,19 @@
+<script type="text/javascript">
+
+  $(function() {
+    $("table").tablesorter({
+      sortList: [[0,0]],
+      headers: {
+        <% if type != 'members' %>
+          1: {sorter: false},
+          2: {sorter: false}
+        <% end %>
+      }
+    });
+  });
+
+</script>
+
 <div id="main-basic" class="main" role="main">
 
   <article id="basic-content" class="center" role="main">

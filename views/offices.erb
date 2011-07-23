@@ -4,7 +4,9 @@
     $("table.basic-table").tablesorter({
       sortList: [[0,0]],
       headers: {
-        <% if type != 'members' %>
+        <% if type == 'members' %>
+          2: {sorter: false}
+        <% else %>
           1: {sorter: false},
           2: {sorter: false}
         <% end %>

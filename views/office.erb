@@ -2,7 +2,10 @@
   $(function() {
     
     $("table.basic-table").tablesorter({
-      sortList: [[2,1]]
+      sortList: [[2,1]],
+      headers: {
+        1: {sorter: false}
+      }
     });
     
   });

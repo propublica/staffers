@@ -74,7 +74,7 @@ get '/positions' do
     positions = nil
   else
     positions = Position.where(search).desc(:quarter).all
-    positions = positions.limit(50)
+    # positions = positions.limit(50)
   end
   
   if csv?

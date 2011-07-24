@@ -13,9 +13,19 @@
   });
 </script>
 
-<div id="main-person" class="main" role="main">
+<% if office['office_type'] != 'member' %>
+  <div id="main-basic" class="main" role="main">
 
-  <% if office['office_type'] == 'member' %>
+    <article id="basic-content" class="center" role="main">
+      <h2><%= office['name'] %></h2>  
+      <section id="three-columns">          
+        <a href="<%= csv_path %>" id="download-csv" class="replace" title="Download As CSV">Download As CSV</a>       
+        <table class="basic-table" id="three-col-results-table" role="main">
+
+
+
+<% else %>
+  <div id="main-person" class="main" role="main">
     <% member = office['member'] %>
     
     <section id="person-info" role="complementary">
@@ -55,13 +65,14 @@
       </section>
       <div class="clear"></div>
     </section>
-  <% end %>
   
   <article id="basic-content" class="center" role="main">
     <h3 class="person-page-staffers">Staffers for <%= office['name'] %></h3> 
     <section id="three-columns">          
       <a href="<%= csv_path %>" id="download-csv" class="replace" title="Download As CSV">Download As CSV</a>       
       <table class="basic-table" id="person-results-table" role="main">
+<% end %>
+
         <colgroup span="1">
         <colgroup span="1" class="wide-col">
         <colgroup span="1" class="short-col">

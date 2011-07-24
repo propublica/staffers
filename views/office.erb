@@ -25,15 +25,15 @@
         <span id="id_party-district">
           <%= party_names[member['party']] %> from
           
-          <a href="/legislators?state=<%= member['state'] %>">
+          <a href="/members?state=<%= member['state'] %>">
             <%= state_codes[member['state']] %></a>,
           
           <% if member['title'] == 'Sen' %>
-            <a href="/legislators?state=<%= member['state'] %>&title=Sen">
+            <a href="/members?state=<%= member['state'] %>&title=Sen">
               Senator
             </a>
           <% else %>
-            <a href="/legislators?state=<%= member['state'] %>&district=<%= member['district'] %>">
+            <a href="/members?state=<%= member['state'] %>&district=<%= member['district'] %>">
               <%= member['district'].to_i == 0 ? "At-Large" : "District #{member['district']}" %>
             </a>
           <% end %>

@@ -697,6 +697,11 @@ h3 {
 	font-size: 14px;
 }
 
+/** This class is added dynamically by tablesorter to headers that are sortable **/
+.basic-table th.header {
+  cursor: pointer;
+}
+
 #results-table {
 	min-width: 855px;
 }

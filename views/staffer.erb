@@ -33,7 +33,7 @@
         <tbody>
           <% positions.each do |position| %>
             <tr>
-              <td><%= title_listing position['title'] %></td>
+              <td><%= title_listing position %></td>
               <td>
                 <a href="<%= office_path position['office'] %>">
                   <%= position['office']['name'] %>

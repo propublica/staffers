@@ -88,15 +88,78 @@ ol, ul {
 
 body {
 	color: #5e5f5f;
-	background: #f8f6ec url('../images/bg_tile.jpg') top left repeat-x;
+	background: #f8f6ec url('/images/bg_tile.jpg') top left repeat-x;
 	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 	font-size: 13px;
 	line-height: 16px;
 }
 
-#banner {
-	background: #c9def3 url('#');
-	height: 30px;
+.sf_mini_header {
+  background: url('/images/sf_mini_nav_bg.jpg') center top no-repeat;
+  background-color: #b7d2ef;
+  height: 41px;
+  width: 100%;
+  border-bottom: 1px #c6c6c6 solid;
+  -moz-box-shadow: #c6c6c6 1px 1px 2px;
+  -webkit-box-shadow: #c6c6c6 1px 1px 2px;
+  box-shadow: #c6c6c6 1px 1px 2px; 
+} 
+
+.sf_mini_header_nav_wrapper{
+  width: 960px;
+  height: 41px;
+  margin-left: auto;
+  margin-right: auto;
+} 
+
+.sf_mini_header_nav_wrapper h1{
+  background: url('/images/sf_mini_logo.png') top left no-repeat;
+  background-color: transparent;
+  text-indent: -9999px;
+  width: 158px;
+  height: 41px;
+  float: left;
+  padding-right: 30px;
+} 
+
+.sf_mini_header_nav_wrapper{
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  font-style: normal;
+  color: #494442;
+  text-transform: uppercase;
+} 
+
+.sf_mini_header_nav_wrapper li{
+  float: left;
+  padding: 18px 35px 0 0;
+} 
+
+.sf_mini_header_nav_wrapper a{
+  text-decoration: none;
+  color: #494442; 
+} 
+
+.sf_mini_header_nav_wrapper a:hover{
+  font-weight: bold;
+  color: #2F4867;
+} 
+
+.sf_mini_header_nav_wrapper .about{
+  width: 40px;
+}
+
+.sf_mini_header_nav_wrapper .blog{
+  width: 40px;
+}
+
+.sf_mini_header_nav_wrapper .projects{
+  width: 65px;
+}
+
+.sf_mini_header_nav_wrapper .contact{
+  width: 40px;
 }
 
 header {
@@ -115,7 +178,7 @@ h1 {
 }
 
 h1 a {
-	background: url('../images/hsd_logo.png') top left no-repeat;
+	background: url('/images/hsd_logo.png') top left no-repeat;
 	width: 227px;
 	height: 63px;
 }
@@ -128,7 +191,7 @@ h2 {
 }
 
 #feature {
-	background: url('../images/featurebar.png') top left no-repeat;
+	background: url('/images/featurebar.png') top left no-repeat;
 	height: 177px;
 	width: 613px;
 	margin-top: 43px;
@@ -139,7 +202,7 @@ h2 {
 }
 
 #feature h2 {
-	background: url('../images/findingstaffer.png') top left no-repeat;
+	background: url('/images/findingstaffer.png') top left no-repeat;
 	width: 355px;
 	height: 75px;
 	margin: 0px;
@@ -162,7 +225,7 @@ h2 {
 }
 
 .main {
-	background: #f4f1e7 url('../images/main_bg.jpg') left top repeat-y;
+	background: #f4f1e7 url('/images/main_bg.jpg') left top repeat-y;
 	width: 950px;
 }
 
@@ -202,13 +265,13 @@ h2 {
 }
 
 #directory-search-corner {
-	background: url('../images/cornerpiece.png') left top no-repeat;
+	background: url('/images/cornerpiece.png') left top no-repeat;
 	width: 16px;
 	height: 13px;
 }
 
 #directory-search {
-	background: url('../images/searchbar_tile.jpg') top left repeat;
+	background: url('/images/searchbar_tile.jpg') top left repeat;
 	width: 208px;
 	color: #ffffff;
 	padding: 15px 0 25px 25px;
@@ -227,7 +290,7 @@ h2 {
 }
 
 #directory-search h2 {
-	background: url('../images/searchtitle.png') left top no-repeat;
+	background: url('/images/searchtitle.png') left top no-repeat;
 	width: 230px;
 	height: 82px;
 	margin-left: -7px;
@@ -235,7 +298,7 @@ h2 {
 }
 
 #directory-search-internal {
-	background: url('../images/searchbar_tile.jpg') top left repeat;
+	background: url('/images/searchbar_tile.jpg') top left repeat;
 	width: 850px;
 	color: #ffffff;
 	margin: -55px 0 0 27px;
@@ -252,7 +315,7 @@ h2 {
 }
 
 #directory-search-internal.min {
-	background: url('../images/searchbar_tile.jpg') top left repeat;
+	background: url('/images/searchbar_tile.jpg') top left repeat;
 	width: 850px;
 	color: #ffffff;
 	margin: -55px 0 0 27px;
@@ -269,7 +332,7 @@ h2 {
 }
 
 #directory-search-internal h2 {
-	background: url('../images/resultstitle.png') left top no-repeat;
+	background: url('/images/resultstitle.png') left top no-repeat;
 	width: 253px;
 	height: 48px;
 	margin: -21px 10px 0 -30px;
@@ -277,7 +340,7 @@ h2 {
 }
 
 #directory-search-internal.min h2 {
-	background: url('../images/resultstitle.png') left top no-repeat;
+	background: url('/images/resultstitle.png') left top no-repeat;
 	width: 253px;
 	height: 48px;
 	margin: -16px 10px 0 -25px;
@@ -304,11 +367,11 @@ a.toggle {
 }
 
 a.toggle.on {
-	background: url('../images/toggle-on.png') left top no-repeat;
+	background: url('/images/toggle-on.png') left top no-repeat;
 }
 
 a.toggle.off {
-	background: url('../images/toggle-off.png') left top no-repeat;
+	background: url('/images/toggle-off.png') left top no-repeat;
 }
 
 .tip {
@@ -358,7 +421,7 @@ a.toggle.off {
 }
 
 #directory-search-form #search-button {
-	background: url('../images/search_button.png') center top no-repeat;
+	background: url('/images/search_button.png') center top no-repeat;
 	width: 141px;
 	height: 33px;
 	margin: 5px 0 0 25px;
@@ -387,7 +450,7 @@ a.toggle.off {
 }
 
 #directory-search-form-internal #search-button {
-	background: url('../images/newsearch_button.png') center top no-repeat;
+	background: url('/images/newsearch_button.png') center top no-repeat;
 	width: 129px;
 	height: 28px;
 	margin: 0 0 0 8px;
@@ -406,14 +469,14 @@ a.toggle.off {
 }
 
 #directory-search-right-corner {
-	background: url('../images/cornerpiece2.png') left top no-repeat;
+	background: url('/images/cornerpiece2.png') left top no-repeat;
 	width: 29px;
 	height: 13px;
 	margin-left: 159px;
 }
 
 #directory-search-right {
-	background: url('../images/searchbar_tile.jpg') top left repeat;
+	background: url('/images/searchbar_tile.jpg') top left repeat;
 	width: 166px;
 	color: #ffffff;
 	padding: 15px 0 25px 20px;
@@ -432,7 +495,7 @@ a.toggle.off {
 }
 
 #new-search {
-	background: url('../images/newsearch.png') left top no-repeat;
+	background: url('/images/newsearch.png') left top no-repeat;
 	width: 176px;
 	height: 40px;
 	margin-bottom: 10px;
@@ -447,7 +510,7 @@ a.toggle.off {
 }
 
 #directory-search-form-right #search-button {
-	background: url('../images/newsearch_button.png') center top no-repeat;
+	background: url('/images/newsearch_button.png') center top no-repeat;
 	width: 129px;
 	height: 28px;
 	margin: 5px 0 0 13px;
@@ -456,7 +519,7 @@ a.toggle.off {
 }
 
 #person-info {
-	background: url('../images/personbar.jpg') top left repeat;
+	background: url('/images/personbar.jpg') top left repeat;
 	width: 615px;
 	margin: -55px 0 0 27px;
 	padding: 15px 5px 10px 18px;
@@ -552,7 +615,7 @@ a.toggle.off {
 }
 
 #directory-browse h3 {
-	background: url('../images/browsetitle.png') left top no-repeat;
+	background: url('/images/browsetitle.png') left top no-repeat;
 	width: 488px;
 	height: 25px;
 	margin: 0 0 20px 70px;
@@ -570,7 +633,7 @@ a.toggle.off {
 }
 
 #download-csv {
-	background: url('../images/download_button.png') center top no-repeat;
+	background: url('/images/download_button.png') center top no-repeat;
 	width: 115px;
 	height: 26px;
 	margin: 0 0 13px 8px;
@@ -707,7 +770,7 @@ h3 {
 }
 
 #person-results-table .column-sort, #results-table .column-sort, #three-col-results-table .column-sort {
-	background: #e4e9e9 url('../images/sort_arrows.png') 5px 8px no-repeat;
+	background: #e4e9e9 url('/images/sort_arrows.png') 5px 8px no-repeat;
 	padding: 5px 5px 5px 20px;
 }
 
@@ -770,7 +833,7 @@ footer {
 }
 
 .footer-content {
-	background: url('../images/footerbar.png') top left no-repeat;
+	background: url('/images/footerbar.png') top left no-repeat;
 	height: 150px;
 	width: 575px;
 	color: #7b7d81;
@@ -849,7 +912,7 @@ footer {
 }
 
 #join-button {
-	background: url('../images/join_button.png') center top no-repeat;
+	background: url('/images/join_button.png') center top no-repeat;
 	width: 66px;
 	height: 24px;
 	border: none;
@@ -859,7 +922,7 @@ footer {
 }
 
 #facebook {
-	background: url('../images/facebook_icon.png') left top no-repeat;
+	background: url('/images/facebook_icon.png') left top no-repeat;
 	width: 22px;
 	height: 24px;
 	text-indent: -9999em;
@@ -870,7 +933,7 @@ footer {
 }
 
 #twitter {
-	background: url('../images/twitter_icon.png') left top no-repeat;
+	background: url('/images/twitter_icon.png') left top no-repeat;
 	width: 24px;
 	height: 24px;
 	text-indent: -9999em;

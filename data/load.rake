@@ -153,7 +153,8 @@ namespace :load do
         :quarter => quarter,
         :title => title.attributes,
         :staffer => staffer.attributes,
-        :office => office.attributes
+        :office => office.attributes,
+        :original_title => title_original
       )
       
       position.save!

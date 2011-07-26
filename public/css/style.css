@@ -534,6 +534,12 @@ a.toggle.off {
 	padding: 18px 15px 44px 90px;
 }
 
+#directory-browse h4 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
 #search-results {
 	margin-left: 17px;
 	padding: 15px 15px 20px 15px;
@@ -580,6 +586,10 @@ a.toggle.off {
 	width: 195px;
 	margin-top: 30px;
 	float: left;
+}
+
+.browse-column a.view:hover {
+  color: #ffffff;
 }
 
 .basic-text {

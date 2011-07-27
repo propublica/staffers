@@ -4,15 +4,26 @@
 
   $(function() {
     $("table.basic-table").tablesorter({
-      sortList: [[0,0]],
+      <% if type == 'members' %>
+      sortList: [[3,1], [0,0]],
       headers: {
-        <% if type == 'members' %>
-          2: {sorter: false}
-        <% else %>
-          1: {sorter: false},
-          2: {sorter: false}
-        <% end %>
+        0: {
+          
+        },
+        2: {sorter: false}
+      },
+      textExtraction: function(node) {
+        if (node.childElementCount > 0 && node.firstElementChild.firstElementChild)
+          return node.firstElementChild.firstElementChild.innerText;
+        else
+          return node.innerText;
       }
+      <% else %>
+      sortList: [[0,0]],
+        1: {sorter: false},
+        2: {sorter: false}
+      }
+      <% end %>
     });
   });
 
@@ -72,7 +83,7 @@
               <% if type == 'members' %>
                 <td>
                   <a href="<%= office_path office %>">
-                    <%= office['name'] %>
+                    <%= member_name office %>
                   </a>
                 </td>
                 <td>

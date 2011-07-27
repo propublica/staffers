@@ -14,6 +14,11 @@ helpers do
     end
   end
   
+  def member_name(office)
+    member = office['member']
+    "#{member['title']}. #{member['nickname'].present? ? member['nickname'] : member['firstname']} <span class=\"lastname\">#{member['lastname']}</span> #{member['name_suffix']}".strip
+  end
+  
   def staffer_path(staffer)
     "/staffer/#{staffer['slug']}"
   end

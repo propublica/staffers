@@ -149,15 +149,24 @@ namespace :load do
         end
       end
       
-      position = Position.new(
+      position = Position.where(
         :quarter => quarter,
-        :title => title.attributes,
-        :staffer => staffer.attributes,
-        :office => office.attributes,
-        :original_title => title_original
-      )
+        "title.name" => title['name'],
+        "staffer.slug" => staffer['slug'],
+        "office.slug" => office['slug']
+      ).first
       
-      position.save!
+      if position.nil?
+        position = Position.new(
+          :quarter => quarter,
+          :title => title.attributes,
+          :staffer => staffer.attributes,
+          :office => office.attributes,
+          :original_title => title_original
+        )
+      
+        position.save!
+      end
       
       puts "[#{i}][#{quarter}] #{staffer.name} works as #{title.name} for #{office.name}" if debug
     end

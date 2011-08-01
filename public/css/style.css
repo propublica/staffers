@@ -343,8 +343,15 @@ h2 {
 	background: url('/images/resultstitle.png') left top no-repeat;
 	width: 253px;
 	height: 48px;
-	margin: -16px 10px 0 -25px;
 	float: left;
+}
+
+#directory-search-internal.min h2 {
+  margin: -16px 10px 0 -30px;
+} 
+
+#directory-search-internal.min {
+  padding: 10px 0 40px 20px;
 }
 
 

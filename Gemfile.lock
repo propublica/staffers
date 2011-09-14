@@ -14,6 +14,7 @@ GEM
     fastercsv (1.5.3)
     i18n (0.5.0)
     json (1.5.1)
+    kgio (2.6.0)
     mongo (1.3.1)
       bson (>= 1.3.1)
     mongoid (2.0.2)
@@ -26,6 +27,7 @@ GEM
     monkey-lib (0.5.4)
       backports
     rack (1.3.0)
+    raindrops (0.7.0)
     sinatra (1.2.6)
       rack (~> 1.1)
       tilt (< 2.0, >= 1.2.2)
@@ -47,6 +49,10 @@ GEM
       ym4r (>= 0.6.1)
     tilt (1.3.2)
     tzinfo (0.3.27)
+    unicorn (4.1.1)
+      kgio (~> 2.4)
+      rack
+      raindrops (~> 0.6)
     wirble (0.1.3)
     ym4r (0.6.1)
 
@@ -64,4 +70,5 @@ DEPENDENCIES
   sinatra-content-for (= 0.2)
   sinatra-reloader (= 0.5.0)
   sunlight (= 1.1.0)
+  unicorn
   wirble

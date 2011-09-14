@@ -16,4 +16,5 @@ gem 'SystemTimer', '1.2.3' # mongo gem asks for this
 group :development do
   gem 'sinatra-reloader', '0.5.0'
   gem 'wirble'
+  gem 'unicorn'
 end

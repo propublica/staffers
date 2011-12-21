@@ -234,15 +234,17 @@ def office_from_row(row, i, committees)
 
       # in case remote committee data changed
       committee = committees[committee_id]
-      office.attributes = {
-        :name => committee.name,
-        :committee => {
-          :id => committee_id,
+      if committee
+        office.attributes = {
           :name => committee.name,
-          :chamber => committee.chamber
+          :committee => {
+            :id => committee_id,
+            :name => committee.name,
+            :chamber => committee.chamber
+          }
         }
-      }
-      office.save!
+        office.save!
+      end
 
     else
       committee = committees[committee_id]

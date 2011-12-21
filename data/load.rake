@@ -231,7 +231,19 @@ def office_from_row(row, i, committees)
       else
         puts "Found old committee office with this name, not touching" if debug
       end
-      
+
+      # in case remote committee data changed
+      committee = committees[committee_id]
+      office.attributes = {
+        :name => committee.name,
+        :committee => {
+          :id => committee_id,
+          :name => committee.name,
+          :chamber => committee.chamber
+        }
+      }
+      office.save!
+
     else
       committee = committees[committee_id]
       
@@ -259,6 +271,7 @@ def office_from_row(row, i, committees)
     end
     
     office.save!
+
   else
     office = Office.where(:name => office_name).first
         

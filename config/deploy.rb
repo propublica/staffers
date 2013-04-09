@@ -9,7 +9,7 @@ if environment == 'production' # production api box
   set :deploy_to, "/home/#{user}/"
   set :local_bin, "/home/#{user}/.gem/ruby/1.8/bin"
 
-  set :domain, '184.73.3.156'
+  set :domain, 'ec2-107-20-61-236.compute-1.amazonaws.com'
 else # environment == 'staging'
   set :deploy_to, "/projects/#{user}/"
   set :local_bin, "/projects/#{user}/.gem/ruby/1.8/bin"

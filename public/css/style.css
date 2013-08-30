@@ -95,46 +95,29 @@ body {
 }
 
 .sf_mini_header {
-  background: url('/images/sf_mini_nav_bg.jpg') center top no-repeat;
-  background-color: #b7d2ef;
-  height: 41px;
+  background: url('/images/sfapp_bg_header.jpg') center bottom repeat-x;
+  background-color: rgb(231, 240, 233);
+  height: 53px;
   width: 100%;
-  border-bottom: 1px #c6c6c6 solid;
-  -moz-box-shadow: #c6c6c6 1px 1px 2px;
-  -webkit-box-shadow: #c6c6c6 1px 1px 2px;
-  box-shadow: #c6c6c6 1px 1px 2px; 
+  border-bottom: 1px dashed #fff;
 } 
 
 .sf_mini_header_nav_wrapper{
   width: 960px;
-  height: 41px;
-  margin-left: auto;
-  margin-right: auto;
+  padding: 0 10px;
+  margin: 0 auto;
 } 
 
-.sf_mini_header_nav_wrapper h1{
-  background: url('/images/sf_mini_logo.png') top left no-repeat;
-  background-color: transparent;
+.sf_mini_header .sf-logo{
+  background: url('/images/sfapp_logo.png') top right no-repeat;
+  float: right;
+  height: 40px;
+  width: 160px;
+  margin-top: 5px;
+  margin-right: 15px;
   text-indent: -9999px;
-  width: 158px;
-  height: 41px;
-  float: left;
-  padding-right: 30px;
-} 
-
-.sf_mini_header_nav_wrapper{
-  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-  font-size: 11px;
-  font-weight: 400;
-  font-style: normal;
-  color: #494442;
-  text-transform: uppercase;
-} 
-
-.sf_mini_header_nav_wrapper li{
-  float: left;
-  padding: 18px 35px 0 0;
-} 
+  color: transparent;
+}
 
 .sf_mini_header_nav_wrapper a{
   text-decoration: none;

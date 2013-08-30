@@ -3,3 +3,4 @@
 /config.ru
 
 /vendor/gems
+.DS_Store

@@ -1,5 +1,5 @@
 /config/config.yml
-/data/csv/
+/data/csv
 /config.ru
 
 /vendor/gems

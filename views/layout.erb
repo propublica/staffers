@@ -17,16 +17,46 @@
 
   <!--[if lt IE 9]> <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script> <![endif]-->
 
-  <link rel="stylesheet" href="/css/style.css?v=2">
-  
+  <link rel="stylesheet" href="/css/style.css?v=<%= Time.now.to_i %>">
+
   <script type="text/javascript" src="/javascripts/jquery-1.6.2.min.js"></script>
   <script type="text/javascript" src="/javascripts/jquery.qtip-1.0.0-rc3.min.js"></script>
   <script type="text/javascript" src="/javascripts/jquery.tablesorter.min.js"></script>
   <script type="text/javascript" src="/javascripts/staffers.js"></script>
 
+  <script src="/javascripts/donorbanner.js"></script>
+  <link rel="stylesheet" href="/css/donorbanner.css">
+
 </head>
 
 <body>
+
+  <!-- this is the code you'll need to copy -->
+  <div id="donor_banner" class="minimize-donorbanner">
+      <div class="donorcontainer">
+          <div class="bubble">
+              <button value="play" href="" class="notnow toggleButton">Not now</button>
+          </div>
+          <a class="sf_logo" href="http://sunlightfoundation.com">Sunlight Foundation</a>
+          <p class="because quote">
+          &ldquo;TurboVote got its start through Sunlight. Not only did they provide our first grant, they served as our fiscal sponsor and guided us in the initial structuring and building of our organization. We couldn’t have gotten off the ground without them.&rdquo;
+          <span class="attribution">&mdash; <em>Seth Flaxman</em>, TurboVote</span>
+      </p>
+          <div class="donationplea">
+              <h2>
+                  <span class="line1">We depend </span>
+                  <span class="line2">on the generosity</span>
+                  <span class="line3">of our supporters</span>
+              </h2>
+              <p>
+                  <em>Support the open gov community.</em>
+                  </br>Donate to the Sunlight Foundation today.
+              </p>
+              <a class="btn" href="http://sunlightfoundation.com/donate/sdc/">Donate</a>
+          </div>
+      </div>
+  </div>
+  <!-- stop copying here -->
 
   <div class="sf_mini_header" role="banner">
     <div class="sf_mini_header_nav_wrapper">
@@ -35,20 +65,20 @@
       </a>
     </div>
   </div>
-  <div class="clear"></div> 
-  
+  <div class="clear"></div>
+
   <header class="<% yield_content :header_class %>">
     <h1>
       <a class="replace" href="/" title="House Staff Directory homepage">House Staff Directory</a>
     </h1>
-    
+
     <% yield_content :header %>
-    
+
     <div class="clear"></div>
   </header>
 
   <%= yield %>
-    
+
   <footer class="footer-basic">
     <section id="<% yield_content :footer_id %>" class="footer-content">
       <nav id="subnav" role="navigation">
@@ -85,7 +115,7 @@
             </li>
           </ul>
         </form>
-        
+
         <div>
           <a href="https://www.facebook.com/sunlightfoundation" target="_blank">
             <span id="facebook">Click to visit us on Facebook!</span>
@@ -103,13 +133,13 @@
       <aside id="about" role="contentinfo"><small>Founded in 2006, the Sunlight Foundation is a non-partisan non-profit that uses cutting-edge technology and ideas to make government transparent and accountable. Visit <a href="http://sunlightfoundation.com" title="Sunlight Foundation homepage">SunlightFoundation.com</a> to learn more.</small></aside>
     </section>
   </footer>
-  
-  <script type="text/javascript"> 
+
+  <script type="text/javascript">
     // modified tooltips
     $(function() {
       $('a.info-icon').qtip({
         style: {
-          name: 'light', 
+          name: 'light',
           width: 400,
           tip: true
         },
@@ -118,7 +148,7 @@
         }
       });
     });
-  </script> 
+  </script>
 
   <script type="text/javascript">
 

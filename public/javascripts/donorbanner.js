@@ -248,7 +248,8 @@
         $bubble.css("bottom", "" + test.bottom + "px");
 
         var url = test.urls[site];
-        $("#donor_banner a.btn").attr("href", url);
+        var base = "https://services.myngp.com/ngponlineservices/contribution.aspx?X=";
+        $("#donor_banner a.btn").attr("href", base + url);
     }
 
     $(document).ready(function() {

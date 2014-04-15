@@ -27,8 +27,12 @@ end
 get '/' do
   # first 10 only
   members = Office.members.house.order_by([["member.in_office", :desc], ["member.lastname", :asc], ["member.firstname", :asc]]).limit(10).all
-  
-  erb :index, :locals => {:committees => @committees, :offices => @offices, :members => members}
+
+  erb :index, :locals => {
+    :committees => @committees,
+    :offices => @offices,
+    :members => members
+  }
 end
 
 get '/faq' do
@@ -37,46 +41,46 @@ end
 
 get '/positions' do
   search = {}
-  
+
   if params[:quarter].present?
     search[:quarter] = params[:quarter]
   end
-  
-  if params[:first_name].present?
+
+  if params[:first_name].present? and params[:first_name].size >= 2
     search["staffer.first_name"] = regex_for params[:first_name]
   end
-  
-  if params[:last_name].present?
+
+  if params[:last_name].present? and params[:first_name].size >= 2
     search["staffer.last_name"] = regex_for params[:last_name]
   end
-  
-  if params[:title].present?
+
+  if params[:title].present? and params[:first_name].size >= 2
     search["title.name"] = regex_for params[:title]
   end
 
   if params[:state].present?
     search["office.member.state"] = params[:state]
   end
-  
+
   if params[:party].present?
     search["office.member.party"] = params[:party]
   end
-  
+
   if params[:office].present?
     search["office.slug"] = params[:office]
   end
-  
+
   if params[:committee].present?
     search["office.slug"] = params[:committee]
   end
-  
+
   if search.keys.empty?
     positions = nil
   else
-    positions = Position.where(search).desc(:quarter).all
+    positions = Position.where(search).desc(:quarter)
     # positions = positions.limit(50)
   end
-  
+
   if csv?
     positions_to_csv positions
   else
@@ -87,7 +91,7 @@ end
 get '/staffer/:slug' do
   staffer = Staffer.where(:slug => params[:slug]).first
   positions = Position.where("staffer.slug" => params[:slug]).all
-  
+
   if csv?
     staffer_to_csv staffer, positions
   else
@@ -100,7 +104,7 @@ end
 get '/office/:slug' do
   office = Office.where(:slug => params[:slug]).first
   positions = Position.where("office.slug" => params[:slug]).all
-  
+
   if csv?
     office_to_csv office, positions
   else
@@ -113,7 +117,7 @@ get %r{/(?:member|legislator)/(\w\d+)} do
   bioguide_id = params[:captures].first
   office = Office.where("member.bioguide_id" => bioguide_id).first
   positions = Position.where("office.member.bioguide_id" => bioguide_id).order_by([["staffer.last_name", :asc], ["staffer.first_name", :asc]]).all
-  
+
   if csv?
     office_to_csv office, positions
   else
@@ -123,9 +127,9 @@ end
 
 get '/committee/:committee_id' do
   office = Office.where("committee.id" => params[:committee_id]).first
-  
+
   positions = Position.where("office.committee.id" => params[:committee_id]).order_by([["staffer.last_name", :asc], ["staffer.first_name", :asc]]).all
-  
+
   if csv?
     office_to_csv office, positions
   else
@@ -136,15 +140,15 @@ end
 
 get '/members' do
   conditions = {}
-  
+
   [:state, :district, :title].each do |key|
     if params[key]
       conditions["member.#{key}"] = params[key]
     end
   end
-  
+
   offices = Office.members.house.where(conditions).order_by([["member.in_office", :desc], ["member.lastname", :asc], ["member.firstname", :asc]]).all
-  
+
   if csv?
     members_to_csv offices
   else
@@ -154,7 +158,7 @@ end
 
 get '/committees' do
   offices = Office.committees.order_by([[:name, :asc]]).all
-  
+
   if csv?
     committees_to_csv offices
   else
@@ -164,7 +168,7 @@ end
 
 get '/offices' do
   offices = Office.others.order_by([[:name, :asc]]).all
-  
+
   if csv?
     offices_to_csv offices
   else
@@ -176,5 +180,5 @@ end
 def regex_for(value)
   regex_value = value.dup
   %w{+ ? . * ^ $ ( ) [ ] { } | \ }.each {|char| regex_value.gsub! char, "\\#{char}"}
-  /#{regex_value}/i
+  /^#{regex_value}$/i
 end

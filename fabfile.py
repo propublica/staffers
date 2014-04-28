@@ -1,24 +1,21 @@
 import time
 from fabric.api import run, execute, env
-from fabric.colors import red, green, blue
-from fabric.operations import local
-
-environment = "production"
 
 env.use_ssh_config = True
-env.hosts = ["congress-api@congress"]
+env.hosts = ["staffers@rubyhaus"]
 
 branch = "master"
-repo = "git://github.com/sunlightlabs/congress.git"
+repo = "git://github.com/sunlightlabs/staffers.git"
 
-home = "/projects/congress-api"
-shared_path = "%s/congress/shared" % home
-versions_path = "%s/congress/versions" % home
+home = "/projects/staffers"
+shared_path = "%s/shared" % home
+versions_path = "%s/versions" % home
 version_path = "%s/%s" % (versions_path, time.strftime("%Y%m%d%H%M%S"))
-current_path = "%s/congress/current" % home
+current_path = "%s/current" % home
 
 # how many old releases to be kept at deploy-time
 keep = 10
+
 
 ## can be run only as part of deploy
 
@@ -27,14 +24,12 @@ def checkout():
 
 def links():
   run("ln -s %s/config.yml %s/config/config.yml" % (shared_path, version_path))
-  run("ln -s %s/mongoid.yml %s/config/mongoid.yml" % (shared_path, version_path))
   run("ln -s %s/config.ru %s/config.ru" % (shared_path, version_path))
   run("ln -s %s/unicorn.rb %s/unicorn.rb" % (shared_path, version_path))
-  run("ln -s %s/data %s/data" % (home, version_path))
+  run("ln -s %s/csv %s/data/csv" % (shared_path, version_path))
 
 def dependencies():
   run("cd %s && bundle install --local" % version_path)
-  run("workon congress && cd %s && pip install -r tasks/requirements.txt" % version_path)
 
 def create_indexes():
   run("cd %s && rake create_indexes" % version_path)
@@ -54,16 +49,8 @@ def cleanup():
 
 ## can be run on their own
 
-def set_crontab():
-  run("cd %s && rake set_crontab environment=%s current_path=%s" % (current_path, environment, current_path))
-
-def disable_crontab():
-  run("cd %s && rake disable_crontab" % current_path)
-
-# the -D flag is important, as it will default unicorn-level logging to /dev/null
-# unless overridden in unicorn.rb. (which we do not intend to do.)
 def start():
-  run("cd %s && bundle exec unicorn -D -l %s/congress.sock -c unicorn.rb" % (current_path, shared_path))
+  run("cd %s && unicorn -D -l %s/staffers.sock -c unicorn.rb" % (current_path, shared_path))
 
 def stop():
   run("kill `cat %s/unicorn.pid`" % shared_path)
@@ -71,7 +58,6 @@ def stop():
 def restart():
   execute(stop)
   execute(start)
-  # run("kill -USR2 `cat %s/unicorn.pid`" % shared_path)
 
 def deploy():
   execute(checkout)
@@ -79,15 +65,5 @@ def deploy():
   execute(dependencies)
   execute(create_indexes)
   execute(make_current)
-  execute(set_crontab)
   execute(restart)
   execute(cleanup)
-
-def deploy_cold():
-  execute(checkout)
-  execute(links)
-  execute(dependencies)
-  execute(create_indexes)
-  execute(make_current)
-  execute(set_crontab)
-  execute(start)

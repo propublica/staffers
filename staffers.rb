@@ -1,18 +1,10 @@
 #!/usr/bin/env ruby
 
-require 'config/environment'
+require './config/environment'
 require 'sinatra/content_for'
 require './csv'
-require 'helpers'
+require './helpers'
 
-# reload in development without starting server
-configure(:development) do |config|
-  require 'sinatra/reloader'
-  config.also_reload "config/environment.rb"
-  config.also_reload "models.rb"
-  config.also_reload "helpers.rb"
-  config.also_reload "./csv.rb"
-end
 
 set :public, 'public'
 set :views, 'views'
@@ -28,10 +20,10 @@ get '/' do
   # first 10 only
   members = Office.members.house.order_by([["member.in_office", :desc], ["member.lastname", :asc], ["member.firstname", :asc]]).limit(10).all
 
-  erb :index, :locals => {
-    :committees => @committees,
-    :offices => @offices,
-    :members => members
+  erb :index, locals: {
+    committees: @committees,
+    offices: @offices,
+    members: members
   }
 end
 
@@ -50,11 +42,11 @@ get '/positions' do
     search["staffer.first_name"] = regex_for params[:first_name]
   end
 
-  if params[:last_name].present? and params[:first_name].size >= 2
+  if params[:last_name].present? and params[:last_name].size >= 2
     search["staffer.last_name"] = regex_for params[:last_name]
   end
 
-  if params[:title].present? and params[:first_name].size >= 2
+  if params[:title].present? and params[:title].size >= 2
     search["title.name"] = regex_for params[:title]
   end
 
@@ -84,7 +76,7 @@ get '/positions' do
   if csv?
     positions_to_csv positions
   else
-    erb :positions, :locals => {:positions => positions}
+    erb :positions, locals: {positions: positions}
   end
 end
 

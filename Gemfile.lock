@@ -1,19 +1,25 @@
 GEM
-  remote: http://rubygems.org/
+  remote: https://rubygems.org/
   specs:
-    SystemTimer (1.2.3)
     activemodel (3.0.8)
       activesupport (= 3.0.8)
       builder (~> 2.1.2)
       i18n (~> 0.5.0)
     activesupport (3.0.8)
-    backports (1.18.2)
     bson (1.3.1)
     bson_ext (1.3.1)
     builder (2.1.2)
-    fastercsv (1.5.3)
+    congress (0.1.0)
+      faraday (~> 0.8.7)
+      faraday_middleware (~> 0.9.0)
+      hashie (~> 2.0)
+      rash (~> 0.4)
+    faraday (0.8.9)
+      multipart-post (~> 1.2.0)
+    faraday_middleware (0.9.1)
+      faraday (>= 0.7.4, < 0.10)
+    hashie (2.0.5)
     i18n (0.5.0)
-    json (1.5.1)
     kgio (2.6.0)
     mongo (1.3.1)
       bson (>= 1.3.1)
@@ -24,29 +30,18 @@ GEM
     mongoid_slug (0.7.2)
       mongoid (~> 2.0.0)
       stringex (~> 1.2.0)
-    monkey-lib (0.5.4)
-      backports
+    multipart-post (1.2.0)
     rack (1.3.0)
     raindrops (0.7.0)
+    rash (0.4.0)
+      hashie (~> 2.0.0)
+    safe_yaml (1.0.3)
     sinatra (1.2.6)
       rack (~> 1.1)
       tilt (>= 1.2.2, < 2.0)
-    sinatra-advanced-routes (0.5.1)
-      monkey-lib (~> 0.5.0)
-      sinatra (~> 1.0)
-      sinatra-sugar (~> 0.5.0)
     sinatra-content-for (0.2)
       sinatra
-    sinatra-reloader (0.5.0)
-      sinatra (~> 1.0)
-      sinatra-advanced-routes (~> 0.5.0)
-    sinatra-sugar (0.5.0)
-      monkey-lib (~> 0.5.0)
-      sinatra (~> 1.0)
     stringex (1.2.1)
-    sunlight (1.1.0)
-      json (>= 1.1.3)
-      ym4r (>= 0.6.1)
     tilt (1.3.2)
     tzinfo (0.3.27)
     unicorn (4.1.1)
@@ -54,21 +49,18 @@ GEM
       rack
       raindrops (~> 0.6)
     wirble (0.1.3)
-    ym4r (0.6.1)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  SystemTimer (= 1.2.3)
   bson_ext (= 1.3.1)
-  fastercsv (= 1.5.3)
+  congress
   mongo (= 1.3.1)
   mongoid (= 2.0.2)
   mongoid_slug (= 0.7.2)
+  safe_yaml
   sinatra (= 1.2.6)
   sinatra-content-for (= 0.2)
-  sinatra-reloader (= 0.5.0)
-  sunlight (= 1.1.0)
   unicorn
   wirble

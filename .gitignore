@@ -3,4 +3,9 @@
 /config.ru
 
 /vendor/gems
+
 .DS_Store
+*.pyc
+*.swp
+*.txt
+*.pid

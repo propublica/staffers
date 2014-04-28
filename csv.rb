@@ -1,4 +1,4 @@
-require 'fastercsv'
+require 'csv'
 
 def csv?
   (params[:format] == 'csv') or (params[:captures] and (params[:captures][0] == '.csv'))
@@ -13,14 +13,14 @@ end
 
 def members_to_csv(members)
   csv_out 'members.csv'
-  
-  FasterCSV.generate do |csv|
+
+  CSV.generate do |csv|
     csv << [
       "Name", "Phone", "Building", "Room",
-      "Bioguide ID", "Title", "First Name", "Last Name", "Suffix", 
+      "Bioguide ID", "Title", "First Name", "Last Name", "Suffix",
       "Party", "State", "District", "In Office"
     ]
-     
+
     members.each do |member|
       leg = member['member']
       csv << [
@@ -34,13 +34,13 @@ end
 
 def committees_to_csv(committees)
   csv_out 'committees.csv'
-  
-  FasterCSV.generate do |csv|
+
+  CSV.generate do |csv|
     csv << [
       "Name", "Phone", "Building", "Room",
       "Committee ID"
     ]
-    
+
     committees.each do |committee|
       csv << [
         committee.name, committee.phone, committee.building, committee.room,
@@ -52,12 +52,12 @@ end
 
 def offices_to_csv(offices)
   csv_out 'offices.csv'
-  
-  FasterCSV.generate do |csv|
+
+  CSV.generate do |csv|
     csv << [
       "Name", "Phone", "Building", "Room"
     ]
-    
+
     offices.each do |office|
       csv << [office.name, office.phone, office.building, office.room]
     end
@@ -67,12 +67,12 @@ end
 def office_to_csv(office, positions)
   names = {'committee' => 'committee', 'member' => 'member', 'other' => 'office'}
   csv_out "#{names[office.office_type]}.csv"
-  
-  FasterCSV.generate do |csv|
+
+  CSV.generate do |csv|
     csv << [
       "Office", "Quarter", "Staffer", "Title"
     ]
-    
+
     positions.each do |position|
       csv << [position['office']['name'], position['quarter'], position['staffer']['name'], position['title']['name']]
     end
@@ -81,12 +81,12 @@ end
 
 def staffer_to_csv(staffer, positions)
   csv_out 'staffer.csv'
-  
-  FasterCSV.generate do |csv|
+
+  CSV.generate do |csv|
     csv << [
       "Staffer", "Quarter", "Title", "Office", "Phone", "Building", "Room"
     ]
-    
+
     positions.each do |position|
       csv << [staffer.name, position['quarter'], position['title']['name'], position['office']['name'], position['office']['phone'], position['office']['building'], position['office']['room']]
     end
@@ -95,12 +95,12 @@ end
 
 def positions_to_csv(positions)
   csv_out 'positions.csv'
-  
-  FasterCSV.generate do |csv|
+
+  CSV.generate do |csv|
     csv << [
       "Staffer", "Quarter", "Title", "Office", "Phone", "Building", "Room"
     ]
-    
+
     positions.each do |position|
       csv << [position['staffer']['name'], position['quarter'], position['title']['name'], position['office']['name'], position['office']['phone'], position['office']['building'], position['office']['room']]
     end

@@ -9,8 +9,17 @@ GEM
     bson (1.3.1)
     bson_ext (1.3.1)
     builder (2.1.2)
+    congress (0.1.0)
+      faraday (~> 0.8.7)
+      faraday_middleware (~> 0.9.0)
+      hashie (~> 2.0)
+      rash (~> 0.4)
+    faraday (0.8.9)
+      multipart-post (~> 1.2.0)
+    faraday_middleware (0.9.1)
+      faraday (>= 0.7.4, < 0.10)
+    hashie (2.0.5)
     i18n (0.5.0)
-    json (1.5.1)
     kgio (2.6.0)
     mongo (1.3.1)
       bson (>= 1.3.1)
@@ -21,8 +30,11 @@ GEM
     mongoid_slug (0.7.2)
       mongoid (~> 2.0.0)
       stringex (~> 1.2.0)
+    multipart-post (1.2.0)
     rack (1.3.0)
     raindrops (0.7.0)
+    rash (0.4.0)
+      hashie (~> 2.0.0)
     safe_yaml (1.0.3)
     sinatra (1.2.6)
       rack (~> 1.1)
@@ -30,9 +42,6 @@ GEM
     sinatra-content-for (0.2)
       sinatra
     stringex (1.2.1)
-    sunlight (1.1.0)
-      json (>= 1.1.3)
-      ym4r (>= 0.6.1)
     tilt (1.3.2)
     tzinfo (0.3.27)
     unicorn (4.1.1)
@@ -40,19 +49,18 @@ GEM
       rack
       raindrops (~> 0.6)
     wirble (0.1.3)
-    ym4r (0.6.1)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   bson_ext (= 1.3.1)
+  congress
   mongo (= 1.3.1)
   mongoid (= 2.0.2)
   mongoid_slug (= 0.7.2)
   safe_yaml
   sinatra (= 1.2.6)
   sinatra-content-for (= 0.2)
-  sunlight (= 1.1.0)
   unicorn
   wirble

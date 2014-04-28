@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'sunlight', '1.1.0'
+gem 'congress'
 
 gem 'sinatra', '1.2.6'
 gem 'sinatra-content-for', '0.2'

@@ -1,8 +1,8 @@
 task loading_environment: :environment do
   require 'csv'
-  require 'sunlight'
+  require 'congress'
 
-  Sunlight::Base.api_key = config['sunlight_api_key']
+  Congress.key = config['sunlight_api_key']
 end
 
 namespace :load do
@@ -41,7 +41,7 @@ namespace :load do
 
 
   desc "Loads offices from offices.csv"
-  task :offices => :loading_environment do
+  task offices: :loading_environment do
     start = Time.now
 
     offline = ENV['offline'].present?
@@ -52,13 +52,13 @@ namespace :load do
     i = 0
     CSV.foreach("data/csv/offices.csv") do |row|
       i += 1
-      next if row == 1 # header row
+      next if i == 1 # header row
 
       office_from_row row, i, committees
     end
 
     unless offline
-      Sunlight::Legislator.all_where(:all_legislators => true).each do |legislator|
+      Congress.legislators(per_page: "all")['results'].each do |legislator|
         office_from_legislator legislator
       end
     end
@@ -72,7 +72,7 @@ namespace :load do
 
 
   desc "Loads staffers from staffers.csv"
-  task :staffers => :loading_environment do
+  task staffers: :loading_environment do
     start = Time.now
 
     Staffer.delete_all
@@ -91,7 +91,7 @@ namespace :load do
 
 
   desc "Loads database (from scratch) from staffers.csv and titles.csv"
-  task :positions => :loading_environment do
+  task positions: :loading_environment do
     start = Time.now
 
     debug = ENV['debug'].present?
@@ -105,7 +105,7 @@ namespace :load do
       next if i == 1 # header row
 
       # for debugging usage
-      return if limit and i > limit
+      break if limit and i > limit
 
       staffer_name_original = strip row[0]
       if staffer_name_original.blank?
@@ -143,7 +143,7 @@ namespace :load do
         end
 
       else
-        unless office = Office.where(:original_names => office_name_original).first
+        unless office = Office.where(original_names: office_name_original).first
           puts "Couldn't locate office by name #{office_name_original} in row #{i}, skipping"
           next
         end
@@ -158,11 +158,11 @@ namespace :load do
 
       if position.nil?
         position = Position.new(
-          :quarter => quarter,
-          :title => title.attributes,
-          :staffer => staffer.attributes,
-          :office => office.attributes,
-          :original_title => title_original
+          quarter: quarter,
+          title: title.attributes,
+          staffer: staffer.attributes,
+          office: office.attributes,
+          original_title: title_original
         )
 
         position.save!
@@ -192,7 +192,7 @@ namespace :load do
 
 end
 
-# format name from Sunlight API
+# format name from Sunlight Congress API
 def titled_name(legislator)
   "#{legislator.title}. #{legislator.nickname.present? ? legislator.nickname : legislator.firstname} #{legislator.lastname} #{legislator.name_suffix}".strip
 end
@@ -250,7 +250,7 @@ def office_from_row(row, i, committees)
       committee = committees[committee_id]
 
       if committee
-        office = Office.new :name => committee.name
+        office = Office.new name: committee.name
         office.attributes = {
           :original_names => [office_name_original],
           :office_type => "committee",
@@ -275,7 +275,7 @@ def office_from_row(row, i, committees)
     office.save!
 
   else
-    office = Office.where(:name => office_name).first
+    office = Office.where(name: office_name).first
 
     if office
 
@@ -303,43 +303,41 @@ def office_from_row(row, i, committees)
 end
 
 def office_from_legislator(legislator)
-  phone = legislator.phone
 
-  room, building = split_office legislator.congress_office
-  chamber = legislator.title == 'Sen' ? 'senate' : 'house'
+  room, building = split_office legislator.office
 
   unless office = Office.where("member.bioguide_id" => legislator.bioguide_id).first
-    office = Office.new :name => titled_name(legislator)
-    # puts "[#{legislator.bioguide_id}] not found, making new record"
-  # else
-    # puts "[#{legislator.bioguide_id}] found, updating existing record"
+    office = Office.new name: titled_name(legislator)
+    puts "[#{legislator.bioguide_id}] not found, making new record"
+  else
+    puts "[#{legislator.bioguide_id}] found, updating existing record"
   end
 
   office.attributes = {
-    :original_names => [],
-    :office_type => "member",
-    :phone => phone,
-    :room => room,
-    :building => building,
-    :chamber => chamber,
-    :member => {
+    original_names: [],
+    office_type: "member",
+    phone: legislator.phone,
+    room: room,
+    building: building,
+    chamber: legislator.chamber,
+    member: {
       bioguide_id: legislator.bioguide_id,
-      firstname: legislator.firstname,
-      :lastname => legislator.lastname,
-      :nickname => legislator.nickname,
-      :party => legislator.party,
-      :name_suffix => legislator.name_suffix,
-      :title => legislator.title,
-      :chamber => chamber,
-      :congress_office => legislator.congress_office,
-      :phone => legislator.phone,
-      :state => legislator.state,
-      :district => legislator.district,
-      :in_office => legislator.in_office
+      firstname: legislator.first_name,
+      lastname: legislator.last_name,
+      nickname: legislator.nickname,
+      party: legislator.party,
+      name_suffix: legislator.name_suffix,
+      title: legislator.title,
+      chamber: legislator.chamber,
+      congress_office: legislator.office,
+      phone: legislator.phone,
+      state: legislator.state,
+      district: legislator.district,
+      in_office: legislator.in_office
     }
   }
 
-  # puts "[#{legislator.bioguide_id}] New or updated member office: #{office.name}"
+  puts "[#{legislator.bioguide_id}] New or updated member office: #{office.name}"
   office.save!
 end
 
@@ -386,12 +384,11 @@ def staffer_from_row(row, i)
 end
 
 def committee_cache
-  senate = Sunlight::Committee.all_for_chamber 'Senate'
-  house = Sunlight::Committee.all_for_chamber 'House'
-  joint = Sunlight::Committee.all_for_chamber 'Joint'
+  # all parent committees
   cache = {}
-  (senate + house + joint).each do |comm|
-    cache[comm.id] = comm
+  committees = Congress.committees(subcommittee: false, per_page: 'all')['results']
+  committees.each do |committee|
+    cache[committee.id] = committee
   end
 
   cache

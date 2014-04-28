@@ -9,3 +9,5 @@
 *.swp
 *.txt
 *.pid
+
+/unicorn.rb

@@ -1,6 +1,6 @@
-:sunlight_api_key: # fill in
+sunlight_api_key: # fill in
 
-:mongoid:
+mongoid:
   host: localhost
   database: staffers
   raise_not_found_error: false

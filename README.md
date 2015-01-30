@@ -20,6 +20,10 @@ Copy config.ru:
 cp config.ru.example config.ru
 ```
 
+Copy config/config.yml.example:
+
+```cp config/config.yml.example config/config.yml ```
+
 Run with unicorn:
 
 ```bash
@@ -40,6 +44,8 @@ rake load:all
 
 3. Wait for an hour or more as the data is blown away and reloaded from scratch. It's not very efficient, and the website will show incomplete data for that time.
 
+4. Update the 'as of' date displayed on the home page in views/index.erb to the last day of the quarter processed.
+
 
 ### data/ expectations
 
@@ -54,7 +60,7 @@ The `data/` directory expects four CSV files:
 
 The [Senate's expenditure data](http://www.senate.gov/legislative/common/generic/report_secsen.htm) is published every 6 months, can be quite out of date, and is much more difficult to parse than the House's.
 
-Our [parser for the House is here](https://github.com/sunlightlabs/disbursements). As of this writing, we don't have a working parser for Senate records.
+Our [parser for the House is here](https://github.com/sunlightlabs/disbursements). The Senate parser is still experimental, but data can be found [here](http://sunlightfoundation.com/blog/2014/08/05/now-its-easier-to-account-for-how-the-senate-spends-your-money/).
 
 ### License
 
